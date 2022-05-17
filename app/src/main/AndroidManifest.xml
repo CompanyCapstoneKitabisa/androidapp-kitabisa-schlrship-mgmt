@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScholarshipManagement">
         <activity
-            android:name=".ui.detailcampaign.DetailCampaignActivity"
+            android:name=".ui.detailapplicant.DetailApplicantActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.detailcampaign.DetailCampaignActivity"
+            android:exported="false" />      
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
