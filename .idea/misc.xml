@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_detail_campaign.xml" value="0.2" />
+        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_home.xml" value="0.23816495851634945" />
+        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/item_applicant.xml" value="0.536" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/item_campaign.xml" value="0.264" />
       </map>
     </option>

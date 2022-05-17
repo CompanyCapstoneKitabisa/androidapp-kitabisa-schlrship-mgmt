@@ -40,21 +40,15 @@
             app:layout_constraintBottom_toBottomOf="@id/profile_image"
             tools:text="Hi, Jyo" />
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <ImageView
-                android:id="@+id/logout_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/logout" />
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/logout" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/our_campaign"
