@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Scholarship Management</string>
+    <string name="diterima">Diterima</string>
+    <string name="ditolak">Ditolak</string>
+    <string name="pendaftar">Pendaftar</string>
 </resources>
