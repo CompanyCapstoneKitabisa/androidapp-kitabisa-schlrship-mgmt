@@ -46,7 +46,7 @@ class BoardPage : AppCompatActivity() {
         }
 
         registerButton.setOnClickListener {
-            val intent = Intent(this@BoardPage, LoginActivity::class.java)
+            val intent = Intent(this@BoardPage, RegisterActivity::class.java)
             startActivity(intent)
         }
     }
