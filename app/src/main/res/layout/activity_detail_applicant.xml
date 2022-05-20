@@ -26,6 +26,7 @@
                 android:id="@+id/iv_profile"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
+                android:scaleType="fitXY"
                 tools:src="@tools:sample/avatars" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -46,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tv_nama"
             app:layout_constraintTop_toBottomOf="@id/tv_nama"
@@ -56,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tv_nama"
             app:layout_constraintTop_toBottomOf="@id/tv_universitas"
@@ -76,66 +79,88 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="Lainnya"
+            android:textSize="12sp"
             app:cornerRadius="4dp"
             app:layout_constraintStart_toStartOf="@id/tv_nama"
-            app:layout_constraintTop_toBottomOf="@id/tv_nim"
-            tools:text="Lainnya" />
+            app:layout_constraintTop_toBottomOf="@id/tv_nim" />
 
         <!--        CERITA PERJUANGAN-->
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cerita_perjuangan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:textColor="@color/blue_main"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_image"
-            tools:text="Cerita Kondisi Perjuangan" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_cerita_perjuangan"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_cerita_perjuangan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="14sp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cerita_perjuangan"
-            tools:text="alhamdulillah masih ada,pekerjaan wiraswasta,kurang biaya kuliah,ada yang sudah putus sekolah" />
+            app:layout_constraintTop_toBottomOf="@id/btn_lainnya">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_cerita_perjuangan"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_cerita_perjuangan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="alhamdulillah masih ada,pekerjaan wiraswasta,kurang biaya kuliah,ada yang sudah putus sekolah" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!--        CERITA PENTING BEASISWA-->
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/cerita_penting_beasiswa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/blue_main"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_cerita_perjuangan"
-            tools:text="Seberapa Penting Beasiswa Ini" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_cerita_beasiswa"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_cerita_penting_beasiswa"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="14sp"
+            android:layout_marginEnd="4dp"
+            android:animateLayoutChanges="true"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cerita_penting_beasiswa"
-            tools:text="sangat penting untuk biaya perkuliahan setiap semester" />
+            app:layout_constraintTop_toBottomOf="@id/cardview_cerita_perjuangan">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_cerita_penting_beasiswa"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_cerita_beasiswa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="sangat penting untuk biaya perkuliahan setiap semester" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!--        RINCIAN BEASISWA-->
 
@@ -151,7 +176,7 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_cerita_beasiswa">
+            app:layout_constraintTop_toBottomOf="@id/cardview_cerita_penting_beasiswa">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,10 +184,19 @@
                 android:orientation="vertical"
                 android:padding="12dp">
 
-                <include layout="@layout/expand_title_and_button" />
+                <include
+                    android:id="@+id/header_rincian_beasiswa"
+                    layout="@layout/expand_title_and_button" />
 
-                <include layout="@layout/rincian_beasiswa_pendidikan" />
+                <include
+                    android:id="@+id/beasiswa_pendidikan"
+                    layout="@layout/rincian_beasiswa_pendidikan"
+                    android:visibility="gone" />
 
+                <include
+                    android:id="@+id/beasiswa_penunjang"
+                    layout="@layout/rincian_beasiswa_penunjang"
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -188,13 +222,20 @@
                 android:orientation="vertical"
                 android:padding="12dp">
 
-                <include layout="@layout/expand_title_and_button" />
+                <include
+                    android:id="@+id/header_foto_rumah"
+                    layout="@layout/expand_title_and_button" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.jsibbold.zoomage.ZoomageView
+                    android:id="@+id/iv_foto_rumah"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    app:zoomage_restrictBounds="false"
+                    app:zoomage_autoResetMode="ALWAYS"
                     tools:src="@tools:sample/avatars" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -220,16 +261,20 @@
                 android:orientation="vertical"
                 android:padding="12dp">
 
-                <include layout="@layout/expand_title_and_button" />
+                <include
+                    android:id="@+id/header_bukti_ipk_ip"
+                    layout="@layout/expand_title_and_button" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/iv_bukti_ipk"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     tools:src="@tools:sample/avatars" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/iv_bukti_ip"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     tools:src="@tools:sample/avatars" />
@@ -258,10 +303,13 @@
                 android:orientation="vertical"
                 android:padding="12dp">
 
-                <include layout="@layout/expand_title_and_button" />
+                <include
+                    android:id="@+id/header_kegiatan_aktif"
+                    layout="@layout/expand_title_and_button" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/iv_foto_kegiatan"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     tools:src="@tools:sample/avatars" />
@@ -272,8 +320,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="kuliah pulangnya mengaji/ belajar menghafal alqur'an" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -285,12 +331,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:text="Buka Lampiran Dokumen"
             android:textColor="@color/blue_main"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardview_kegiatan_aktif"
-            tools:text="Buka Lampiran Dokumen" />
+            app:layout_constraintTop_toBottomOf="@id/cardview_kegiatan_aktif" />
 
         <!--        PILIHAN-->
 
@@ -301,34 +347,35 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
             android:layout_marginBottom="32dp"
-            android:textSize="18sp"
+            android:text="Tentukan Pilihan :"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_lampiran_dokumen"
-            tools:text="Tentukan Pilihan :" />
+            app:layout_constraintTop_toBottomOf="@id/tv_lampiran_dokumen" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_tolak"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="16dp"
+            android:text="TOLAK"
             app:layout_constraintBottom_toBottomOf="@id/tentukan_pilihan"
             app:layout_constraintEnd_toStartOf="@id/btn_terima"
             app:layout_constraintStart_toEndOf="@id/tentukan_pilihan"
-            app:layout_constraintTop_toTopOf="@id/tentukan_pilihan"
-            tools:text="TOLAK" />
+            app:layout_constraintTop_toTopOf="@id/tentukan_pilihan" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_terima"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="TERIMA"
             app:layout_constraintBottom_toBottomOf="@id/tentukan_pilihan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_tolak"
-            app:layout_constraintTop_toTopOf="@id/tentukan_pilihan"
-            tools:text="TERIMA" />
+            app:layout_constraintTop_toTopOf="@id/tentukan_pilihan" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

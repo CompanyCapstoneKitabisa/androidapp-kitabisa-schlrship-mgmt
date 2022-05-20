@@ -10,7 +10,7 @@
         android:id="@+id/pilihan_bantuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         tools:text="Pilihan Bantuan :"/>
 
@@ -18,7 +18,7 @@
         android:id="@+id/tv_pilihan_bantuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:layout_marginTop="8dp"
         tools:text="Biaya penunjang pendidikan (di luar UKT dan SKS)"/>
 
@@ -26,7 +26,7 @@
         android:id="@+id/kebutuhan_penunjang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
         tools:text="Kebutuhan Penunjang :"/>
@@ -35,7 +35,7 @@
         android:id="@+id/tv_kebutuhan_penunjang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:layout_marginTop="8dp"
         tools:text="Untuk kebutuhan seminar proposal skripsi, bimbingan skripsi, sidang skripsi, wisuda"/>
 
@@ -43,7 +43,7 @@
         android:id="@+id/rincian_biaya_penunjang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
         tools:text="Rincian Biaya Penunjang :"/>
@@ -52,7 +52,7 @@
         android:id="@+id/tv_rincian_biaya"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:layout_marginTop="8dp"
         tools:text="Untuk seminar proposal skripsi: Rp. 500.000. Untuk bimbingan skripsi: Rp. 750.000. Untuk sidang skripsi: Rp. 750.000. Untuk wisuda: Rp. 2. 500.000. Total kebutuhan biaya: Rp.4.500.000"/>
 
