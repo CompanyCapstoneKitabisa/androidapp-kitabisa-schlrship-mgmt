@@ -52,6 +52,9 @@ data class FetchedData(
 	@field:SerializedName("ceritaKondisi")
 	val ceritaKondisi: String,
 
+	@field:SerializedName("ceritaKegiatan")
+	val ceritaKegiatan: String,
+
 	@field:SerializedName("kebutuhan2")
 	val kebutuhan2: String,
 

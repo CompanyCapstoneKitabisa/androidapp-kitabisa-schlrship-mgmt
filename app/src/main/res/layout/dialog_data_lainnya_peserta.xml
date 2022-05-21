@@ -4,204 +4,205 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="16dp"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="16dp">
 
-        <!--        FIELD DATA-->
+            <!--        FIELD DATA-->
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/nama"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nama" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tempat_kuliah"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nama"
-            tools:text="Tempat Kuliah" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tempat_kuliah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Tempat Kuliah"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_nama" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/jurusan_angkatan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_tempat_kuliah"
-            tools:text="Jurusan, Angkatan" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/jurusan_angkatan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Jurusan, Angkatan"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_tempat_kuliah" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/nim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_jurusan_angkatan"
-            tools:text="NIM" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/nim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="NIM"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_jurusan_angkatan" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/nik"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nim"
-            tools:text="NIK" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/nik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="NIK"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_nim" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/nomor_telepon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nik"
-            tools:text="No Telp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/nomor_telepon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="No Telp"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_nik" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sosial_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nomor_telepon"
-            tools:text="Sosial Media" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/sosial_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Sosial Media"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_nomor_telepon" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/alamat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sosial_media"
-            tools:text="Alamat" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/alamat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Alamat"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_sosial_media" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="120dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="120dp" />
 
-        <!--        DUMMY ISI DATA-->
+            <!--        DUMMY ISI DATA-->
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_nama"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/nama"
-            tools:text="Jonathan Calvin" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_nama"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/nama"
+                tools:text="Jonathan Calvin" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_tempat_kuliah"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/tempat_kuliah"
-            tools:text="Universitas Atma Jaya Yogyakarta" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_tempat_kuliah"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/tempat_kuliah"
+                tools:text="Universitas Atma Jaya Yogyakarta" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_jurusan_angkatan"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/jurusan_angkatan"
-            tools:text="Informatika 2019" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_jurusan_angkatan"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/jurusan_angkatan"
+                tools:text="Informatika 2019" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_nim"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/nim"
-            tools:text="190710413" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_nim"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/nim"
+                tools:text="190710413" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_nik"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/nik"
-            tools:text="1122334455667788" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_nik"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/nik"
+                tools:text="1122334455667788" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_nomor_telepon"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/nomor_telepon"
-            tools:text="082215709630" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_nomor_telepon"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/nomor_telepon"
+                tools:text="082215709630" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_sosial_media"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/sosial_media"
-            tools:text="jcalv02" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_sosial_media"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/sosial_media"
+                tools:text="jcalv02" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_alamat"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="@id/alamat"
-            tools:text="Jln Warnasari GG Kembang No 4, Kesambi, Kesambi, Cirebon, Jawa Barat" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_alamat"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/alamat"
+                tools:text="Jln Warnasari GG Kembang No 4, Kesambi, Kesambi, Cirebon, Jawa Barat" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_alamat"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_nama">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/profile_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="@id/tv_alamat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_nama">
 
-            <ImageView
-                android:id="@+id/iv_profile"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                tools:src="@tools:sample/avatars" />
-        </com.google.android.material.card.MaterialCardView>
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    tools:src="@tools:sample/avatars" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_terima"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_alamat"
-            tools:text="OK" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ok"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="OK"
+                app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_alamat" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
