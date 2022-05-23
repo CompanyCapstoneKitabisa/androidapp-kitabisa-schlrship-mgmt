@@ -1,19 +1,25 @@
 package com.kitabisa.scholarshipmanagement.ui.detailapplicant
 
+import android.Manifest
 import android.app.Dialog
+import android.app.DownloadManager
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
-import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -26,6 +32,8 @@ import com.kitabisa.scholarshipmanagement.databinding.ActivityDetailApplicantBin
 import com.kitabisa.scholarshipmanagement.databinding.DialogDataLainnyaPesertaBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
+import java.io.File
+
 
 class DetailApplicantActivity : AppCompatActivity() {
 
@@ -34,6 +42,28 @@ class DetailApplicantActivity : AppCompatActivity() {
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private lateinit var moreDataDialog: Dialog
     private lateinit var dialogDataLainnyaPesertaBinding: DialogDataLainnyaPesertaBinding
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (!isPermissionsGranted()) {
+                Toast.makeText(
+                    this,
+                    "Tidak mendapatkan permission.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        }
+    }
+
+    private fun isPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -155,6 +185,18 @@ class DetailApplicantActivity : AppCompatActivity() {
             val items = listOf("No Status", "Accept", "Reject", "Hold")
             val adapter = ArrayAdapter(this@DetailApplicantActivity, R.layout.list_pilihan, items)
             (pilihanMenu.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+            tvLampiranDokumen.setOnClickListener {
+                if (!isPermissionsGranted()) {
+                    ActivityCompat.requestPermissions(
+                        this@DetailApplicantActivity,
+                        REQUIRED_PERMISSIONS,
+                        REQUEST_CODE_PERMISSIONS
+                    )
+                } else {
+                    downloadDocuments(data)
+                }
+            }
         }
     }
 
@@ -207,7 +249,8 @@ class DetailApplicantActivity : AppCompatActivity() {
             tvNik.text = data.NIK
             tvNomorTelepon.text = data.noPonsel
             tvSosialMedia.text = data.sosmedAcc
-            tvAlamat.text = data.alamat.plus(", ${data.kelurahan}, ${data.kecamatan}, ${data.kotaKabupaten}, ${data.provinsi}")
+            tvAlamat.text =
+                data.alamat.plus(", ${data.kelurahan}, ${data.kecamatan}, ${data.kotaKabupaten}, ${data.provinsi}")
 
             Glide.with(this@DetailApplicantActivity)
                 .load(data.photo)
@@ -217,5 +260,32 @@ class DetailApplicantActivity : AppCompatActivity() {
         }
 
         moreDataDialog.show()
+    }
+
+    private fun downloadDocuments(data: FetchedData) {
+        try {
+            val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val documentsLink = Uri.parse(data.lampiranDokumen)
+            val request = DownloadManager.Request(documentsLink)
+            val tempName = data.name.plus("LampiranDokumen")
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+                .setMimeType("application/pdf")
+                .setAllowedOverRoaming(false)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setTitle(tempName)
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    File.separator + tempName + ".pdf"
+                )
+            downloadManager.enqueue(request)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Download Failed", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    companion object {
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 }
