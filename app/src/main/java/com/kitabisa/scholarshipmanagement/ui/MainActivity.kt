@@ -3,12 +3,14 @@ package com.kitabisa.scholarshipmanagement.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.ktx.auth
@@ -29,6 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            Log.d("TOKENGOOGLE", res.token.toString())
+            res.
+        }
+
+
         if (firebaseUser == null) {
             // Not signed in, launch the Login activity
             startActivity(Intent(this, LoginActivity::class.java))
