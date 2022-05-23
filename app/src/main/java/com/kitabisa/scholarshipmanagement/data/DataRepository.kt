@@ -2,8 +2,8 @@ package com.kitabisa.scholarshipmanagement.data
 
 class DataRepository private constructor(private val apiService: ApiService) {
 
-    suspend fun getDetailApplicant(id: String): DetailApplicantResponse {
-        return apiService.getDetailApplicant(id)
+    suspend fun getDetailApplicant(token: String, id: String): DetailApplicantResponse {
+        return apiService.getDetailApplicant(token, id)
     }
 
     companion object {

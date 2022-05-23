@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:621942935909:android:800691a580025f0b5a118c",
+        "mobilesdk_app_id": "1:621942935909:android:7d6e1a0c9dbda79c5a118c",
         "android_client_info": {
           "package_name": "com.kitabisa.scholarshipmanagement"
         }
       },
       "oauth_client": [
         {
-          "client_id": "621942935909-k9lptifuoeqjhm87lf1tupdvr74vtbga.apps.googleusercontent.com",
+          "client_id": "621942935909-tsqm1o1vnuvmocb7ut8pskknov8a0nkf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kitabisa.scholarshipmanagement",
-            "certificate_hash": "d59d158086df56988f8cc3846e98d474cf3fbdf7"
+            "certificate_hash": "2b7e138feb74920a258e28abc5869be4b43586f6"
           }
         },
         {

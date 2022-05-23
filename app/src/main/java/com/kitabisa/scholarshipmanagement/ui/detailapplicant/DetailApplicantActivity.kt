@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -24,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.auth.FirebaseAuth
 import com.jsibbold.zoomage.ZoomageView
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.FetchedData
@@ -42,6 +44,10 @@ class DetailApplicantActivity : AppCompatActivity() {
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private lateinit var moreDataDialog: Dialog
     private lateinit var dialogDataLainnyaPesertaBinding: DialogDataLainnyaPesertaBinding
+
+    private val auth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -71,8 +77,13 @@ class DetailApplicantActivity : AppCompatActivity() {
         setContentView(activityDetailApplicantBinding.root)
         supportActionBar?.hide()
 
+        val firebaseUser = auth.currentUser
+
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            detailApplicantViewModel.getDetailApplicant(res.token.toString(),"KWoaqHDcweHL8X3ez5wn")
+        }
+
         detailApplicantViewModel = obtainViewModel(this)
-        detailApplicantViewModel.getDetailApplicant("KWoaqHDcweHL8X3ez5wn")
 
         customLoadingDialog = CustomLoadingDialog(this)
         moreDataDialog = Dialog(this)

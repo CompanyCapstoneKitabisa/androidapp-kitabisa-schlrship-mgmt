@@ -4,7 +4,8 @@
     package="com.kitabisa.scholarshipmanagement">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
     <application
@@ -19,7 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.detailcampaign.DetailCampaignActivity"
-            android:exported="false" />      
+            android:exported="false" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false" />
