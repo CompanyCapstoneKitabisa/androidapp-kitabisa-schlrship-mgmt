@@ -9,8 +9,8 @@
 
 	<ImageView
 			android:id="@+id/ktbs_logo"
-			android:layout_width="100sp"
-			android:layout_height="100sp"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
 			android:src="@drawable/kitabisa_logo"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
