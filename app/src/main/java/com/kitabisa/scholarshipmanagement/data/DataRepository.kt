@@ -2,6 +2,10 @@ package com.kitabisa.scholarshipmanagement.data
 
 class DataRepository private constructor(private val apiService: ApiService) {
 
+    suspend fun getDetailApplicant(id: String): DetailApplicantResponse {
+        return apiService.getDetailApplicant(id)
+    }
+
     companion object {
         @Volatile
         private var instance: DataRepository? = null
