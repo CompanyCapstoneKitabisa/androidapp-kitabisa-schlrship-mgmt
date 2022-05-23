@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detailapplicant.DetailApplicantActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--        PROFILE-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_lainnya"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_nama">
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:scaleType="fitXY"
+                tools:src="@tools:sample/avatars" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Jonathan Calvin" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_universitas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tv_nama"
+            app:layout_constraintTop_toBottomOf="@id/tv_nama"
+            tools:text="Universitas Atma Jaya Yogyakarta" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_jurusan_angkatan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tv_nama"
+            app:layout_constraintTop_toBottomOf="@id/tv_universitas"
+            tools:text="Informatika 2019" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tv_nama"
+            app:layout_constraintTop_toBottomOf="@id/tv_jurusan_angkatan"
+            tools:text="190710413" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_lainnya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Lainnya"
+            android:textSize="12sp"
+            app:cornerRadius="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_nama"
+            app:layout_constraintTop_toBottomOf="@id/tv_nim" />
+
+        <!--        CERITA PERJUANGAN-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_cerita_perjuangan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_lainnya">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_cerita_perjuangan"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_cerita_perjuangan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="alhamdulillah masih ada,pekerjaan wiraswasta,kurang biaya kuliah,ada yang sudah putus sekolah" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        CERITA PENTING BEASISWA-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_cerita_penting_beasiswa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:animateLayoutChanges="true"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_cerita_perjuangan">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_cerita_penting_beasiswa"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_cerita_beasiswa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="sangat penting untuk biaya perkuliahan setiap semester" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        RINCIAN BEASISWA-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_rincian_beasiswa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_cerita_penting_beasiswa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_rincian_beasiswa"
+                    layout="@layout/expand_title_and_button" />
+
+                <include
+                    android:id="@+id/beasiswa_pendidikan"
+                    layout="@layout/rincian_beasiswa_pendidikan"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/beasiswa_penunjang"
+                    layout="@layout/rincian_beasiswa_penunjang"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        FOTO RUMAH-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_foto_rumah"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_rincian_beasiswa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_foto_rumah"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.jsibbold.zoomage.ZoomageView
+                    android:id="@+id/iv_foto_rumah"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    app:zoomage_autoResetMode="ALWAYS"
+                    app:zoomage_restrictBounds="false"
+                    tools:src="@tools:sample/avatars" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        BUKTI IPK & IP-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_bukti_ipk_ip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_foto_rumah">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_bukti_ipk_ip"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.jsibbold.zoomage.ZoomageView
+                    android:id="@+id/iv_bukti_ipk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    app:zoomage_autoResetMode="ALWAYS"
+                    app:zoomage_restrictBounds="false"
+                    tools:src="@tools:sample/avatars" />
+
+                <com.jsibbold.zoomage.ZoomageView
+                    android:id="@+id/iv_bukti_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    app:zoomage_autoResetMode="ALWAYS"
+                    app:zoomage_restrictBounds="false"
+                    tools:src="@tools:sample/avatars" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        FOTO KEGIATAN & CERITA KEGIATAN AKTIF-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_kegiatan_aktif"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_bukti_ipk_ip">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_kegiatan_aktif"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.jsibbold.zoomage.ZoomageView
+                    android:id="@+id/iv_foto_kegiatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    app:zoomage_autoResetMode="ALWAYS"
+                    app:zoomage_restrictBounds="false"
+                    tools:src="@tools:sample/avatars" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_cerita_kegiatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    tools:text="kuliah pulangnya mengaji/ belajar menghafal alqur'an" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        LAMPIRAN DOKUMEN-->
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_lampiran_dokumen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Unduh Lampiran Dokumen"
+            android:textColor="@color/blue_main"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_kegiatan_aktif" />
+
+        <!--        PILIHAN-->
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tentukan_pilihan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Tentukan Pilihan :"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/pilihan_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_lampiran_dokumen" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pilihan_menu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Pilihan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tentukan_pilihan">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pilihan"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        CATATAN REVIEWER-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/catatan_reviewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Catatan Reviewer :"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pilihan_menu" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_catatan_reviewer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Berikan Alasan Atas Pilihan Tersebut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/catatan_reviewer">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Submit"
+            android:layout_margin="16dp"
+            app:cornerRadius="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_catatan_reviewer"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

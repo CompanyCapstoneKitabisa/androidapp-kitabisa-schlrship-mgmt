@@ -1,5 +1,9 @@
 package com.kitabisa.scholarshipmanagement.data
 
-interface ApiService {
+import retrofit2.http.GET
+import retrofit2.http.Query
 
+interface ApiService {
+    @GET("applicants")
+    suspend fun getDetailApplicant(@Query("id") id: String): DetailApplicantResponse
 }

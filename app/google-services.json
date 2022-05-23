@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "kitabisa-schlrship-filter",
+          "client_id": "621942935909-k9lptifuoeqjhm87lf1tupdvr74vtbga.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kitabisa.scholarshipmanagement",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "kitabisa-schlrship-filter",
+          "client_id": "621942935909-ne4g8p16aaliv9omqb19q7p4e7upvgni.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
