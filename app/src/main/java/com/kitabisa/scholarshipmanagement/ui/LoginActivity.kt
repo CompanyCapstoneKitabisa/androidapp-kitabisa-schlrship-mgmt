@@ -10,11 +10,9 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.auth.GoogleAuthUtil.getToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.zzl.getToken
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -23,6 +21,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
+import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
 
 
@@ -75,7 +74,6 @@ class LoginActivity : AppCompatActivity() {
                             updateUI(null)
                         }
                     }
-                FirebaseAuth.getInstance().currentUser?.getIdToken(true)
             } else {
                 Toast.makeText(this, "Some data is invalid", Toast.LENGTH_SHORT).show()
 
@@ -141,14 +139,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        Log.d("TEST", idToken)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    //Log.d("TOKENGOOGLE", idToken)
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -160,7 +156,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
             finish()
         }
     }
