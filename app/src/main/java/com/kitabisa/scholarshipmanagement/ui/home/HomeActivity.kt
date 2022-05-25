@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -15,6 +17,8 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.data.Resource
+import com.kitabisa.scholarshipmanagement.data.Result
+import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
 
 class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
@@ -28,6 +32,8 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
     private lateinit var binding: ActivityHomeBinding
     private val campaignAdapter = CampaignAdapter(this)
+    private lateinit var customLoadingDialog: CustomLoadingDialog
+    private var listCampaign = ArrayList<Campaign>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        customLoadingDialog = CustomLoadingDialog(this)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
         val homeViewModel: HomeViewModel by viewModels {
             factory
@@ -42,34 +49,42 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
         val firebaseUser = auth.currentUser
 
-//        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-//            homeViewModel.getCampaign(res.token.toString()).observe(this) { result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Resource.Success -> {
-//                            campaignAdapter.setData(result.data?.listCampaign)
-//                            Log.v("Test", result.data?.listCampaign.toString())
-//                        }
-//                        is Resource.Error -> {
-//                            Log.v("Test", "Gagal Mendapatkan Data Campaign\"")
-//                        }
-//                        else -> {}
-//                    }
-//                }
-//            }
-//        }
+        //comment code to use local data
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            homeViewModel.getCampaign(res.token.toString()).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            listCampaign = result.data!!.listCampaign
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
+                        }
+                        is Resource.Error -> {
+                            finish()
+                            Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                            binding.root.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+        //end
 
         //local data (hapus ini nanti)
-        val listCampaign = ArrayList<Campaign>()
-
-        for (y in 1..3) {
-            val campaign = Campaign(y.toString(), "Beasiswa Narasi", "Narasi", "https://campuspedia.id/news/wp-content/uploads/2021/08/Beasiswa-Celengan-Narasi.jpg")
-            listCampaign.add(campaign)
+        if (listCampaign.isEmpty()){
+            for (y in 1..3) {
+                val campaign = Campaign(y.toString(), "Beasiswa Narasi", "Narasi", "https://campuspedia.id/news/wp-content/uploads/2021/08/Beasiswa-Celengan-Narasi.jpg")
+                listCampaign.add(campaign)
+            }
         }
+        //end
+
 
         campaignAdapter.setData(listCampaign)
 
-        //end
 
         binding.apply {
             val layoutManager = LinearLayoutManager(this@HomeActivity)
@@ -110,5 +125,14 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 //            startActivity(intent)
 //            finish()
 //        }
+    }
+
+    private fun renderLoading(state: Boolean) {
+        if (state) {
+            customLoadingDialog.show()
+            customLoadingDialog.setCancelable(false)
+        } else {
+            customLoadingDialog.dismiss()
+        }
     }
 }

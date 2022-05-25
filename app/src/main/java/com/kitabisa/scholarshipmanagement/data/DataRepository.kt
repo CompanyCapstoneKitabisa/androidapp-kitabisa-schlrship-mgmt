@@ -22,6 +22,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
     }
 
     fun getCampaign(token: String): LiveData<Resource<CampaignResponse>> = liveData {
+        emit(Resource.Loading())
         try {
             val response = apiService.getCampaigns(token)
             emit(Resource.Success(response.body()))
@@ -32,6 +33,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
     }
 
     fun getCampaignDetail(token: String, id: String): LiveData<Resource<CampaignDetailResponse>> = liveData {
+        emit(Resource.Loading())
         try {
             val response = apiService.getCampaignDetail(token, id)
             emit(Resource.Success(response.body()))
@@ -42,6 +44,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
     }
 
     fun getAllApplicant(token: String, id: String): LiveData<Resource<AllApplicantResponse>> = liveData {
+        emit(Resource.Loading())
         try {
             val response = apiService.getAllApplicant(token, id)
             emit(Resource.Success(response.body()))

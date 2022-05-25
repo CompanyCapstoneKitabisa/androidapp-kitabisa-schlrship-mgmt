@@ -34,11 +34,11 @@ data class Applicant (
     @field:SerializedName("province")
     val province: String,
 
-    @field:SerializedName("data_status")
-    val data_status: String,
+    @field:SerializedName("dataStatus")
+    val dataStatus: String,
 
-    @field:SerializedName("rumah_status")
-    val rumah_status: String,
+    @field:SerializedName("rumahStatus")
+    val rumahStatus: String,
 
     @field:SerializedName("photoUrl")
     val photoUrl: String

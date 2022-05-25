@@ -40,15 +40,15 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
                 applicantUniversity.text = applicant.university
                 applicantCity.text = applicant.city + ","
                 applicantProvince.text = applicant.province
-                ivProfile.loadImage(applicant.photoUrl)
+                ivProfile.loadImage(applicant.photoUrl, R.drawable.profile_icon)
 
-                if (applicant.data_status == "valid"){
+                if (applicant.dataStatus == "valid"){
                     applicantDataIndicator.setImageResource(R.drawable.data_valid)
                 }else{
                     applicantDataIndicator.setImageResource(R.drawable.data_invalid)
                 }
 
-                if (applicant.rumah_status == "valid"){
+                if (applicant.rumahStatus == "valid"){
                     applicantHomeIndicator.setImageResource(R.drawable.rumah_valid)
                 }else{
                     applicantHomeIndicator.setImageResource(R.drawable.rumah_invalid)

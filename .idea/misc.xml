@@ -4,12 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_image.xml" value="0.2595" />
+        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_board_page.xml" value="0.23596014492753623" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_detail_applicant.xml" value="0.23596014492753623" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_detail_campaign.xml" value="0.264" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_home.xml" value="0.23816495851634945" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_login.xml" value="0.182518115942029" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_register.xml" value="0.23596014492753623" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/buttom_sheet_filter.xml" value="0.23596014492753623" />
+        <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/custom_loading.xml" value="0.23596014492753623" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/item_applicant.xml" value="0.4" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/item_campaign.xml" value="0.2" />
         <entry key="..\:/Users/asus/Documents/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/list_pilihan.xml" value="0.23596014492753623" />

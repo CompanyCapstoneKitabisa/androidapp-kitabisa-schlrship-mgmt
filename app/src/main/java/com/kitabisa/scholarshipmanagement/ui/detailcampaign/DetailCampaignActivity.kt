@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.viewModels
@@ -22,6 +23,7 @@ import com.kitabisa.scholarshipmanagement.data.Resource
 import com.kitabisa.scholarshipmanagement.databinding.ActivityDetailCampaignBinding
 import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
 import com.kitabisa.scholarshipmanagement.databinding.BottomSheetFilterBinding
+import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.ui.home.CampaignAdapter
@@ -42,6 +44,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
     val tempListApplicant = ArrayList<Applicant>()
     val tempListApplicant2 = ArrayList<Applicant>()
     lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var campaignDetail: CampaignDetail
+    private lateinit var customLoadingDialog: CustomLoadingDialog
+    var listApplicant = ArrayList<Applicant>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +54,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        customLoadingDialog = CustomLoadingDialog(this)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
         val detailCampaignViewModel: DetailCampaignViewModel by viewModels {
             factory
@@ -56,63 +62,68 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         val firebaseUser = auth.currentUser
 
-//        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-//            detailCampaignViewModel.getCampaignDetail(res.token.toString(), ID_CAMPAIGN).observe(this) { result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Resource.Success -> {
-//                            Log.v("Test", result.data?.Data.toString())
-//                        }
-//                        is Resource.Error -> {
-//                            Log.v("Test", "Gagal Mendapatkan Data Detail Campaign\"")
-//                        }
-//                        else -> {}
-//                    }
-//                }
-//            }
-//        }
-//
-//        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-//            detailCampaignViewModel.getAllApplicant(res.token.toString(), ID_CAMPAIGN).observe(this) { result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Resource.Success -> {
-//                            applicantAdapter.setData(result.data?.listApplicants)
-//                            Log.v("Test", result.data?.listApplicants.toString())
-//                        }
-//                        is Resource.Error -> {
-//                            Log.v("Test", "Gagal Mendapatkan Data Detail Campaign\"")
-//                        }
-//                        else -> {}
-//                    }
-//                }
-//            }
-//        }
-//
-//        binding.apply {
-//            val layoutManager = LinearLayoutManager(this@DetailCampaignActivity)
-//            rvApplicant.layoutManager = layoutManager
-//            rvApplicant.setHasFixedSize(true)
-//            rvApplicant.adapter = applicantAdapter
-//        }
+        //comment code to use local data
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            detailCampaignViewModel.getCampaignDetail(res.token.toString(), ID_CAMPAIGN).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            campaignDetail = result.data?.Data!!
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
+                        }
+                        is Resource.Error -> {
+                            finish()
+                            Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                            binding.root.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
 
-
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            detailCampaignViewModel.getAllApplicant(res.token.toString(), ID_CAMPAIGN).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            listApplicant = result.data?.listApplicants!!
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
+                        }
+                        is Resource.Error -> {
+                            finish()
+                            Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                            binding.root.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+        //end
 
         //local data (hapus ini nanti)
-        val campaignDetail = CampaignDetail("Beasiswa Narasi", "Narasi", "https://campuspedia.id/news/wp-content/uploads/2021/08/Beasiswa-Celengan-Narasi.jpg", 3023, 76, 367, 57)
+        if(listApplicant.isEmpty()){
+            campaignDetail = CampaignDetail("Beasiswa Narasi", "Narasi", "https://campuspedia.id/news/wp-content/uploads/2021/08/Beasiswa-Celengan-Narasi.jpg", 3023, 76, 367, 57)
 
-        val listApplicant = ArrayList<Applicant>()
-
-        for (y in 1..3) {
-            val applicant = Applicant(y.toString(), "Nyoman Jyotisa", "Universitas Udayana", "pending", "Gianyar", "Bali", "valid", "valid", "https://1.bp.blogspot.com/-oIdHWQIe0lY/Vt7KVnjR7WI/AAAAAAAAAUo/1whO1HjqUYs/s320/Contoh%2BPas%2BFoto.png")
-            listApplicant.add(applicant)
-            val accepted = Applicant(y.toString(), "Wayan Made", "Universitas Indonesia", "accepted", "Denpasar", "Bali", "invalid", "valid", "https://jasafotosemarang.files.wordpress.com/2016/10/rizky.jpg")
-            listApplicant.add(accepted)
-            val rejected = Applicant(y.toString(), "Paul Lennon", "Universitas Diponogoro", "rejected", "Jakarta Selatan", "Jakarta", "invalid", "invalid", "https://www.superprof.co.id/gambar/kursus-pelatihan/mini-saya-mengajar-akuntansi-sukabumi-dan-saya-sebagai-mahasiswa-akuntansi-universitas-nusa-putra.jpg")
-            listApplicant.add(rejected)
-            val onhold = Applicant(y.toString(), "Ketut Garing", "Universitas Warmadewa", "onhold", "Kintamani", "Bali", "valid", "invalid", "")
-            listApplicant.add(onhold)
+            for (y in 1..3) {
+                val applicant = Applicant(y.toString(), "Nyoman Jyotisa", "Universitas Udayana", "pending", "Gianyar", "Bali", "valid", "valid", "https://1.bp.blogspot.com/-oIdHWQIe0lY/Vt7KVnjR7WI/AAAAAAAAAUo/1whO1HjqUYs/s320/Contoh%2BPas%2BFoto.png")
+                listApplicant.add(applicant)
+                val accepted = Applicant(y.toString(), "Wayan Made", "Universitas Indonesia", "accepted", "Denpasar", "Bali", "invalid", "valid", "https://jasafotosemarang.files.wordpress.com/2016/10/rizky.jpg")
+                listApplicant.add(accepted)
+                val rejected = Applicant(y.toString(), "Paul Lennon", "Universitas Diponogoro", "rejected", "Jakarta Selatan", "Jakarta", "invalid", "invalid", "https://www.superprof.co.id/gambar/kursus-pelatihan/mini-saya-mengajar-akuntansi-sukabumi-dan-saya-sebagai-mahasiswa-akuntansi-universitas-nusa-putra.jpg")
+                listApplicant.add(rejected)
+                val onhold = Applicant(y.toString(), "Ketut Garing", "Universitas Warmadewa", "onhold", "Kintamani", "Bali", "valid", "invalid", "")
+                listApplicant.add(onhold)
+            }
         }
+        //end
 
         tempListApplicant.addAll(listApplicant)
         applicantAdapter.setData(tempListApplicant)
@@ -123,7 +134,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             acceptedCount.text = campaignDetail.acceptedApplicants.toString()
             onholdCount.text = campaignDetail.onholdApplicants.toString()
             rejectedCount.text = campaignDetail.rejectedApplicants.toString()
-            ivCampaignPhoto.loadImage(campaignDetail.photoUrl)
+            ivCampaignPhoto.loadImage(campaignDetail.photoUrl, R.drawable.ic_image)
 
 
             val layoutManager = LinearLayoutManager(this@DetailCampaignActivity)
@@ -132,7 +143,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             rvApplicant.adapter = applicantAdapter
         }
 
-        //end
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -236,19 +246,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 radioButtonBerkas?.text?.let {
                     if (radioButtonBerkas.text.toString() == "Data Valid"){
                         for (applicant in tempListApplicant) {
-                            if (applicant.data_status.lowercase(Locale.getDefault()) == "valid"){
+                            if (applicant.dataStatus.lowercase(Locale.getDefault()) == "valid"){
                                 tempListApplicant2.add(applicant)
                             }
                         }
                     }else if (radioButtonBerkas.text.toString() == "Rumah Valid"){
                         for (applicant in tempListApplicant) {
-                            if (applicant.rumah_status.lowercase(Locale.getDefault()) == "valid"){
+                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid"){
                                 tempListApplicant2.add(applicant)
                             }
                         }
                     }else{
                         for (applicant in tempListApplicant) {
-                            if (applicant.rumah_status.lowercase(Locale.getDefault()) == "valid" && applicant.data_status.lowercase(Locale.getDefault()) == "valid"){
+                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid" && applicant.dataStatus.lowercase(Locale.getDefault()) == "valid"){
                                 tempListApplicant2.add(applicant)
                             }
                         }
@@ -316,5 +326,14 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         val applicantDetailIntent = Intent(this, DetailApplicantActivity::class.java)
         applicantDetailIntent.putExtra(DetailApplicantActivity.ID_APPLICANT, applicant.id)
         startActivity(applicantDetailIntent)
+    }
+
+    private fun renderLoading(state: Boolean) {
+        if (state) {
+            customLoadingDialog.show()
+            customLoadingDialog.setCancelable(false)
+        } else {
+            customLoadingDialog.dismiss()
+        }
     }
 }

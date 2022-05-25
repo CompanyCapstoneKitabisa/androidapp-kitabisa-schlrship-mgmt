@@ -3,6 +3,7 @@ package com.kitabisa.scholarshipmanagement.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.databinding.ItemCampaignBinding
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
@@ -36,7 +37,7 @@ class CampaignAdapter(private val callback: CampaignCallback) :
             with(binding) {
                 campaignName.text = campaign.name
                 digalangOleh.text = "Digalang oleh " + campaign.penggalangDana
-                ivProfile.loadImage(campaign.photoUrl)
+                ivCampaignImage.loadImage(campaign.photoUrl, R.drawable.ic_image)
                 root.setOnClickListener { callback.onStoryClick(campaign) }
             }
         }
