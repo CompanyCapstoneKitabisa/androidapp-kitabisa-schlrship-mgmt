@@ -298,5 +298,6 @@ class DetailApplicantActivity : AppCompatActivity() {
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        const val ID_APPLICANT = "id_applicant"
     }
 }

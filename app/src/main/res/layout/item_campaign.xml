@@ -20,12 +20,11 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:id="@+id/iv_profile"
+                android:id="@+id/iv_campaign_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:layout_gravity="center"
-                tools:src="@tools:sample/avatars" />
+                android:layout_gravity="center" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.textview.MaterialTextView
@@ -33,23 +32,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:textColor="@color/grey"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/campaign_image"
             tools:text="Celengan Beasiswa Narasi" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sosial_media"
+            android:id="@+id/digalang_oleh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/grey"
-            android:textSize="8sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/campaign_name"
             app:layout_constraintBottom_toBottomOf="parent"
