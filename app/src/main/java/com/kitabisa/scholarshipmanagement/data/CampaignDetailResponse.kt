@@ -13,3 +13,26 @@ data class CampaignDetailResponse (
     @field:SerializedName("Data")
     val Data: CampaignDetail
 )
+
+data class CampaignDetail(
+    @field:SerializedName("name")
+    val name: String?,
+
+    @field:SerializedName("penggalangDana")
+    val penggalangDana: String,
+
+    @field:SerializedName("photoUrl")
+    val photoUrl: String,
+
+    @field:SerializedName("applicantsCount")
+    val applicantsCount: Int,
+
+    @field:SerializedName("acceptedApplicants")
+    val acceptedApplicants: Int,
+
+    @field:SerializedName("rejectedApplicants")
+    val rejectedApplicants: Int,
+
+    @field:SerializedName("onholdApplicants")
+    val onholdApplicants: Int
+)

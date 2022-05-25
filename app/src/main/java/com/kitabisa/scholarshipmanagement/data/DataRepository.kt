@@ -21,9 +21,9 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }.also { instance = it }
     }
 
-    fun getCampaign(): LiveData<Resource<CampaignResponse>> = liveData {
+    fun getCampaign(token: String): LiveData<Resource<CampaignResponse>> = liveData {
         try {
-            val response = apiService.getCampaigns()
+            val response = apiService.getCampaigns(token)
             emit(Resource.Success(response.body()))
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
@@ -31,9 +31,19 @@ class DataRepository private constructor(private val apiService: ApiService) {
         }
     }
 
-    fun getCampaignDetail(id: String): LiveData<Resource<CampaignDetailResponse>> = liveData {
+    fun getCampaignDetail(token: String, id: String): LiveData<Resource<CampaignDetailResponse>> = liveData {
         try {
-            val response = apiService.getCampaignDetail(id)
+            val response = apiService.getCampaignDetail(token, id)
+            emit(Resource.Success(response.body()))
+        } catch (e: Exception) {
+            Log.d("DataRepository", "data: ${e.message.toString()} ")
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun getAllApplicant(token: String, id: String): LiveData<Resource<AllApplicantResponse>> = liveData {
+        try {
+            val response = apiService.getAllApplicant(token, id)
             emit(Resource.Success(response.body()))
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")

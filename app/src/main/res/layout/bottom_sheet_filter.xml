@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Filter Applicant"/>
+
+    <View
+        android:id="@+id/pembatas"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/blue_main"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/status_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pembatas"
+        android:text="Status Applicant"/>
+
+    <RadioGroup
+        android:id="@+id/status_applicant_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_label">
+        <RadioButton android:id="@+id/pending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Belum Direview"/>
+        <RadioButton android:id="@+id/accepted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diterima"/>
+        <RadioButton android:id="@+id/onhold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Onhold"/>
+        <RadioButton android:id="@+id/rejected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ditolak"/>
+    </RadioGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/status_berkas_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_applicant_group"
+        android:text="Status Berkas"/>
+
+    <RadioGroup
+        android:id="@+id/status_berkas_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_berkas_label">
+        <RadioButton android:id="@+id/data_valid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data Valid"/>
+        <RadioButton android:id="@+id/rumah_calid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rumah Valid"/>
+        <RadioButton android:id="@+id/data_dan_rumah_valid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data dan Rumah Valid"/>
+    </RadioGroup>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/provinsi_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_berkas_group"
+        android:text="Provinsi"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_province"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Masukkan Nama Provinsi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/provinsi_label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/province"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_apply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Apply Filter"
+        android:layout_margin="16dp"
+        app:cornerRadius="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_province"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

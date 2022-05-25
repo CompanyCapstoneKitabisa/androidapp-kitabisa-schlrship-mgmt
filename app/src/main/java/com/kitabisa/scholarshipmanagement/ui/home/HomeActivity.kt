@@ -4,32 +4,22 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import android.util.Log
-import android.view.KeyEvent
-import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
 import com.kitabisa.scholarshipmanagement.ui.LoginActivity
-import com.kitabisa.scholarshipmanagement.ui.MainActivity
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.data.Resource
-import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
 import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
 
 class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
-class HomeActivity : AppCompatActivity() {
 //    private lateinit var auth: FirebaseAuth
-    private lateinit var homeBinding: ActivityHomeBinding
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private val auth by lazy {
@@ -41,13 +31,51 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeBinding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(homeBinding.root)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        supportActionBar?.hide()
+
+        val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
+        val homeViewModel: HomeViewModel by viewModels {
+            factory
+        }
 
         val firebaseUser = auth.currentUser
 
-        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-            Log.d("TOKEN", res.token.toString())
+//        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+//            homeViewModel.getCampaign(res.token.toString()).observe(this) { result ->
+//                if (result != null) {
+//                    when (result) {
+//                        is Resource.Success -> {
+//                            campaignAdapter.setData(result.data?.listCampaign)
+//                            Log.v("Test", result.data?.listCampaign.toString())
+//                        }
+//                        is Resource.Error -> {
+//                            Log.v("Test", "Gagal Mendapatkan Data Campaign\"")
+//                        }
+//                        else -> {}
+//                    }
+//                }
+//            }
+//        }
+
+        //local data (hapus ini nanti)
+        val listCampaign = ArrayList<Campaign>()
+
+        for (y in 1..3) {
+            val campaign = Campaign(y.toString(), "Beasiswa Narasi", "Narasi", "https://campuspedia.id/news/wp-content/uploads/2021/08/Beasiswa-Celengan-Narasi.jpg")
+            listCampaign.add(campaign)
+        }
+
+        campaignAdapter.setData(listCampaign)
+
+        //end
+
+        binding.apply {
+            val layoutManager = LinearLayoutManager(this@HomeActivity)
+            rvCampaign.layoutManager = layoutManager
+            rvCampaign.setHasFixedSize(true)
+            rvCampaign.adapter = campaignAdapter
         }
 
         Log.d("EMAIL", firebaseUser?.email.toString())
@@ -58,52 +86,17 @@ class HomeActivity : AppCompatActivity() {
 //            .build()
 //        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        homeBinding.logout.setOnClickListener {
+        binding.logout.setOnClickListener {
             signOut()
         }
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        supportActionBar?.hide()
-
-        val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
-        val homeViewModel: HomeViewModel by viewModels {
-            factory
-        }
-
-        binding.apply {
-            val layoutManager = LinearLayoutManager(this@HomeActivity)
-            rvCampaign.layoutManager = layoutManager
-            rvCampaign.setHasFixedSize(true)
-            rvCampaign.adapter = campaignAdapter
-        }
-
         Log.v("YOYYYY", "Berhasil Mendapatkan Data Campaign\"")
-
-        homeViewModel.getCampaign().observe(this) { result ->
-            Log.v("YOYYYY2", "Berhasil Mendapatkan Data Campaign\"")
-            if (result != null) {
-                when (result) {
-                    is Resource.Success -> {
-//                        result.data?.listCampaign?.let { campaignAdapter.setData(it) }
-                        campaignAdapter.setData(result.data?.listCampaign)
-                        Log.v("Test", result.data?.listCampaign.toString())
-//                        Toast.makeText(this, "Berhasil Mendapatkan Data Campaign", Toast.LENGTH_SHORT).show()
-                    }
-                    is Resource.Error -> {
-                        Log.v("Test", "Gagal Mendapatkan Data Campaign\"")
-//                        Toast.makeText(this, "Gagal Mendapatkan Data Campaign", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {}
-                }
-            }
-        }
     }
 
     override fun onStoryClick(campaign: Campaign) {
-        val storyDetailIntent = Intent(this, DetailCampaignActivity::class.java)
-        storyDetailIntent.putExtra(DetailCampaignActivity.ID, campaign.id)
-        startActivity(storyDetailIntent)
+        val campaignDetailIntent = Intent(this, DetailCampaignActivity::class.java)
+        campaignDetailIntent.putExtra(DetailCampaignActivity.ID_CAMPAIGN, campaign.id)
+        startActivity(campaignDetailIntent)
     }
 
     private fun signOut() {

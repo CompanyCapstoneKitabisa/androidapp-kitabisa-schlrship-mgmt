@@ -5,6 +5,6 @@ import com.kitabisa.scholarshipmanagement.data.DataRepository
 
 class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    fun getCampaign() = dataRepository.getCampaign()
+    fun getCampaign(token: String) = dataRepository.getCampaign(token)
 
 }
