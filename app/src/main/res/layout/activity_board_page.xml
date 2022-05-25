@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".ui.BoardPage">
+
+	<TextView
+			android:id="@+id/text_welcome"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="welcome"
+			android:textAlignment="center"
+			android:textColor="@color/black"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.0"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintVertical_bias="0.115" />
+
+	<Button
+			android:id="@+id/btn_login"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="52dp"
+			android:layout_marginTop="40sp"
+			android:backgroundTint="@color/blue_main"
+			android:text="Login"
+			android:textColor="@color/black"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/text_welcome" />
+
+	<Button
+			android:id="@+id/btn_register"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="12dp"
+			android:layout_marginTop="40dp"
+			android:backgroundTint="@color/blue_main"
+			android:text="register"
+			android:textColor="@color/black"
+			app:layout_constraintStart_toEndOf="@id/btn_login"
+			app:layout_constraintTop_toBottomOf="@id/text_welcome" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,9 +7,10 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/blue_main"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,6 +18,7 @@
         tools:text="Dummy Text"/>
 
     <ImageView
+        android:id="@+id/header_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

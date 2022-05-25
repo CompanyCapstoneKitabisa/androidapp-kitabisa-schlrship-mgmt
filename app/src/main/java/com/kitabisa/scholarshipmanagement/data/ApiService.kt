@@ -14,4 +14,7 @@ interface ApiService {
     suspend fun getCampaignDetail(
         @Path("id") id: String,
     ): Response<CampaignDetailResponse>
+
+    @GET("applicants")
+    suspend fun getDetailApplicant(@Header("authToken") token: String, @Query("id") id: String): DetailApplicantResponse
 }

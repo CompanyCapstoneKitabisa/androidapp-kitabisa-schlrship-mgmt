@@ -6,6 +6,10 @@ import androidx.lifecycle.liveData
 
 class DataRepository private constructor(private val apiService: ApiService) {
 
+    suspend fun getDetailApplicant(token: String, id: String): DetailApplicantResponse {
+        return apiService.getDetailApplicant(token, id)
+    }
+
     companion object {
         @Volatile
         private var instance: DataRepository? = null
