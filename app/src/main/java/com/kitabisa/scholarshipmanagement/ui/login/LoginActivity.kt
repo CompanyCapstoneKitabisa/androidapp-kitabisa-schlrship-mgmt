@@ -1,4 +1,4 @@
-package com.kitabisa.scholarshipmanagement.ui
+package com.kitabisa.scholarshipmanagement.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -20,11 +20,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
-import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
 

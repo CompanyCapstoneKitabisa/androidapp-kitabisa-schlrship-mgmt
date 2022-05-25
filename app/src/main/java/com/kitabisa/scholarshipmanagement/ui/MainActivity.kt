@@ -4,12 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.kitabisa.scholarshipmanagement.databinding.ActivityMainBinding
-import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
-import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
+import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

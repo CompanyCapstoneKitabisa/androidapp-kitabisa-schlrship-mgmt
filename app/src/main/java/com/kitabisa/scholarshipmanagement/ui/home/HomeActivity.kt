@@ -11,7 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
-import com.kitabisa.scholarshipmanagement.ui.LoginActivity
+import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
