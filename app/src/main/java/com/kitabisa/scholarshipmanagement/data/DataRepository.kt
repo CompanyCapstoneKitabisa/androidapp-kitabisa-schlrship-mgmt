@@ -1,5 +1,9 @@
 package com.kitabisa.scholarshipmanagement.data
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+
 class DataRepository private constructor(private val apiService: ApiService) {
 
     companion object {
@@ -12,4 +16,26 @@ class DataRepository private constructor(private val apiService: ApiService) {
                 instance ?: DataRepository(apiService)
             }.also { instance = it }
     }
+
+    fun getCampaign(): LiveData<Resource<CampaignResponse>> = liveData {
+        try {
+            val response = apiService.getCampaigns()
+            emit(Resource.Success(response.body()))
+        } catch (e: Exception) {
+            Log.d("DataRepository", "data: ${e.message.toString()} ")
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun getCampaignDetail(id: String): LiveData<Resource<CampaignDetailResponse>> = liveData {
+        try {
+            val response = apiService.getCampaignDetail(id)
+            emit(Resource.Success(response.body()))
+        } catch (e: Exception) {
+            Log.d("DataRepository", "data: ${e.message.toString()} ")
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
+
 }
