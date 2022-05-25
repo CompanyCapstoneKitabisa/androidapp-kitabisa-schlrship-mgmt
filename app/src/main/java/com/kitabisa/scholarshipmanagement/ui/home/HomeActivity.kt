@@ -17,7 +17,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.data.Resource
-import com.kitabisa.scholarshipmanagement.data.Result
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
 
