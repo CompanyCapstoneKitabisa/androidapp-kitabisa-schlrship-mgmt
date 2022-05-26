@@ -42,6 +42,9 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
         customLoadingDialog = CustomLoadingDialog(this)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
+        renderLoading(true)
+        binding.root.visibility = View.INVISIBLE
+
         val homeViewModel: HomeViewModel by viewModels {
             factory
         }
