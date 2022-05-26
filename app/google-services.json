@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "621942935909-1102qe3i1o0idribngb9tlslpb481err.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitabisa.scholarshipmanagement",
+            "certificate_hash": "d59d158086df56988f8cc3846e98d474cf3fbdf7"
+          }
+        },
+        {
           "client_id": "621942935909-tsqm1o1vnuvmocb7ut8pskknov8a0nkf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
