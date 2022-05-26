@@ -3,7 +3,10 @@ package com.kitabisa.scholarshipmanagement.ui.detailapplicant
 import android.Manifest
 import android.app.Dialog
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -24,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.auth.FirebaseAuth
 import com.jsibbold.zoomage.ZoomageView
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.FetchedData
@@ -34,7 +38,6 @@ import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import java.io.File
 
-
 class DetailApplicantActivity : AppCompatActivity() {
 
     private lateinit var activityDetailApplicantBinding: ActivityDetailApplicantBinding
@@ -42,6 +45,12 @@ class DetailApplicantActivity : AppCompatActivity() {
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private lateinit var moreDataDialog: Dialog
     private lateinit var dialogDataLainnyaPesertaBinding: DialogDataLainnyaPesertaBinding
+
+    private lateinit var broadcastReceiver: BroadcastReceiver
+
+    private val auth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -70,9 +79,17 @@ class DetailApplicantActivity : AppCompatActivity() {
         activityDetailApplicantBinding = ActivityDetailApplicantBinding.inflate(layoutInflater)
         setContentView(activityDetailApplicantBinding.root)
         supportActionBar?.hide()
+        activityDetailApplicantBinding.root.visibility = View.GONE
+        val firebaseUser = auth.currentUser
+
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            detailApplicantViewModel.getDetailApplicant(
+                res.token.toString(),
+                "KWoaqHDcweHL8X3ez5wn"
+            )
+        }
 
         detailApplicantViewModel = obtainViewModel(this)
-        detailApplicantViewModel.getDetailApplicant("KWoaqHDcweHL8X3ez5wn")
 
         customLoadingDialog = CustomLoadingDialog(this)
         moreDataDialog = Dialog(this)
@@ -94,6 +111,25 @@ class DetailApplicantActivity : AppCompatActivity() {
                 }
             }
         }
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(p0: Context, p1: Intent) {
+                Toast.makeText(
+                    p0,
+                    "Download Complete",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        registerReceiver(
+            broadcastReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(broadcastReceiver)
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): DetailApplicantViewModel {
@@ -267,7 +303,7 @@ class DetailApplicantActivity : AppCompatActivity() {
             val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val documentsLink = Uri.parse(data.lampiranDokumen)
             val request = DownloadManager.Request(documentsLink)
-            val tempName = data.name.plus("LampiranDokumen")
+            val tempName = data.name.plus(" LampiranDokumen")
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
                 .setMimeType("application/pdf")
                 .setAllowedOverRoaming(false)
@@ -287,5 +323,6 @@ class DetailApplicantActivity : AppCompatActivity() {
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        const val ID_APPLICANT = "id_applicant"
     }
 }

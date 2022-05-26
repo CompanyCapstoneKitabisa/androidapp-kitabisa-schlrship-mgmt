@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "621942935909",
+    "project_id": "kitabisa-schlrship-filter",
+    "storage_bucket": "kitabisa-schlrship-filter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621942935909:android:7d6e1a0c9dbda79c5a118c",
+        "android_client_info": {
+          "package_name": "com.kitabisa.scholarshipmanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621942935909-tsqm1o1vnuvmocb7ut8pskknov8a0nkf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitabisa.scholarshipmanagement",
+            "certificate_hash": "2b7e138feb74920a258e28abc5869be4b43586f6"
+          }
+        },
+        {
+          "client_id": "621942935909-ne4g8p16aaliv9omqb19q7p4e7upvgni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP5A1rOL7J9g-Lqa0EDtG9y0yOiBxA-5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621942935909-ne4g8p16aaliv9omqb19q7p4e7upvgni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

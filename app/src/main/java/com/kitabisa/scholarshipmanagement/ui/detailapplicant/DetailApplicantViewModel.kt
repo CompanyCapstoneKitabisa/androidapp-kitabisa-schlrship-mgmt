@@ -15,11 +15,11 @@ class DetailApplicantViewModel(private val dataRepository: DataRepository) : Vie
     val _fetchedData = MutableLiveData<Result<FetchedData>>()
     val fetchedData: LiveData<Result<FetchedData>> = _fetchedData
 
-    fun getDetailApplicant(id: String) {
+    fun getDetailApplicant(token: String, id: String) {
         _fetchedData.postValue(Result.Loading)
         viewModelScope.launch {
             try {
-                val tempData = dataRepository.getDetailApplicant(id).fetchedData
+                val tempData = dataRepository.getDetailApplicant(token, id).fetchedData
                 _fetchedData.postValue(Result.Success(tempData))
             } catch (e: Exception) {
                 _fetchedData.postValue(Result.Error(e.message.toString()))

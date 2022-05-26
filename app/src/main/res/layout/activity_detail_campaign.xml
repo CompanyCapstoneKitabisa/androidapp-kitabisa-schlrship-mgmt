@@ -14,12 +14,11 @@
             android:id="@+id/campaign_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_profile"
+                android:id="@+id/iv_campaign_photo"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 tools:src="@tools:sample/avatars" />
@@ -61,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="100dp"
+                    android:layout_marginEnd="50dp"
                     android:textColor="@color/blue_main"
                     android:textSize="22sp"
                     android:textStyle="bold"
@@ -75,25 +74,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/orange"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="@color/green"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/applicant_count"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/onhold_count"
+                    tools:text="100" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/onhold_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="50dp"
+                    android:textColor="@color/orange"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/accepted_count"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/rejected_count"
                     tools:text="100" />
+
+
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/rejected_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginStart="100dp"
                     android:layout_marginEnd="16dp"
                     android:textColor="@color/red"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/accepted_count"
+                    app:layout_constraintStart_toEndOf="@+id/onhold_count"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="100" />
@@ -136,6 +151,18 @@
                     app:layout_constraintEnd_toEndOf="@+id/rejected_count"
                     android:text="@string/ditolak" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/onhold_count_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/onhold_count"
+                    app:layout_constraintTop_toBottomOf="@+id/onhold_count"
+                    app:layout_constraintEnd_toEndOf="@+id/onhold_count"
+                    android:text="Onhold" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -143,7 +170,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/search_card"
-            android:layout_width="340dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -156,11 +183,14 @@
             <SearchView
                 android:id="@+id/search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:iconifiedByDefault="false"
+                android:queryBackground="@android:color/transparent"
+                android:queryHint="Enter applicant name"/>
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
-            android:id="@+id/logout"
+            android:id="@+id/filter"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"

@@ -1,4 +1,4 @@
-package com.kitabisa.scholarshipmanagement.ui
+package com.kitabisa.scholarshipmanagement.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -8,21 +8,21 @@ import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.auth.GoogleAuthUtil.getToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.zzl.getToken
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
+import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
 
 
@@ -42,14 +42,13 @@ class LoginActivity : AppCompatActivity() {
         // Configure Google Sign In
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(getString(R.string.webclient_id))
             .requestEmail()
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         // Initialize Firebase Auth
-        auth = Firebase.auth
-
+        auth = FirebaseAuth.getInstance()
 
         //google sign-in
         binding.googleButton.setOnClickListener {
@@ -58,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
 
         //submit button onclick
         binding.btnSubmit.setOnClickListener {
+
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
                 auth.signInWithEmailAndPassword(email, password)
@@ -75,14 +75,11 @@ class LoginActivity : AppCompatActivity() {
                             updateUI(null)
                         }
                     }
-                FirebaseAuth.getInstance().currentUser?.getIdToken(true)
             } else {
                 Toast.makeText(this, "Some data is invalid", Toast.LENGTH_SHORT).show()
-
             }
         }
     }
-
 
     private fun inputFieldFilled(): Boolean {
         var noError = true
@@ -121,14 +118,15 @@ class LoginActivity : AppCompatActivity() {
         resultLauncher.launch(signInIntent)
     }
 
-    private var resultLauncher = registerForActivityResult(
+    private var resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
+        Log.d(TAG, "${result.resultCode}")
         if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
+                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
 
@@ -141,14 +139,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        Log.d("TEST", idToken)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    //Log.d("TOKENGOOGLE", idToken)
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -160,11 +156,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
             finish()
         }
     }
-
 
     private fun setupView() {
         @Suppress("DEPRECATION")
