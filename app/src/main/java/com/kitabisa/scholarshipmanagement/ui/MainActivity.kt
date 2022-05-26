@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         val firebaseUser = auth.currentUser
         firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
             Log.d("TOKENGOOGLE", res.token.toString())
-            res.
         }
 
 
