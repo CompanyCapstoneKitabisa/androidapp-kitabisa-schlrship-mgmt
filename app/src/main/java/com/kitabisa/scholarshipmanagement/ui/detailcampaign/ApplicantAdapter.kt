@@ -22,7 +22,8 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicantViewHolder {
-        val applicantBinding = ItemApplicantBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val applicantBinding =
+            ItemApplicantBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ApplicantViewHolder(applicantBinding)
     }
 
@@ -42,25 +43,25 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
                 applicantProvince.text = applicant.province
                 ivProfile.loadImage(applicant.photoUrl, R.drawable.profile_icon)
 
-                if (applicant.dataStatus == "valid"){
+                if (applicant.dataStatus == "valid") {
                     applicantDataIndicator.setImageResource(R.drawable.data_valid)
-                }else{
+                } else {
                     applicantDataIndicator.setImageResource(R.drawable.data_invalid)
                 }
 
-                if (applicant.rumahStatus == "valid"){
+                if (applicant.rumahStatus == "valid") {
                     applicantHomeIndicator.setImageResource(R.drawable.rumah_valid)
-                }else{
+                } else {
                     applicantHomeIndicator.setImageResource(R.drawable.rumah_invalid)
                 }
 
-                if (applicant.status == "accepted"){
+                if (applicant.status == "accepted") {
                     statusIndicator.setImageResource(R.drawable.accepted)
-                }else if(applicant.status == "rejected"){
+                } else if (applicant.status == "rejected") {
                     statusIndicator.setImageResource(R.drawable.rejected)
-                }else if(applicant.status == "onhold"){
+                } else if (applicant.status == "onhold") {
                     statusIndicator.setImageResource(R.drawable.onhold)
-                }else{
+                } else {
                     statusIndicator.setImageResource(R.drawable.pending)
                 }
 

@@ -28,8 +28,8 @@
             android:id="@+id/campaign_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/grey"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -41,15 +41,16 @@
             android:id="@+id/aplicants_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="6dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/campaign_name">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -58,15 +59,15 @@
                     android:id="@+id/applicant_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="50dp"
                     android:textColor="@color/blue_main"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/accepted_count"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/accepted_count"
                     tools:text="100" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -78,9 +79,9 @@
                     android:textColor="@color/green"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/onhold_count"
                     app:layout_constraintStart_toEndOf="@+id/applicant_count"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/onhold_count"
                     tools:text="100" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -92,11 +93,10 @@
                     android:textColor="@color/orange"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/rejected_count"
                     app:layout_constraintStart_toEndOf="@+id/accepted_count"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/rejected_count"
                     tools:text="100" />
-
 
 
                 <com.google.android.material.textview.MaterialTextView
@@ -108,9 +108,9 @@
                     android:textColor="@color/red"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/onhold_count"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     tools:text="100" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -119,49 +119,49 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="6dp"
+                    android:text="@string/pendaftar"
                     android:textColor="@color/grey"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/applicant_count"
-                    app:layout_constraintTop_toBottomOf="@+id/applicant_count"
-                    app:layout_constraintEnd_toEndOf="@+id/applicant_count"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="@string/pendaftar" />
+                    app:layout_constraintEnd_toEndOf="@+id/applicant_count"
+                    app:layout_constraintStart_toStartOf="@+id/applicant_count"
+                    app:layout_constraintTop_toBottomOf="@+id/applicant_count" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/accepted_count_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="@string/diterima"
                     android:textColor="@color/grey"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/accepted_count"
-                    app:layout_constraintTop_toBottomOf="@+id/accepted_count"
                     app:layout_constraintEnd_toEndOf="@+id/accepted_count"
-                    android:text="@string/diterima" />
+                    app:layout_constraintStart_toStartOf="@+id/accepted_count"
+                    app:layout_constraintTop_toBottomOf="@+id/accepted_count" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/rejected_count_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="@string/ditolak"
                     android:textColor="@color/grey"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/rejected_count"
-                    app:layout_constraintTop_toBottomOf="@+id/rejected_count"
                     app:layout_constraintEnd_toEndOf="@+id/rejected_count"
-                    android:text="@string/ditolak" />
+                    app:layout_constraintStart_toStartOf="@+id/rejected_count"
+                    app:layout_constraintTop_toBottomOf="@+id/rejected_count" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/onhold_count_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="Onhold"
                     android:textColor="@color/grey"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/onhold_count"
-                    app:layout_constraintTop_toBottomOf="@+id/onhold_count"
                     app:layout_constraintEnd_toEndOf="@+id/onhold_count"
-                    android:text="Onhold" />
+                    app:layout_constraintStart_toStartOf="@+id/onhold_count"
+                    app:layout_constraintTop_toBottomOf="@+id/onhold_count" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -176,9 +176,9 @@
             android:layout_marginEnd="8dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/aplicants_data"
-            app:cardUseCompatPadding="true">
+            app:layout_constraintTop_toBottomOf="@id/aplicants_data">
 
             <SearchView
                 android:id="@+id/search"
@@ -186,7 +186,7 @@
                 android:layout_height="match_parent"
                 android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
-                android:queryHint="Enter applicant name"/>
+                android:queryHint="Enter applicant name" />
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
@@ -194,23 +194,23 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toTopOf="@+id/search_card"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/filter"
             app:layout_constraintBottom_toBottomOf="@+id/search_card"
-            android:src="@drawable/filter" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_card" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_applicant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="12dp"
-            android:layout_marginBottom="12dp"
             android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_card"
-            tools:listitem="@layout/item_applicant"/>
+            tools:listitem="@layout/item_applicant" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -7,6 +7,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="6dp"
     app:cardUseCompatPadding="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,24 +16,24 @@
             android:id="@+id/campaign_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_campaign_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:adjustViewBounds="true" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/campaign_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
             android:textColor="@color/grey"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -44,14 +45,14 @@
             android:id="@+id/digalang_oleh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/grey"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/campaign_name"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Digalang oleh Narasi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

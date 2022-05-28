@@ -17,15 +17,13 @@
         android:theme="@style/Theme.ScholarshipManagement">
         <activity
             android:name=".ui.detailapplicant.DetailApplicantActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ui.detailcampaign.DetailCampaignActivity"
             android:exported="false" />
         <activity
             android:name=".ui.home.HomeActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

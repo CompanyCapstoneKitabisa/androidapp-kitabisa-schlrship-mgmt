@@ -55,6 +55,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding = ActivityDetailCampaignBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        binding.root.visibility = View.GONE
 
         customLoadingDialog = CustomLoadingDialog(this)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
@@ -64,10 +65,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         val firebaseUser = auth.currentUser
 
-        var idCampaign: String = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
+        val idCampaign: String = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
 
         Log.v("Ini ID CAmpaign", idCampaign)
-
 
         Log.v("Ini token", "zonkk")
         //comment code to use local data
@@ -123,27 +123,32 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
 
         firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-            detailCampaignViewModel.getAllApplicant(res.token.toString(), idCampaign).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            listApplicant = result.data?.listApplicants!!
-                            tempListApplicant.addAll(listApplicant)
-                            applicantAdapter.setData(tempListApplicant)
-                            renderLoading(false)
-                            binding.root.visibility = View.VISIBLE
-                        }
-                        is Resource.Error -> {
-                            finish()
-                            Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                        is Resource.Loading -> {
-                            renderLoading(true)
-                            binding.root.visibility = View.GONE
+            detailCampaignViewModel.getAllApplicant(res.token.toString(), idCampaign)
+                .observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Resource.Success -> {
+                                listApplicant = result.data?.listApplicants!!
+                                tempListApplicant.addAll(listApplicant)
+                                applicantAdapter.setData(tempListApplicant)
+                                renderLoading(false)
+                                binding.root.visibility = View.VISIBLE
+                            }
+                            is Resource.Error -> {
+                                finish()
+                                Toast.makeText(
+                                    this,
+                                    result.data?.error.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            is Resource.Loading -> {
+                                renderLoading(true)
+                                binding.root.visibility = View.GONE
+                            }
                         }
                     }
                 }
-            }
         }
         //end
 
@@ -155,19 +160,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
 
 
-        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-             tempListApplicant.clear()
+                tempListApplicant.clear()
                 val queryText = query!!.lowercase(Locale.getDefault())
-                if (queryText.isNotEmpty()){
+                if (queryText.isNotEmpty()) {
                     for (applicant in listApplicant) {
-                        if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)){
+                        if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)) {
                             tempListApplicant.add(applicant)
                         }
                     }
 
                     applicantAdapter.setData(tempListApplicant)
-                }else{
+                } else {
                     tempListApplicant.clear()
                     tempListApplicant.addAll(listApplicant)
                     applicantAdapter.setData(tempListApplicant)
@@ -179,15 +184,15 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 Log.v("search", "onchange masuk")
                 tempListApplicant.clear()
                 val queryText = query!!.lowercase(Locale.getDefault())
-                if (queryText.isNotEmpty()){
+                if (queryText.isNotEmpty()) {
                     for (applicant in listApplicant) {
-                        if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)){
+                        if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)) {
                             tempListApplicant.add(applicant)
                         }
                     }
 
                     applicantAdapter.setData(tempListApplicant)
-                }else{
+                } else {
                     tempListApplicant.clear()
                     tempListApplicant.addAll(listApplicant)
                     applicantAdapter.setData(tempListApplicant)
@@ -245,7 +250,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     }
 
                     for (applicant in listApplicant) {
-                        if (applicant.status.lowercase(Locale.getDefault()).contains(applicantStatusFilter)){
+                        if (applicant.status.lowercase(Locale.getDefault())
+                                .contains(applicantStatusFilter)
+                        ) {
                             tempListApplicant.add(applicant)
                         }
                     }
@@ -255,21 +262,24 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
 
                 radioButtonBerkas?.text?.let {
-                    if (radioButtonBerkas.text.toString() == "Data Valid"){
+                    if (radioButtonBerkas.text.toString() == "Data Valid") {
                         for (applicant in tempListApplicant) {
-                            if (applicant.dataStatus.lowercase(Locale.getDefault()) == "valid"){
+                            if (applicant.dataStatus.lowercase(Locale.getDefault()) == "valid") {
                                 tempListApplicant2.add(applicant)
                             }
                         }
-                    }else if (radioButtonBerkas.text.toString() == "Rumah Valid"){
+                    } else if (radioButtonBerkas.text.toString() == "Rumah Valid") {
                         for (applicant in tempListApplicant) {
-                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid"){
+                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid") {
                                 tempListApplicant2.add(applicant)
                             }
                         }
-                    }else{
+                    } else {
                         for (applicant in tempListApplicant) {
-                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid" && applicant.dataStatus.lowercase(Locale.getDefault()) == "valid"){
+                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid" && applicant.dataStatus.lowercase(
+                                    Locale.getDefault()
+                                ) == "valid"
+                            ) {
                                 tempListApplicant2.add(applicant)
                             }
                         }
@@ -281,7 +291,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 tempListApplicant.clear()
                 province.text?.let {
                     for (applicant in tempListApplicant2) {
-                        if (applicant.province.lowercase(Locale.getDefault()).contains(province.text.toString().lowercase())){
+                        if (applicant.province.lowercase(Locale.getDefault())
+                                .contains(province.text.toString().lowercase())
+                        ) {
                             tempListApplicant.add(applicant)
                         }
                     }
@@ -297,7 +309,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.acceptedCount.setOnClickListener {
             tempListApplicant.clear()
             for (applicant in listApplicant) {
-                if (applicant.status.lowercase(Locale.getDefault()).contains("accepted")){
+                if (applicant.status.lowercase(Locale.getDefault()).contains("accepted")) {
                     tempListApplicant.add(applicant)
                 }
             }
@@ -307,7 +319,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.rejectedCount.setOnClickListener {
             tempListApplicant.clear()
             for (applicant in listApplicant) {
-                if (applicant.status.lowercase(Locale.getDefault()).contains("rejected")){
+                if (applicant.status.lowercase(Locale.getDefault()).contains("rejected")) {
                     tempListApplicant.add(applicant)
                 }
             }
@@ -317,7 +329,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.onholdCount.setOnClickListener {
             tempListApplicant.clear()
             for (applicant in listApplicant) {
-                if (applicant.status.lowercase(Locale.getDefault()).contains("onhold")){
+                if (applicant.status.lowercase(Locale.getDefault()).contains("onhold")) {
                     tempListApplicant.add(applicant)
                 }
             }

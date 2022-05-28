@@ -23,8 +23,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
-import com.kitabisa.scholarshipmanagement.ui.MainActivity
-import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
@@ -66,18 +64,18 @@ class LoginActivity : AppCompatActivity() {
         //submit button onclick
         binding.btnSubmit.setOnClickListener {
 
-            renderLoading(true);
             binding.root.visibility = View.VISIBLE
 
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
+                renderLoading(true)
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "signInWithEmail:success")
                             val user = auth.currentUser
-//                            renderLoading(false);
-//                            binding.root.visibility = View.GONE
+                            renderLoading(false)
+                            binding.root.visibility = View.GONE
                             updateUI(user)
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -85,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                                 baseContext, "Authentication failed.",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            renderLoading(false);
+                            renderLoading(false)
                             binding.root.visibility = View.VISIBLE
                             binding.errorMessage.visibility = View.VISIBLE
                             updateUI(null)
@@ -105,12 +103,12 @@ class LoginActivity : AppCompatActivity() {
 
         //cek email
         if (!isValidEmail(emailInput?.text.toString())) {
-            binding.emailInput.error = "invalid email"
+            binding.emailInput.error = "Invalid email"
             noError = false
         } else {
             val splitted = emailInput?.text?.split("@")
             if (splitted?.get(1).toString().lowercase() != "kitabisa.com") {
-                binding.emailInput.error = "only email issued by kitabisa can be used"
+                binding.emailInput.error = "Only email with kitabisa domain can be used"
                 noError = false
             } else {
                 email = emailInput?.text.toString()

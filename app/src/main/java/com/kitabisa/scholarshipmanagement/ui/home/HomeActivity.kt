@@ -22,7 +22,7 @@ import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivi
 
 class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
-//    private lateinit var auth: FirebaseAuth
+    //    private lateinit var auth: FirebaseAuth
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private val auth by lazy {
@@ -71,7 +71,11 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                             is Resource.Error -> {
                                 renderLoading(false)
                                 finish()
-                                Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    result.data?.error.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             is Resource.Loading -> {
                                 renderLoading(true)
@@ -89,7 +93,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 //            finishAffinity()
         }
         //end
-        
+
         binding.apply {
             val layoutManager = LinearLayoutManager(this@HomeActivity)
             rvCampaign.layoutManager = layoutManager
@@ -119,7 +123,10 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
     }
 
     private fun signOut() {
-        GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()).signOut()
+        GoogleSignIn.getClient(
+            this,
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        ).signOut()
         auth.signOut()
         startActivity(Intent(this, LoginActivity::class.java))
         finish()

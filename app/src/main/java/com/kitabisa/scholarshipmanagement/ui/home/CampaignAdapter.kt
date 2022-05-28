@@ -21,7 +21,8 @@ class CampaignAdapter(private val callback: CampaignCallback) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampaignViewHolder {
-        val campaignBinding = ItemCampaignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val campaignBinding =
+            ItemCampaignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CampaignViewHolder(campaignBinding)
     }
 
