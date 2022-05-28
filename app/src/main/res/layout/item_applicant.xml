@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/iv_profile"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 tools:src="@tools:sample/avatars" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -35,25 +35,11 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:textColor="@color/grey"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/applicant_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Nyoman Jyotisa" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/applicant_university"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/grey"
-            android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@id/applicant_image"
-            app:layout_constraintTop_toBottomOf="@id/applicant_name"
-            tools:text="Universitas Udayana" />
-
-
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/applicant_city"
@@ -62,9 +48,9 @@
             android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
             android:textColor="@color/grey"
-            android:textSize="10sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/applicant_image"
-            app:layout_constraintTop_toBottomOf="@id/applicant_university"
+            app:layout_constraintTop_toBottomOf="@id/applicant_name"
             tools:text="Gianyar," />
 
 
@@ -76,9 +62,9 @@
             android:layout_marginTop="4dp"
             android:layout_marginStart="4dp"
             android:textColor="@color/grey"
-            android:textSize="10sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/applicant_city"
-            app:layout_constraintTop_toBottomOf="@id/applicant_university"
+            app:layout_constraintTop_toBottomOf="@id/applicant_name"
             tools:text="Bali" />
 
         <ImageView

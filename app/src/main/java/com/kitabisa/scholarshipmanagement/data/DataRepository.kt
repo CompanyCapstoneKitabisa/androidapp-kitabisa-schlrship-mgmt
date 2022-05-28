@@ -25,6 +25,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
         emit(Resource.Loading())
         try {
             val response = apiService.getCampaigns(token)
+            Log.v("ini response body", response.body().toString())
             emit(Resource.Success(response.body()))
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
