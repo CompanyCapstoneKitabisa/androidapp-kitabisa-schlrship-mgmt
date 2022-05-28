@@ -163,7 +163,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                         }
                         is Resource.Success -> {
                             renderLoading(false)
-                            startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
+//                            startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
                             finish()
                             Toast.makeText(
                                 this,

@@ -28,6 +28,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
+
     private var tempToken: String = ""
 
     private lateinit var binding: ActivityHomeBinding
@@ -49,6 +50,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
         val homeViewModel: HomeViewModel by viewModels {
             factory
         }
+
 
         val firebaseUser = auth.currentUser
 
