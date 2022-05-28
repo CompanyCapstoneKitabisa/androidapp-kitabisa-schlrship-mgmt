@@ -22,7 +22,31 @@
         <entry key="..\:/Google Bangkit/Capstone/ScholarshipManagement/app/src/main/res/layout/rincian_beasiswa_pendidikan.xml" value="0.25" />
         <entry key="..\:/Google Bangkit/Capstone/ScholarshipManagement/app/src/main/res/layout/rincian_beasiswa_penunjang.xml" value="0.2713541666666667" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/error_box.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_image.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout-v31/fragment_dashboard.xml" value="0.16927083333333334" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_admin.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_admin_add_campaign.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_detail_applicant.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_detail_campaign.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_home.xml" value="0.16" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_login.xml" value="0.2172211350293542" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/bottom_sheet_filter.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/dialog_data_lainnya_peserta.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/expand_title_and_button.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/fragment_admin_campaign.xml" value="0.1203125" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/fragment_admin_home.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/fragment_dashboard.xml" value="0.2" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/fragment_home.xml" value="0.134375" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/item_applicant.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/item_campaign.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/menu/bottom_nav_menu.xml" value="0.134375" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.14166666666666666" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/xml/temp.xml" value="0.10989583333333333" />
         <entry key="..\:/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/androidapp-kitabisa-schlrship-mgmt/app/src/main/res/layout/detail_applicant_variant.xml" value="0.22826086956521738" />
