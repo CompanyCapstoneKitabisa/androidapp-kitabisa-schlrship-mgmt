@@ -14,116 +14,137 @@ data class DetailApplicantResponse(
 	val message: String
 )
 
-data class FetchedData(
+data class MotivationLetter(
 
-	@field:SerializedName("provinsi")
-	val provinsi: String,
+	@field:SerializedName("ceritaPerjuangan")
+	val ceritaPerjuangan: String,
 
-	@field:SerializedName("statusKepemilikanRumah")
-	val statusKepemilikanRumah: String,
+	@field:SerializedName("fotoBuktiKegiatan")
+	val fotoBuktiKegiatan: String,
 
-	@field:SerializedName("notes")
-	val notes: String,
+	@field:SerializedName("ceritaLatarBelakang")
+	val ceritaLatarBelakang: String,
 
-	@field:SerializedName("IPK")
-	val IPK: String,
+	@field:SerializedName("ceritaPentingnyaBeasiswa")
+	val ceritaPentingnyaBeasiswa: String,
 
-	@field:SerializedName("KTM")
-	val KTM: String,
+	@field:SerializedName("ceritakegiatanYangDigeluti")
+	val ceritakegiatanYangDigeluti: String
+)
 
-	@field:SerializedName("university")
-	val university: String,
+data class BioPendidikan(
 
-	@field:SerializedName("KTP")
-	val KTP: String,
-
-	@field:SerializedName("lampiranDokumen")
-	val lampiranDokumen: String,
-
-	@field:SerializedName("kotaKabupaten")
-	val kotaKabupaten: String,
-
-	@field:SerializedName("pilihanBantuanBiaya")
-	val pilihanBantuanBiaya: String,
-
-	@field:SerializedName("fotoRumah")
-	val fotoRumah: String,
-
-	@field:SerializedName("ceritaKondisi")
-	val ceritaKondisi: String,
-
-	@field:SerializedName("ceritaKegiatan")
-	val ceritaKegiatan: String,
-
-	@field:SerializedName("kebutuhan2")
-	val kebutuhan2: String,
-
-	@field:SerializedName("id")
-	val id: String,
-
-	@field:SerializedName("kebutuhan1")
-	val kebutuhan1: String,
-
-	@field:SerializedName("email")
-	val email: String,
-
-	@field:SerializedName("buktiIPK")
-	val buktiIPK: String,
-
-	@field:SerializedName("jumlahBiayaUKT")
-	val jumlahBiayaUKT: String,
-
-	@field:SerializedName("noPonsel")
-	val noPonsel: String,
-
-	@field:SerializedName("angkatan")
-	val angkatan: String,
-
-	@field:SerializedName("sosmedAcc")
-	val sosmedAcc: String,
-
-	@field:SerializedName("IP")
-	val IP: String,
-
-	@field:SerializedName("photo")
-	val photo: String,
-
-	@field:SerializedName("jurusan")
-	val jurusan: String,
-
-	@field:SerializedName("fotoKegiatan")
-	val fotoKegiatan: String,
-
-	@field:SerializedName("kelurahan")
-	val kelurahan: String,
-
-	@field:SerializedName("alamat")
-	val alamat: String,
-
-	@field:SerializedName("NIK")
-	val NIK: String,
-
-	@field:SerializedName("biayaKebutuhan1")
-	val biayaKebutuhan1: String,
+	@field:SerializedName("tingkatPendidikan")
+	val tingkatPendidikan: String,
 
 	@field:SerializedName("NIM")
 	val NIM: String,
 
-	@field:SerializedName("biayaKebutuhan2")
-	val biayaKebutuhan2: String,
+	@field:SerializedName("NPSN")
+	val NPSN: String,
 
-	@field:SerializedName("deadlinePembayaran")
-	val deadlinePembayaran: String,
+	@field:SerializedName("jurusan")
+	val jurusan: String,
 
-	@field:SerializedName("buktiIP")
-	val buktiIP: String,
+	@field:SerializedName("fotoKTM")
+	val fotoKTM: String,
 
-	@field:SerializedName("name")
-	val name: String,
+	@field:SerializedName("fotoIPKAtauRapor")
+	val fotoIPKAtauRapor: String
+)
 
-	@field:SerializedName("kecamatan")
-	val kecamatan: String,
+data class BioDiri(
 
-	@field:SerializedName("ceritaSeberapaPenting")
-	val ceritaSeberapaPenting: String
+	@field:SerializedName("provinsi")
+	val provinsi: String,
+
+	@field:SerializedName("NIK")
+	val NIK: String,
+
+	@field:SerializedName("nama")
+	val nama: String,
+
+	@field:SerializedName("sosmedAcc")
+	val sosmedAcc: String,
+
+	@field:SerializedName("noTlp")
+	val noTlp: String,
+
+	@field:SerializedName("fotoKTP")
+	val fotoKTP: String,
+
+	@field:SerializedName("fotoDiri")
+	val fotoDiri: String,
+
+	@field:SerializedName("kotaKabupaten")
+	val kotaKabupaten: String,
+
+	@field:SerializedName("alamat")
+	val alamat: String
+)
+
+data class Misc(
+
+	@field:SerializedName("beasiswaTerdaftar")
+	val beasiswaTerdaftar: String
+)
+
+data class FetchedData(
+
+	@field:SerializedName("motivationLetter")
+	val motivationLetter: MotivationLetter,
+
+	@field:SerializedName("notes")
+	val notes: String,
+
+	@field:SerializedName("lampiranTambahan")
+	val lampiranTambahan: String,
+
+	@field:SerializedName("statusRumah")
+	val statusRumah: String,
+
+	@field:SerializedName("statusApplicant")
+	val statusApplicant: String,
+
+	@field:SerializedName("bioDiri")
+	val bioDiri: BioDiri,
+
+	@field:SerializedName("reviewer")
+	val reviewer: String,
+
+	@field:SerializedName("bioPendidikan")
+	val bioPendidikan: BioPendidikan,
+
+	@field:SerializedName("statusData")
+	val statusData: String,
+
+	@field:SerializedName("lembarPersetujuan")
+	val lembarPersetujuan: String,
+
+	@field:SerializedName("pengajuanBantuan")
+	val pengajuanBantuan: PengajuanBantuan,
+
+	@field:SerializedName("misc")
+	val misc: Misc
+)
+
+data class PengajuanBantuan(
+
+	@field:SerializedName("fotoBuktiTunggakan")
+	val fotoBuktiTunggakan: String,
+
+	@field:SerializedName("fotoRumah")
+	val fotoRumah: String,
+
+	@field:SerializedName("kebutuhan")
+	val kebutuhan: String,
+
+	@field:SerializedName("totalBiaya")
+	val totalBiaya: String,
+
+	@field:SerializedName("kepemilikanRumah")
+	val kepemilikanRumah: String,
+
+	@field:SerializedName("ceritaPenggunaanDana")
+	val ceritaPenggunaanDana: String
 )
