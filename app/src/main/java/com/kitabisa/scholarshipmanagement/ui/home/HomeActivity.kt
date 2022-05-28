@@ -28,6 +28,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
+    private var tempToken: String = ""
 
     private lateinit var binding: ActivityHomeBinding
     private val campaignAdapter = CampaignAdapter(this)
@@ -43,7 +44,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
         customLoadingDialog = CustomLoadingDialog(this)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
         renderLoading(true)
-        binding.root.visibility = View.INVISIBLE
+        binding.root.visibility = View.GONE
 
         val homeViewModel: HomeViewModel by viewModels {
             factory
@@ -51,43 +52,42 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
         val firebaseUser = auth.currentUser
 
-        //comment code to use local data
-        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-            homeViewModel.getCampaign(res.token.toString()).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            listCampaign = result.data!!.listCampaign
-                            renderLoading(false)
-                            binding.root.visibility = View.VISIBLE
-                        }
-                        is Resource.Error -> {
-                            finish()
-                            Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                        is Resource.Loading -> {
-                            renderLoading(true)
-                            binding.root.visibility = View.GONE
+        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                tempToken = task.result.token.toString()
+                homeViewModel.getCampaign(
+                    tempToken
+                ).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Resource.Success -> {
+                                listCampaign = result.data!!.listCampaign
+                                campaignAdapter.setData(listCampaign)
+                                renderLoading(false)
+                                binding.root.visibility = View.VISIBLE
+                            }
+                            is Resource.Error -> {
+                                renderLoading(false)
+                                finish()
+                                Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
+                            }
+                            is Resource.Loading -> {
+                                renderLoading(true)
+                                binding.root.visibility = View.GONE
+                            }
                         }
                     }
                 }
             }
+        }?.addOnFailureListener {
+            renderLoading(false)
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            signOut()
+//            startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
+//            finishAffinity()
         }
         //end
-
-        //local data (hapus ini nanti)
-        if (listCampaign.isEmpty()){
-            for (y in 1..3) {
-                val campaign = Campaign(y.toString(), "Beasiswa Narasi", "Narasi", "https://campuspedia.id/news/wp-content/uploads/2021/08/Beasiswa-Celengan-Narasi.jpg")
-                listCampaign.add(campaign)
-            }
-        }
-        //end
-
-
-        campaignAdapter.setData(listCampaign)
-
-
+        
         binding.apply {
             val layoutManager = LinearLayoutManager(this@HomeActivity)
             rvCampaign.layoutManager = layoutManager
