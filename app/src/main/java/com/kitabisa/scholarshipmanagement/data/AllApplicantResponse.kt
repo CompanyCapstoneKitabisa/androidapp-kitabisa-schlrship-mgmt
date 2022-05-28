@@ -2,7 +2,7 @@ package com.kitabisa.scholarshipmanagement.data
 
 import com.google.gson.annotations.SerializedName
 
-data class AllApplicantResponse (
+data class AllApplicantResponse(
 
     @field:SerializedName("error")
     val error: Boolean,
@@ -14,7 +14,7 @@ data class AllApplicantResponse (
     val listApplicants: ArrayList<Applicant>
 )
 
-data class Applicant (
+data class Applicant(
 
     @field:SerializedName("id")
     val id: String,

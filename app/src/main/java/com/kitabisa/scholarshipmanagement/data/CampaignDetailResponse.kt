@@ -2,7 +2,7 @@ package com.kitabisa.scholarshipmanagement.data
 
 import com.google.gson.annotations.SerializedName
 
-data class CampaignDetailResponse (
+data class CampaignDetailResponse(
 
     @field:SerializedName("error")
     val error: Boolean,

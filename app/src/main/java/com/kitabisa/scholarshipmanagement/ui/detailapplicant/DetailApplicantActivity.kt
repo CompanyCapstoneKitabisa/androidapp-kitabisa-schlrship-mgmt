@@ -106,13 +106,18 @@ class DetailApplicantActivity : AppCompatActivity() {
                                 activityDetailApplicantBinding.root.visibility = View.GONE
                             }
                             is Resource.Success -> {
-                                if(result.data?.fetchedData != null) {
+                                if (result.data?.fetchedData != null) {
                                     renderData(result.data.fetchedData)
                                     renderLoading(false)
                                     activityDetailApplicantBinding.root.visibility = View.VISIBLE
                                 } else {
                                     renderLoading(false)
-                                    startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
+                                    startActivity(
+                                        Intent(
+                                            this@DetailApplicantActivity,
+                                            DetailCampaignActivity::class.java
+                                        )
+                                    )
                                     finish()
                                 }
                             }

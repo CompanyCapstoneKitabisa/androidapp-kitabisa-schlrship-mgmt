@@ -3,7 +3,7 @@ package com.kitabisa.scholarshipmanagement.data
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class CampaignResponse (
+data class CampaignResponse(
 
     @field:SerializedName("error")
     val error: Boolean,
