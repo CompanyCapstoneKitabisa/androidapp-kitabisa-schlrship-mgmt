@@ -37,7 +37,7 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
         fun bind(applicant: Applicant) {
             with(binding) {
                 applicantName.text = applicant.name
-                applicantUniversity.text = applicant.university
+//                applicantUniversity.text = applicant.university
                 applicantCity.text = applicant.city + ","
                 applicantProvince.text = applicant.province
                 ivProfile.loadImage(applicant.photoUrl, R.drawable.profile_icon)

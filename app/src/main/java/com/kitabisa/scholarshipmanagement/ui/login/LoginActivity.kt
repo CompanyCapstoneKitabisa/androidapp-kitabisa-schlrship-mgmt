@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -24,6 +25,7 @@ import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
 import com.kitabisa.scholarshipmanagement.ui.MainActivity
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
+import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
 
@@ -34,11 +36,15 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var email: String
     private lateinit var password: String
+    private lateinit var customLoadingDialog: CustomLoadingDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding.errorMessage.visibility = View.GONE
         setContentView(binding.root)
+        customLoadingDialog = CustomLoadingDialog(this)
         setupView()
 
         // Configure Google Sign In
@@ -60,6 +66,9 @@ class LoginActivity : AppCompatActivity() {
         //submit button onclick
         binding.btnSubmit.setOnClickListener {
 
+            renderLoading(true);
+            binding.root.visibility = View.VISIBLE
+
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
                 auth.signInWithEmailAndPassword(email, password)
@@ -67,6 +76,8 @@ class LoginActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Log.d(TAG, "signInWithEmail:success")
                             val user = auth.currentUser
+//                            renderLoading(false);
+//                            binding.root.visibility = View.GONE
                             updateUI(user)
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -74,6 +85,9 @@ class LoginActivity : AppCompatActivity() {
                                 baseContext, "Authentication failed.",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            renderLoading(false);
+                            binding.root.visibility = View.VISIBLE
+                            binding.errorMessage.visibility = View.VISIBLE
                             updateUI(null)
                         }
                     }
@@ -131,6 +145,7 @@ class LoginActivity : AppCompatActivity() {
                 // Google Sign In was successful, authenticate with Firebase
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                renderLoading(true);
                 firebaseAuthWithGoogle(account.idToken!!)
 
             } catch (e: ApiException) {
@@ -145,6 +160,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
@@ -182,6 +198,17 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         updateUI(currentUser)
     }
+
+    private fun renderLoading(state: Boolean) {
+        if (state) {
+            customLoadingDialog.show()
+            customLoadingDialog.setCancelable(false)
+        } else {
+            customLoadingDialog.dismiss()
+        }
+    }
+
+
 
     companion object {
         private const val TAG = "LoginActivity"

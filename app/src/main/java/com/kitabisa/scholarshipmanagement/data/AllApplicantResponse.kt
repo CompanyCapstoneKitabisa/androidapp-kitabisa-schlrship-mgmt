@@ -25,21 +25,21 @@ data class Applicant (
     @field:SerializedName("university")
     val university: String,
 
-    @field:SerializedName("status")
+    @field:SerializedName("statusApplicant")
     val status: String,
 
-    @field:SerializedName("city")
+    @field:SerializedName("kota")
     val city: String,
 
-    @field:SerializedName("province")
+    @field:SerializedName("provinsi")
     val province: String,
 
-    @field:SerializedName("dataStatus")
+    @field:SerializedName("statusData")
     val dataStatus: String,
 
-    @field:SerializedName("rumahStatus")
+    @field:SerializedName("statusRumah")
     val rumahStatus: String,
 
-    @field:SerializedName("photoUrl")
+    @field:SerializedName("photoURL")
     val photoUrl: String
 )
