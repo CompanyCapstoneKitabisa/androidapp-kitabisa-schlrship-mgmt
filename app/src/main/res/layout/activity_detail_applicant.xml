@@ -54,7 +54,7 @@
             tools:text="Universitas Atma Jaya Yogyakarta" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_jurusan_angkatan"
+            android:id="@+id/tv_jurusan_kelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -71,7 +71,7 @@
             android:layout_marginTop="4dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tv_nama"
-            app:layout_constraintTop_toBottomOf="@id/tv_jurusan_angkatan"
+            app:layout_constraintTop_toBottomOf="@id/tv_jurusan_kelas"
             tools:text="190710413" />
 
         <com.google.android.material.button.MaterialButton
@@ -84,6 +84,44 @@
             app:cornerRadius="4dp"
             app:layout_constraintStart_toStartOf="@id/tv_nama"
             app:layout_constraintTop_toBottomOf="@id/tv_nim" />
+
+        <!--        CERITA LATAR BELAKANG DIRI & KELUARGA-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_cerita_latar_belakang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_lainnya">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_cerita_latar_belakang"
+                    layout="@layout/expand_title_and_button" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_cerita_latar_belakang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="alhamdulillah masih ada,pekerjaan wiraswasta,kurang biaya kuliah,ada yang sudah putus sekolah" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!--        CERITA PERJUANGAN-->
 
@@ -99,7 +137,7 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_lainnya">
+            app:layout_constraintTop_toBottomOf="@id/cardview_cerita_latar_belakang">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -189,13 +227,8 @@
                     layout="@layout/expand_title_and_button" />
 
                 <include
-                    android:id="@+id/beasiswa_pendidikan"
-                    layout="@layout/rincian_beasiswa_pendidikan"
-                    android:visibility="gone" />
-
-                <include
-                    android:id="@+id/beasiswa_penunjang"
-                    layout="@layout/rincian_beasiswa_penunjang"
+                    android:id="@+id/rincian_beasiswa"
+                    layout="@layout/rincian_beasiswa"
                     android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -262,7 +295,7 @@
                 android:padding="12dp">
 
                 <include
-                    android:id="@+id/header_bukti_ipk_ip"
+                    android:id="@+id/header_bukti_ipk_rapot"
                     layout="@layout/expand_title_and_button" />
 
                 <com.jsibbold.zoomage.ZoomageView
@@ -275,15 +308,6 @@
                     app:zoomage_restrictBounds="false"
                     tools:src="@tools:sample/avatars" />
 
-                <com.jsibbold.zoomage.ZoomageView
-                    android:id="@+id/iv_bukti_ip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:visibility="gone"
-                    app:zoomage_autoResetMode="ALWAYS"
-                    app:zoomage_restrictBounds="false"
-                    tools:src="@tools:sample/avatars" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -328,7 +352,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:visibility="gone"
                     tools:text="kuliah pulangnya mengaji/ belajar menghafal alqur'an" />
             </LinearLayout>

@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
+import com.kitabisa.scholarshipmanagement.ui.MainActivity
+import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
 
@@ -123,7 +125,8 @@ class LoginActivity : AppCompatActivity() {
     ) { result ->
         Log.d(TAG, "${result.resultCode}")
         if (result.resultCode == Activity.RESULT_OK) {
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
@@ -156,7 +159,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+            startActivity(Intent(this@LoginActivity, DetailApplicantActivity::class.java))
             finish()
         }
     }

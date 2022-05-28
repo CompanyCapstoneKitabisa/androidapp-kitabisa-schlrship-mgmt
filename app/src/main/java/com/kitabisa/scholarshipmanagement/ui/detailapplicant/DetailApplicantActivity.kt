@@ -15,11 +15,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.text.Editable
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,11 +29,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.jsibbold.zoomage.ZoomageView
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.FetchedData
-import com.kitabisa.scholarshipmanagement.data.Result
+import com.kitabisa.scholarshipmanagement.data.Resource
+import com.kitabisa.scholarshipmanagement.data.UpdateApplicantStatusBody
 import com.kitabisa.scholarshipmanagement.databinding.ActivityDetailApplicantBinding
 import com.kitabisa.scholarshipmanagement.databinding.DialogDataLainnyaPesertaBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
+import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
 import java.io.File
 
 class DetailApplicantActivity : AppCompatActivity() {
@@ -45,9 +45,9 @@ class DetailApplicantActivity : AppCompatActivity() {
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private lateinit var moreDataDialog: Dialog
     private lateinit var dialogDataLainnyaPesertaBinding: DialogDataLainnyaPesertaBinding
-
     private lateinit var broadcastReceiver: BroadcastReceiver
 
+    private var tempToken: String = ""
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
@@ -79,35 +79,107 @@ class DetailApplicantActivity : AppCompatActivity() {
         activityDetailApplicantBinding = ActivityDetailApplicantBinding.inflate(layoutInflater)
         setContentView(activityDetailApplicantBinding.root)
         supportActionBar?.hide()
-        activityDetailApplicantBinding.root.visibility = View.GONE
-        val firebaseUser = auth.currentUser
-
-        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-            detailApplicantViewModel.getDetailApplicant(
-                res.token.toString(),
-                "KWoaqHDcweHL8X3ez5wn"
-            )
-        }
 
         detailApplicantViewModel = obtainViewModel(this)
-
         customLoadingDialog = CustomLoadingDialog(this)
         moreDataDialog = Dialog(this)
 
-        detailApplicantViewModel.fetchedData.observe(this) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    renderLoading(true)
-                    activityDetailApplicantBinding.root.visibility = View.GONE
+        val idApplicant = intent.getStringExtra(ID_APPLICANT).toString()
+
+        activityDetailApplicantBinding.root.visibility = View.GONE
+        val firebaseUser = auth.currentUser
+
+        renderLoading(true)
+
+        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                renderLoading(false)
+                tempToken = task.result.token.toString()
+                detailApplicantViewModel.getDetailApplicant(
+                    tempToken,
+                    idApplicant
+                ).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Resource.Loading -> {
+                                renderLoading(true)
+                                activityDetailApplicantBinding.root.visibility = View.GONE
+                            }
+                            is Resource.Success -> {
+                                if(result.data?.fetchedData != null) {
+                                    renderData(result.data.fetchedData)
+                                    renderLoading(false)
+                                    activityDetailApplicantBinding.root.visibility = View.VISIBLE
+                                } else {
+                                    renderLoading(false)
+                                    startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
+                                    finish()
+                                }
+                            }
+                            is Resource.Error -> {
+                                finish()
+                                Toast.makeText(
+                                    this,
+                                    result.data?.error.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 }
-                is Result.Success -> {
-                    renderData(result.data)
-                    renderLoading(false)
-                    activityDetailApplicantBinding.root.visibility = View.VISIBLE
+            }
+        }?.addOnFailureListener {
+            renderLoading(false)
+            startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
+            finishAffinity()
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+        }
+
+
+        activityDetailApplicantBinding.btnSubmit.setOnClickListener {
+            val tempStatus =
+                when ((activityDetailApplicantBinding.pilihanMenu.editText as? AutoCompleteTextView)?.text.toString()) {
+                    "Accept" -> "accepted"
+                    "Reject" -> "rejected"
+                    "Hold" -> "onHold"
+                    else -> ""
                 }
-                is Result.Error -> {
-                    finish()
-                    Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+
+            val tempReviewer = firebaseUser?.email
+
+            val tempNotes =
+                activityDetailApplicantBinding.etCatatanReviewer.editText?.text.toString()
+
+            val body = UpdateApplicantStatusBody(tempReviewer.toString(), tempStatus, tempNotes)
+
+            detailApplicantViewModel.setApplicantStatus(
+                tempToken, idApplicant,
+                body
+            ).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                        }
+                        is Resource.Success -> {
+                            renderLoading(false)
+                            startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
+                            finish()
+                            Toast.makeText(
+                                this,
+                                result.data?.message?.statusApplicant.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Error -> {
+                            renderLoading(false)
+                            Toast.makeText(
+                                this,
+                                result.data?.error.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
@@ -138,74 +210,77 @@ class DetailApplicantActivity : AppCompatActivity() {
     }
 
     private fun renderData(data: FetchedData) {
-
-        Glide.with(this@DetailApplicantActivity)
-            .load(data.photo)
-            .into(activityDetailApplicantBinding.ivProfile)
-
         activityDetailApplicantBinding.apply {
-            tvNama.text = data.name
-            tvUniversitas.text = data.university
-            tvJurusanAngkatan.text = data.jurusan.plus(" - ${data.angkatan}")
-            tvNim.text = data.NIM
+            Glide.with(this@DetailApplicantActivity)
+                .load(data.bioDiri.fotoDiri)
+                .into(ivProfile)
+
+            tvNama.text = data.bioDiri.nama
+            tvUniversitas.text =
+                data.bioPendidikan.tingkatPendidikan.plus(" - ${data.bioPendidikan.NPSN}")
+            tvJurusanKelas.text = data.bioPendidikan.jurusan
+            tvNim.text = data.bioPendidikan.NIM
 
             btnLainnya.setOnClickListener { renderDialog(data) }
 
-            headerCeritaPerjuangan.headerText.text = "Cerita Kondisi Perjuangan"
+            headerCeritaLatarBelakang.headerText.text = "Cerita Latar Belakang"
+            headerCeritaLatarBelakang.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+            tvCeritaLatarBelakang.text = data.motivationLetter.ceritaLatarBelakang
+            headerCeritaLatarBelakang.headerIcon.setOnClickListener {
+                expand(tvCeritaLatarBelakang, headerCeritaLatarBelakang.headerIcon)
+            }
+
+            headerCeritaPerjuangan.headerText.text = "Cerita Memperjuangkan Pendidikan"
             headerCeritaPerjuangan.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            tvCeritaPerjuangan.text = data.ceritaKondisi
+            tvCeritaPerjuangan.text = data.motivationLetter.ceritaPerjuangan
             headerCeritaPerjuangan.headerIcon.setOnClickListener {
                 expand(tvCeritaPerjuangan, headerCeritaPerjuangan.headerIcon)
             }
 
             headerCeritaPentingBeasiswa.headerText.text = "Seberapa Penting Beasiswa Ini"
             headerCeritaPentingBeasiswa.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            tvCeritaBeasiswa.text = data.ceritaSeberapaPenting
+            tvCeritaBeasiswa.text = data.motivationLetter.ceritaPentingnyaBeasiswa
             headerCeritaPentingBeasiswa.headerIcon.setOnClickListener {
                 expand(tvCeritaBeasiswa, headerCeritaPentingBeasiswa.headerIcon)
             }
 
             headerRincianBeasiswa.headerText.text = "Rincian Beasiswa"
             headerRincianBeasiswa.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+            rincianBeasiswa.tvPilihanBantuan.text = data.pengajuanBantuan.kebutuhan
+            rincianBeasiswa.tvTotalBiaya.text = data.pengajuanBantuan.totalBiaya
+            rincianBeasiswa.tvRincianBiaya.text = data.pengajuanBantuan.ceritaPenggunaanDana
+            renderZoomImage(
+                data.pengajuanBantuan.fotoBuktiTunggakan,
+                rincianBeasiswa.ivFotoBuktiTagihan
+            )
             headerRincianBeasiswa.headerIcon.setOnClickListener {
-                if (data.pilihanBantuanBiaya.contains("pendidikan")) {
-                    beasiswaPendidikan.tvPilihanBantuan.text = data.pilihanBantuanBiaya
-                    beasiswaPendidikan.tvJumlahBiaya.text = data.jumlahBiayaUKT
-                    beasiswaPendidikan.tvDeadlinePembayaran.text = data.deadlinePembayaran
-                    expand(beasiswaPendidikan.root, headerRincianBeasiswa.headerIcon)
-                } else if (data.pilihanBantuanBiaya.contains("penunjang")) {
-                    beasiswaPenunjang.tvPilihanBantuan.text = data.pilihanBantuanBiaya
-                    /* BELOM SELESAI */
-                }
+                expand(rincianBeasiswa.root, headerRincianBeasiswa.headerIcon)
             }
 
             headerFotoRumah.headerText.text = "Foto Rumah"
             headerFotoRumah.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            renderImage(data.fotoRumah, ivFotoRumah)
+            renderZoomImage(data.pengajuanBantuan.fotoRumah, ivFotoRumah)
             headerFotoRumah.headerIcon.setOnClickListener {
                 expand(ivFotoRumah, headerFotoRumah.headerIcon)
             }
 
-            headerBuktiIpkIp.headerText.text = "Bukti IPK & IP"
-            headerBuktiIpkIp.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            renderImage(data.buktiIPK, ivBuktiIpk)
-            renderImage(data.buktiIP, ivBuktiIp)
-            headerBuktiIpkIp.headerIcon.setOnClickListener {
-                if (ivBuktiIpk.visibility == View.GONE && ivBuktiIp.visibility == View.GONE) {
+            headerBuktiIpkRapot.headerText.text = "Bukti IPK / Rapot"
+            headerBuktiIpkRapot.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+            renderZoomImage(data.bioPendidikan.fotoIPKAtauRapor, ivBuktiIpk)
+            headerBuktiIpkRapot.headerIcon.setOnClickListener {
+                if (ivBuktiIpk.visibility == View.GONE) {
                     ivBuktiIpk.visibility = View.VISIBLE
-                    ivBuktiIp.visibility = View.VISIBLE
-                    headerBuktiIpkIp.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                    headerBuktiIpkRapot.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
                 } else {
                     ivBuktiIpk.visibility = View.GONE
-                    ivBuktiIp.visibility = View.GONE
-                    headerBuktiIpkIp.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+                    headerBuktiIpkRapot.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
                 }
             }
 
             headerKegiatanAktif.headerText.text = "Kegiatan Aktif"
             headerKegiatanAktif.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            renderImage(data.fotoKegiatan, ivFotoKegiatan)
-            tvCeritaKegiatan.text = data.ceritaKegiatan
+            renderZoomImage(data.motivationLetter.fotoBuktiKegiatan, ivFotoKegiatan)
+            tvCeritaKegiatan.text = data.motivationLetter.ceritakegiatanYangDigeluti
             headerKegiatanAktif.headerIcon.setOnClickListener {
                 if (ivFotoKegiatan.visibility == View.GONE && tvCeritaKegiatan.visibility == View.GONE) {
                     ivFotoKegiatan.visibility = View.VISIBLE
@@ -219,19 +294,40 @@ class DetailApplicantActivity : AppCompatActivity() {
             }
 
             val items = listOf("No Status", "Accept", "Reject", "Hold")
+            if (data.statusApplicant.isEmpty()) {
+                setStatusValue(pilihanMenu.editText, items, 0)
+            } else {
+                when (data.statusApplicant) {
+                    "accepted" -> {
+                        setStatusValue(pilihanMenu.editText, items, 1)
+                    }
+                    "rejected" -> {
+                        setStatusValue(pilihanMenu.editText, items, 2)
+                    }
+                    "onHold" -> {
+                        setStatusValue(pilihanMenu.editText, items, 3)
+                    }
+                }
+            }
+
             val adapter = ArrayAdapter(this@DetailApplicantActivity, R.layout.list_pilihan, items)
             (pilihanMenu.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
-            tvLampiranDokumen.setOnClickListener {
-                if (!isPermissionsGranted()) {
-                    ActivityCompat.requestPermissions(
-                        this@DetailApplicantActivity,
-                        REQUIRED_PERMISSIONS,
-                        REQUEST_CODE_PERMISSIONS
-                    )
-                } else {
-                    downloadDocuments(data)
-                }
+            if (data.notes.isNotEmpty()) {
+                etCatatanReviewer.editText?.text =
+                    Editable.Factory.getInstance().newEditable(data.notes)
+            }
+        }
+
+        activityDetailApplicantBinding.tvLampiranDokumen.setOnClickListener {
+            if (!isPermissionsGranted()) {
+                ActivityCompat.requestPermissions(
+                    this@DetailApplicantActivity,
+                    REQUIRED_PERMISSIONS,
+                    REQUEST_CODE_PERMISSIONS
+                )
+            } else {
+                downloadDocuments(data)
             }
         }
     }
@@ -257,7 +353,7 @@ class DetailApplicantActivity : AppCompatActivity() {
         }
     }
 
-    private fun renderImage(imageURL: String, zoomageView: ZoomageView) {
+    private fun renderZoomImage(imageURL: String, zoomageView: ZoomageView) {
         Glide.with(applicationContext)
             .asBitmap()
             .load(imageURL)
@@ -278,18 +374,18 @@ class DetailApplicantActivity : AppCompatActivity() {
         moreDataDialog.setContentView(dialogDataLainnyaPesertaBinding.root)
         moreDataDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogDataLainnyaPesertaBinding.apply {
-            tvNama.text = data.name
-            tvTempatKuliah.text = data.university
-            tvJurusanAngkatan.text = data.jurusan.plus(" ${data.angkatan}")
-            tvNim.text = data.NIM
-            tvNik.text = data.NIK
-            tvNomorTelepon.text = data.noPonsel
-            tvSosialMedia.text = data.sosmedAcc
+            tvNama.text = data.bioDiri.nama
+            tvNpsn.text = data.bioPendidikan.NPSN
+            tvJurusanKelas.text = data.bioPendidikan.jurusan
+            tvNim.text = data.bioPendidikan.NIM
+            tvNik.text = data.bioDiri.NIK
+            tvNomorTelepon.text = data.bioDiri.noTlp
+            tvSosialMedia.text = data.bioDiri.sosmedAcc
             tvAlamat.text =
-                data.alamat.plus(", ${data.kelurahan}, ${data.kecamatan}, ${data.kotaKabupaten}, ${data.provinsi}")
+                data.bioDiri.alamat.plus(", ${data.bioDiri.kotaKabupaten}, ${data.bioDiri.provinsi}")
 
             Glide.with(this@DetailApplicantActivity)
-                .load(data.photo)
+                .load(data.bioDiri.fotoDiri)
                 .into(ivProfile)
 
             btnOk.setOnClickListener { moreDataDialog.dismiss() }
@@ -301,9 +397,9 @@ class DetailApplicantActivity : AppCompatActivity() {
     private fun downloadDocuments(data: FetchedData) {
         try {
             val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            val documentsLink = Uri.parse(data.lampiranDokumen)
+            val documentsLink = Uri.parse(data.lampiranTambahan)
             val request = DownloadManager.Request(documentsLink)
-            val tempName = data.name.plus(" LampiranDokumen")
+            val tempName = data.bioDiri.nama.plus(" LampiranDokumen")
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
                 .setMimeType("application/pdf")
                 .setAllowedOverRoaming(false)
@@ -317,7 +413,11 @@ class DetailApplicantActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, "Download Failed", Toast.LENGTH_SHORT).show()
         }
+    }
 
+    private fun setStatusValue(et: EditText?, items: List<String>, index: Int) {
+        (et as? AutoCompleteTextView)?.text =
+            Editable.Factory.getInstance().newEditable(items[index])
     }
 
     companion object {

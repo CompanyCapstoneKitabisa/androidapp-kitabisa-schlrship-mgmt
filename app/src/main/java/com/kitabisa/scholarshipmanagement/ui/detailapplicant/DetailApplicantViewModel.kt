@@ -1,30 +1,17 @@
 package com.kitabisa.scholarshipmanagement.ui.detailapplicant
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.kitabisa.scholarshipmanagement.data.DataRepository
-import com.kitabisa.scholarshipmanagement.data.FetchedData
-import com.kitabisa.scholarshipmanagement.data.Result
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import com.kitabisa.scholarshipmanagement.data.UpdateApplicantStatusBody
+
 
 class DetailApplicantViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    val _fetchedData = MutableLiveData<Result<FetchedData>>()
-    val fetchedData: LiveData<Result<FetchedData>> = _fetchedData
+    fun getDetailApplicant(token: String, id: String) = dataRepository.getDetailApplicant(token, id)
 
-    fun getDetailApplicant(token: String, id: String) {
-        _fetchedData.postValue(Result.Loading)
-        viewModelScope.launch {
-            try {
-                val tempData = dataRepository.getDetailApplicant(token, id).fetchedData
-                _fetchedData.postValue(Result.Success(tempData))
-            } catch (e: Exception) {
-                _fetchedData.postValue(Result.Error(e.message.toString()))
-            }
-        }
-    }
-
+    fun setApplicantStatus(
+        token: String,
+        id: String,
+        updateApplicantStatusBody: UpdateApplicantStatusBody
+    ) = dataRepository.setApplicantStatus(token, id, updateApplicantStatusBody)
 }

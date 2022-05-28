@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Tempat Kuliah"
+                android:text="NPSN"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_nama" />
@@ -38,10 +38,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Jurusan, Angkatan"
+                android:text="Jurusan / Kelas"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_tempat_kuliah" />
+                app:layout_constraintTop_toBottomOf="@id/tv_npsn" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/nim"
@@ -51,7 +51,7 @@
                 android:text="NIM"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_jurusan_angkatan" />
+                app:layout_constraintTop_toBottomOf="@id/tv_jurusan_kelas" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/nik"
@@ -112,7 +112,7 @@
                 tools:text="Jonathan Calvin" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_tempat_kuliah"
+                android:id="@+id/tv_npsn"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -121,7 +121,7 @@
                 tools:text="Universitas Atma Jaya Yogyakarta" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_jurusan_angkatan"
+                android:id="@+id/tv_jurusan_kelas"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
