@@ -1,59 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="12dp"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:orientation="vertical">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/pilihan_bantuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Pilihan Bantuan :"
         android:textSize="12sp"
-        android:textStyle="bold"
-        tools:text="Pilihan Bantuan :"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_pilihan_bantuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:layout_marginTop="8dp"
-        tools:text="Biaya penunjang pendidikan (di luar UKT dan SKS)"/>
+        android:textSize="12sp"
+        tools:text="Biaya penunjang pendidikan (di luar UKT dan SKS)" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/kebutuhan_penunjang"
+        android:id="@+id/total_biaya"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textStyle="bold"
         android:layout_marginTop="8dp"
-        tools:text="Kebutuhan Penunjang :"/>
+        android:text="Total Biaya :"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_kebutuhan_penunjang"
+        android:id="@+id/tv_total_biaya"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:layout_marginTop="8dp"
-        tools:text="Untuk kebutuhan seminar proposal skripsi, bimbingan skripsi, sidang skripsi, wisuda"/>
+        android:textSize="12sp"
+        tools:text="6.000.000" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/rincian_biaya_penunjang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textStyle="bold"
         android:layout_marginTop="8dp"
-        tools:text="Rincian Biaya Penunjang :"/>
+        android:text="Cerita Penggunaan Dana :"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_rincian_biaya"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:layout_marginTop="8dp"
-        tools:text="Untuk seminar proposal skripsi: Rp. 500.000. Untuk bimbingan skripsi: Rp. 750.000. Untuk sidang skripsi: Rp. 750.000. Untuk wisuda: Rp. 2. 500.000. Total kebutuhan biaya: Rp.4.500.000"/>
+        android:textSize="12sp"
+        tools:text="Untuk seminar proposal skripsi: Rp. 500.000. Untuk bimbingan skripsi: Rp. 750.000. Untuk sidang skripsi: Rp. 750.000. Untuk wisuda: Rp. 2. 500.000. Total kebutuhan biaya: Rp.4.500.000" />
+
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/iv_foto_bukti_tagihan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:zoomage_autoResetMode="ALWAYS"
+        app:zoomage_restrictBounds="false"
+        tools:src="@tools:sample/avatars" />
 
 </LinearLayout>
