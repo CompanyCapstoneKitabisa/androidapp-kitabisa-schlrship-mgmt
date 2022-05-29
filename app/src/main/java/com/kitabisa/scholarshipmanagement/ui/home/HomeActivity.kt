@@ -62,7 +62,8 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                             binding.root.visibility = View.VISIBLE
                         }
                         is Resource.Error -> {
-                            finish()
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
                             Toast.makeText(this, result.data?.error.toString(), Toast.LENGTH_SHORT).show()
                         }
                         is Resource.Loading -> {

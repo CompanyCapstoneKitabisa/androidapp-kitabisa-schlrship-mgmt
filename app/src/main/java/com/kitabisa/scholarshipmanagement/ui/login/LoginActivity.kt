@@ -25,6 +25,7 @@ import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.databinding.ActivityLoginBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
+import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminActivity
 import com.kitabisa.scholarshipmanagement.utils.isValidEmail
 
 
@@ -64,11 +65,10 @@ class LoginActivity : AppCompatActivity() {
         //submit button onclick
         binding.btnSubmit.setOnClickListener {
 
-            renderLoading(true);
-            binding.root.visibility = View.VISIBLE
-
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
+                renderLoading(true);
+                binding.root.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -172,8 +172,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
+            if(currentUser.email.toString() == "superadmin@kitabisa.com"){
+                Log.d("emailuser", currentUser.email.toString())
+                startActivity(Intent(this@LoginActivity, AdminActivity::class.java))
+                finish()
+            }else{
             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
             finish()
+        }
         }
     }
 
