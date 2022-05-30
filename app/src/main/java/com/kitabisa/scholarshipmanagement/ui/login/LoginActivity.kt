@@ -142,7 +142,7 @@ class LoginActivity : AppCompatActivity() {
                 // Google Sign In was successful, authenticate with Firebase
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                renderLoading(true);
+                renderLoading(true)
                 firebaseAuthWithGoogle(account.idToken!!)
 
             } catch (e: ApiException) {
@@ -210,8 +210,6 @@ class LoginActivity : AppCompatActivity() {
             customLoadingDialog.dismiss()
         }
     }
-
-
 
     companion object {
         private const val TAG = "LoginActivity"
