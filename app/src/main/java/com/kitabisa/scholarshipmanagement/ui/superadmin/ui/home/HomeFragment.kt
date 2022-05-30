@@ -29,6 +29,7 @@ import com.kitabisa.scholarshipmanagement.ui.home.HomeViewModel
 import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminActivity
 import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminCampaignAdapter
+import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminCampaignViewModel
 import okhttp3.internal.platform.android.BouncyCastleSocketAdapter.Companion.factory
 
 class HomeFragment : Fragment() {
@@ -44,6 +45,8 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private var tempToken: String = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,42 +60,60 @@ class HomeFragment : Fragment() {
         setupLogoutFunc(binding.logout)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
 
-        val adminViewModel: HomeViewModel by viewModels {
+        val adminViewModel: AdminCampaignViewModel by viewModels {
             factory
         }
 
         val firebaseUser = auth.currentUser
 
-        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-            adminViewModel.getCampaign(res.token.toString()).observe(viewLifecycleOwner) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            listCampaign = result.data!!.listCampaign
-                            binding.root.visibility = View.VISIBLE
-                            setDataAdapter(listCampaign)
-                            renderLoading(false)
-                            Log.d("TOKENN", res.token.toString())
-                        }
-                        is Resource.Error -> {
-                            Toast.makeText(requireContext(), result.data?.error.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                        is Resource.Loading -> {
-                            binding.root.visibility = View.GONE
+        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                tempToken = task.result.token.toString()
+                //Toast.makeText(requireContext(), tempToken, Toast.LENGTH_SHORT).show()
+                //Log.d("TOKENNEWWW", tempToken)
+                adminViewModel.getCampaign(tempToken).observe(viewLifecycleOwner) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Resource.Success -> {
+                                listCampaign = result.data!!.listCampaign
+                                //campaignAdapter.setData(listCampaign)
+                                setDataAdapter(listCampaign)
+                                renderLoading(false)
+                                binding.root.visibility = View.VISIBLE
+                            }
+                            is Resource.Error -> {
+                                renderLoading(false)
+                                Toast.makeText(
+                                    requireContext(),
+                                    result.data?.error.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            is Resource.Loading -> {
+                                renderLoading(false)
+                                binding.root.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }
             }
+        }?.addOnFailureListener {
+            renderLoading(false)
+            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+            signOut()
+//            startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
+//            finishAffinity()
         }
+
+
 
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
