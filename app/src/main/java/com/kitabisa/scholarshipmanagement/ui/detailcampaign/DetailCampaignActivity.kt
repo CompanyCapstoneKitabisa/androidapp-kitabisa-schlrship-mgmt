@@ -1,38 +1,29 @@
 package com.kitabisa.scholarshipmanagement.ui.detailcampaign
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.Applicant
-import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.data.CampaignDetail
 import com.kitabisa.scholarshipmanagement.data.Resource
 import com.kitabisa.scholarshipmanagement.databinding.ActivityDetailCampaignBinding
-import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
 import com.kitabisa.scholarshipmanagement.databinding.BottomSheetFilterBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
-import com.kitabisa.scholarshipmanagement.ui.home.CampaignAdapter
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
-import com.kitabisa.scholarshipmanagement.ui.home.HomeViewModel
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.contains as contains1
 
 class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCallback {
 
@@ -71,7 +62,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         Log.v("Ini token", "zonkk")
         //comment code to use local data
-        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+        firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
                 detailCampaignViewModel.getCampaignDetail(

@@ -91,7 +91,7 @@ class DetailApplicantActivity : AppCompatActivity() {
 
         renderLoading(true)
 
-        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+        firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 renderLoading(false)
                 tempToken = task.result.token.toString()
