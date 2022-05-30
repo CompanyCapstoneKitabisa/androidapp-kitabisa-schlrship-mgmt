@@ -35,6 +35,20 @@ class DataRepository private constructor(private val apiService: ApiService) {
         }
     }
 
+    fun addCampaign(
+        token: String,
+        body: NewCampaignBody
+    ): LiveData<Resource<NewCampaignBodyResponse>> = liveData {
+        emit(Resource.Loading())
+        try{
+            val response = apiService.addCampaign(token, body)
+            emit(Resource.Success(response.body()))
+        }catch (e: Exception){
+            Log.d("DataRepository", "data: ${e.message.toString()} ")
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: DataRepository? = null

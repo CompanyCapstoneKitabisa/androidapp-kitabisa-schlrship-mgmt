@@ -7,6 +7,7 @@ import com.kitabisa.scholarshipmanagement.di.Injection
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantViewModel
 import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignViewModel
 import com.kitabisa.scholarshipmanagement.ui.home.HomeViewModel
+import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminCampaignViewModel
 
 class DataViewModelFactory private constructor(private val dataRepository: DataRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -18,6 +19,8 @@ class DataViewModelFactory private constructor(private val dataRepository: DataR
             return DetailCampaignViewModel(dataRepository) as T
         } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(dataRepository) as T
+        }else if (modelClass.isAssignableFrom(AdminCampaignViewModel::class.java)){
+            return AdminCampaignViewModel(dataRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

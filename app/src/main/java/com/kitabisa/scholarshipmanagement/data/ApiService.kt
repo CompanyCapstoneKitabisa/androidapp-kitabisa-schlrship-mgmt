@@ -31,4 +31,10 @@ interface ApiService {
         @Path("id") id: String,
         @Body updateApplicantStatusBody: UpdateApplicantStatusBody
     ): Response<UpdateStatusResponse>
+
+    @POST("/campaigns")
+    suspend fun addCampaign(
+        @Header("authToken") token: String,
+        @Body NewCampaignBody: NewCampaignBody
+    ): Response<NewCampaignBodyResponse>
 }
