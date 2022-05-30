@@ -9,10 +9,11 @@ import com.kitabisa.scholarshipmanagement.databinding.ItemCampaignBinding
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 
 
-class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>): RecyclerView.Adapter<AdminCampaignAdapter.ListViewHolder>(){
+class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
+    RecyclerView.Adapter<AdminCampaignAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
@@ -20,22 +21,24 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>): Recyc
         parent: ViewGroup,
         viewType: Int
     ): ListViewHolder {
-        val AdminCampaignBinding = ItemCampaignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val AdminCampaignBinding =
+            ItemCampaignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(AdminCampaignBinding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(listCampaign[position])
-        holder.itemView.setOnClickListener{onItemClickCallback.onItemClicked(listCampaign[position])}
+        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listCampaign[position]) }
     }
 
     override fun getItemCount(): Int {
         return listCampaign.size
     }
 
-    inner class ListViewHolder(private val binding: ItemCampaignBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(campaign: Campaign){
-            with(binding){
+    inner class ListViewHolder(private val binding: ItemCampaignBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(campaign: Campaign) {
+            with(binding) {
                 campaignName.text = campaign.name
                 digalangOleh.text = "Digalang oleh " + campaign.penggalangDana
                 ivCampaignImage.loadImage(campaign.photoUrl, R.drawable.ic_image)

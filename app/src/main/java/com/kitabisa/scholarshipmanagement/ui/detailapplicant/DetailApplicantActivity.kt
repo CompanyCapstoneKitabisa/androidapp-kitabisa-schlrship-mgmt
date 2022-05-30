@@ -36,6 +36,7 @@ import com.kitabisa.scholarshipmanagement.databinding.DialogDataLainnyaPesertaBi
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
+import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 import java.io.File
 
 class DetailApplicantActivity : AppCompatActivity() {
@@ -216,9 +217,7 @@ class DetailApplicantActivity : AppCompatActivity() {
 
     private fun renderData(data: FetchedData) {
         activityDetailApplicantBinding.apply {
-            Glide.with(this@DetailApplicantActivity)
-                .load(data.bioDiri.fotoDiri)
-                .into(ivProfile)
+            ivProfile.loadImage(data.bioDiri.fotoDiri, R.drawable.profile_icon)
 
             tvNama.text = data.bioDiri.nama
             tvUniversitas.text =
@@ -362,6 +361,7 @@ class DetailApplicantActivity : AppCompatActivity() {
         Glide.with(applicationContext)
             .asBitmap()
             .load(imageURL)
+            .placeholder(R.drawable.ic_image)
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(
                     resource: Bitmap,
@@ -370,7 +370,9 @@ class DetailApplicantActivity : AppCompatActivity() {
                     zoomageView.setImageBitmap(resource)
                 }
 
-                override fun onLoadCleared(placeholder: Drawable?) {}
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    zoomageView.setImageDrawable(placeholder)
+                }
             })
     }
 
@@ -391,6 +393,7 @@ class DetailApplicantActivity : AppCompatActivity() {
 
             Glide.with(this@DetailApplicantActivity)
                 .load(data.bioDiri.fotoDiri)
+                .placeholder(R.drawable.profile_icon)
                 .into(ivProfile)
 
             btnOk.setOnClickListener { moreDataDialog.dismiss() }

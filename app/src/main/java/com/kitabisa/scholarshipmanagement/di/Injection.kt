@@ -1,7 +1,6 @@
 package com.kitabisa.scholarshipmanagement.di
 
 import com.kitabisa.scholarshipmanagement.data.ApiConfig
-import com.kitabisa.scholarshipmanagement.data.ApiService
 import com.kitabisa.scholarshipmanagement.data.AuthenticationRepository
 import com.kitabisa.scholarshipmanagement.data.DataRepository
 

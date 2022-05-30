@@ -184,8 +184,8 @@
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:iconifiedByDefault="false"
                 android:focusable="auto"
+                android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
                 android:queryHint="Enter Applicant Name" />
         </com.google.android.material.card.MaterialCardView>

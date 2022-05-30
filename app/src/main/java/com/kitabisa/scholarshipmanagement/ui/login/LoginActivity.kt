@@ -68,26 +68,24 @@ class LoginActivity : AppCompatActivity() {
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
                 renderLoading(true);
-                binding.root.visibility = View.VISIBLE
+//                binding.root.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "signInWithEmail:success")
                             val user = auth.currentUser
-//                            renderLoading(false);
-//                            binding.root.visibility = View.GONE
                             updateUI(user)
-                        } else {
-                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            renderLoading(false);
-                            binding.root.visibility = View.VISIBLE
-                            binding.errorMessage.visibility = View.VISIBLE
-                            updateUI(null)
                         }
+                    }.addOnFailureListener(this) {
+                        Log.w(TAG, "signInWithEmail:failure", it)
+                        Toast.makeText(
+                            baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        renderLoading(false);
+                        binding.root.visibility = View.VISIBLE
+                        binding.errorMessage.visibility = View.VISIBLE
+                        updateUI(null)
                     }
             } else {
                 Toast.makeText(this, "Some data is invalid", Toast.LENGTH_SHORT).show()
@@ -99,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
         var noError = true
         val emailInput = binding.emailInput.editText
         val passwordInput = binding.passwordInput
-
 
         //cek email
         if (!isValidEmail(emailInput?.text.toString())) {
@@ -137,7 +134,8 @@ class LoginActivity : AppCompatActivity() {
     ) { result ->
         Log.d(TAG, "${result.resultCode}")
         if (result.resultCode == Activity.RESULT_OK) {
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
@@ -172,14 +170,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            if(currentUser.email.toString() == "superadmin@kitabisa.com"){
+            if (currentUser.email.toString() == "superadmin@kitabisa.com") {
                 Log.d("emailuser", currentUser.email.toString())
                 startActivity(Intent(this@LoginActivity, AdminActivity::class.java))
                 finish()
-            }else{
-            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
-            finish()
-        }
+            } else {
+                startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                finish()
+            }
         }
     }
 

@@ -1,12 +1,12 @@
 package com.kitabisa.scholarshipmanagement.ui.detailcampaign
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -23,7 +23,6 @@ import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActi
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCallback {
 

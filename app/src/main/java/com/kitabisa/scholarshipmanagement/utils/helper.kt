@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.kitabisa.scholarshipmanagement.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

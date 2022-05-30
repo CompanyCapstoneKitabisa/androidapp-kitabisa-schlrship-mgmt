@@ -1,208 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="30dp"
-		android:padding="16dp"
-		android:paddingBottom="20dp"
-		tools:context=".ui.superadmin.ui.dashboard.DashboardFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:padding="16dp"
+    android:paddingBottom="20dp"
+    tools:context=".ui.superadmin.ui.dashboard.DashboardFragment">
 
-	<androidx.constraintlayout.widget.ConstraintLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingBottom="50dp"
-			tools:context=".ui.superadmin.ui.dashboard.DashboardFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
+        tools:context=".ui.superadmin.ui.dashboard.DashboardFragment">
 
-		<TextView
-				android:id="@+id/campaign_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintBottom_toBottomOf="@id/logo"
-				app:layout_constraintTop_toTopOf="@id/logo"
-				android:text="Buat Campaign"
-				android:textColor="@color/black"
-				android:textSize="24dp"
-				android:textStyle="bold"
-			/>
-		<ImageView
-				android:id="@+id/logo"
-				android:layout_width="70dp"
-				android:layout_height="50dp"
-				android:src="@drawable/kitabisa_logo"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				/>
+        <TextView
+            android:id="@+id/campaign_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buat Campaign"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/logo" />
 
-		<View
-				android:id="@+id/view_left"
-				android:layout_width="0dp"
-				android:layout_height="1dp"
-				app:layout_constraintStart_toStartOf="@id/campaign_text"
-				app:layout_constraintTop_toBottomOf="@id/logo"
-				app:layout_constraintEnd_toEndOf="@id/logo"
-				android:layout_marginTop="5dp"
-				android:background="@android:color/darker_gray"/>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:src="@drawable/kitabisa_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-		<TextView
-				android:id="@+id/nameCampaign_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Nama Campaign"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/logo"
-				android:textSize="16sp"
-				android:layout_marginTop="30dp"
-				/>
+        <View
+            android:id="@+id/view_left"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="@id/logo"
+            app:layout_constraintStart_toStartOf="@id/campaign_text"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
-		<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/nameCampaignInput"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:endIconMode="clear_text"
-				android:layout_marginTop="6dp"
-				app:layout_constraintTop_toBottomOf="@id/nameCampaign_text"
-				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-				>
+        <TextView
+            android:id="@+id/nameCampaign_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Nama Campaign"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
-			<com.google.android.material.textfield.TextInputEditText
-					android:layout_width="match_parent"
-					android:inputType="text"
-					android:layout_height="wrap_content" />
-		</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameCampaignInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameCampaign_text">
 
-		<TextView
-				android:id="@+id/namePenggalang_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Nama Penggalang"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/nameCampaignInput"
-				android:textSize="16sp"
-				android:layout_marginTop="30dp"
-				/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-		<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/namePenggalangInput"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:endIconMode="clear_text"
-				android:layout_marginTop="6dp"
-				app:layout_constraintTop_toBottomOf="@id/namePenggalang_text"
-				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-				>
+        <TextView
+            android:id="@+id/namePenggalang_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Nama Penggalang"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameCampaignInput" />
 
-			<com.google.android.material.textfield.TextInputEditText
-					android:layout_width="match_parent"
-					android:inputType="text"
-					android:layout_height="wrap_content" />
-		</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/namePenggalangInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/namePenggalang_text">
 
-		<View
-				android:id="@+id/view_upload"
-				android:layout_width="0dp"
-				android:layout_height="1dp"
-				app:layout_constraintStart_toStartOf="@id/campaign_text"
-				app:layout_constraintTop_toBottomOf="@id/namePenggalangInput"
-				app:layout_constraintEnd_toEndOf="@id/logo"
-				android:layout_marginTop="25dp"
-				android:background="@android:color/darker_gray"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-		<TextView
-				android:id="@+id/Upload_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/view_upload"
-				android:text="Upload Documents"
-				android:layout_marginTop="10dp"
-				android:textColor="@color/black"
-				android:textSize="16dp"
-				android:textStyle="bold"
-				/>
+        <View
+            android:id="@+id/view_upload"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="25dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="@id/logo"
+            app:layout_constraintStart_toStartOf="@id/campaign_text"
+            app:layout_constraintTop_toBottomOf="@id/namePenggalangInput" />
 
-		<TextView
-				android:id="@+id/url_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Link Gsheet"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/Upload_text"
-				android:textSize="16sp"
-				android:layout_marginTop="30dp"
-				/>
+        <TextView
+            android:id="@+id/Upload_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Upload Documents"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_upload" />
 
-		<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/urlInput"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:endIconMode="clear_text"
-				android:layout_marginTop="6dp"
-				app:layout_constraintTop_toBottomOf="@id/url_text"
-				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-				>
+        <TextView
+            android:id="@+id/url_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Link Gsheet"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Upload_text" />
 
-			<com.google.android.material.textfield.TextInputEditText
-					android:layout_width="match_parent"
-					android:inputType="textUri"
-					android:layout_height="wrap_content" />
-		</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urlInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/url_text">
 
-		<com.google.android.material.card.MaterialCardView
-				android:id="@+id/image_card"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:layout_constraintStart_toStartOf="@id/campaign_text"
-				app:layout_constraintEnd_toEndOf="@id/logo"
-				app:layout_constraintTop_toBottomOf="@id/urlInput"
-				android:layout_margin="8dp">
-			<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="20dp"
-					android:backgroundTintMode="add"
-					android:background="@android:color/system_accent2_100"
-					android:orientation="vertical">
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="170dp"
-					app:srcCompat="@drawable/user_icon"
-					android:scaleType="fitCenter"
-					/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-				<Button
-						android:id="@+id/elevatedButton"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="Select Picture"
-						android:layout_marginTop="10dp"
-						style="@style/Widget.Material3.Button.ElevatedButton"
-						/>
-			</LinearLayout>
-		</com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/image_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="@id/logo"
+            app:layout_constraintStart_toStartOf="@id/campaign_text"
+            app:layout_constraintTop_toBottomOf="@id/urlInput">
 
-		<Button
-				android:id="@+id/btn_submit"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:padding="14dp"
-				android:text="Create"
-				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-				android:textStyle="bold"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/image_card"
-				app:layout_constraintVertical_bias="0.674" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/system_accent2_100"
+                android:backgroundTintMode="add"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-	</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/user_icon" />
+
+                <Button
+                    android:id="@+id/elevatedButton"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Select Picture" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:text="Create"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_card"
+            app:layout_constraintVertical_bias="0.674" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

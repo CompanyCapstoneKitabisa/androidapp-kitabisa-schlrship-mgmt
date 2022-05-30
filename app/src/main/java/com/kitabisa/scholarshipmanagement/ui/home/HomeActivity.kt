@@ -1,24 +1,24 @@
 package com.kitabisa.scholarshipmanagement.ui.home
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
-import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
-import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
-import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.data.Resource
+import com.kitabisa.scholarshipmanagement.databinding.ActivityHomeBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
+import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
+import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 
 class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
@@ -53,7 +53,6 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
 
 
         val firebaseUser = auth.currentUser
-
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
@@ -63,10 +62,14 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                     if (result != null) {
                         when (result) {
                             is Resource.Success -> {
-                                listCampaign = result.data!!.listCampaign
-                                campaignAdapter.setData(listCampaign)
-                                renderLoading(false)
-                                binding.root.visibility = View.VISIBLE
+                                if (result.data?.listCampaign != null) {
+                                    listCampaign = result.data.listCampaign
+                                    campaignAdapter.setData(listCampaign)
+                                    renderLoading(false)
+                                    binding.root.visibility = View.VISIBLE
+                                } else {
+
+                                }
                             }
                             is Resource.Error -> {
                                 renderLoading(false)
