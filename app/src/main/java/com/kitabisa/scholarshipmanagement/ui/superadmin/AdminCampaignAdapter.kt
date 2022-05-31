@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.Campaign
+import com.kitabisa.scholarshipmanagement.databinding.ItemCampaignAdminBinding
 import com.kitabisa.scholarshipmanagement.databinding.ItemCampaignBinding
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 
@@ -21,9 +22,9 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
         parent: ViewGroup,
         viewType: Int
     ): ListViewHolder {
-        val AdminCampaignBinding =
-            ItemCampaignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ListViewHolder(AdminCampaignBinding)
+        val ItemCampaignAdminBinding =
+            ItemCampaignAdminBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListViewHolder(ItemCampaignAdminBinding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
@@ -35,13 +36,16 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
         return listCampaign.size
     }
 
-    inner class ListViewHolder(private val binding: ItemCampaignBinding) :
+    inner class ListViewHolder(private val binding: ItemCampaignAdminBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(campaign: Campaign) {
             with(binding) {
                 campaignName.text = campaign.name
                 digalangOleh.text = "Digalang oleh " + campaign.penggalangDana
                 ivCampaignImage.loadImage(campaign.photoUrl, R.drawable.ic_image)
+                btnProcessData.setOnClickListener {
+
+                }
             }
         }
 

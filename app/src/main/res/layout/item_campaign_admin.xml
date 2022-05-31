@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="8dp"
+		app:cardElevation="6dp"
+		app:cardUseCompatPadding="true">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<com.google.android.material.card.MaterialCardView
+				android:id="@+id/campaign_image"
+				android:layout_width="match_parent"
+				android:layout_height="150dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent">
+
+			<ImageView
+					android:id="@+id/iv_campaign_image"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:adjustViewBounds="true" />
+		</com.google.android.material.card.MaterialCardView>
+
+		<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/campaign_name"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="12dp"
+				android:layout_marginTop="12dp"
+				android:textColor="@color/grey"
+				android:textSize="16sp"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/campaign_image"
+				tools:text="Celengan Beasiswa Narasi" />
+
+		<com.google.android.material.textview.MaterialTextView
+				android:id="@+id/digalang_oleh"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="12dp"
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="10dp"
+				android:textColor="@color/grey"
+				android:textSize="12sp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/campaign_name"
+				tools:text="Digalang oleh Narasi" />
+
+		<Button
+				android:id="@+id/btn_processData"
+				style="@style/Widget.Material3.Button.ElevatedButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:backgroundTint="@color/blue_variant"
+				android:text="Proses Data"
+				android:textColor="@color/white"
+				android:textSize="10dp"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.822"
+				app:layout_constraintStart_toEndOf="@+id/campaign_name"
+				app:layout_constraintTop_toBottomOf="@id/campaign_image"
+				app:layout_constraintVertical_bias="0.437" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
