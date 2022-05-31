@@ -20,6 +20,7 @@ import com.kitabisa.scholarshipmanagement.data.Resource
 import com.kitabisa.scholarshipmanagement.databinding.FragmentHomeBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
+import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivity
 import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminCampaignAdapter
 import com.kitabisa.scholarshipmanagement.ui.superadmin.AdminCampaignViewModel
@@ -33,8 +34,7 @@ class HomeFragment : Fragment() {
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private var listCampaign = ArrayList<Campaign>()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
     private val binding get() = _binding!!
     private var tempToken: String = ""
 
@@ -60,17 +60,21 @@ class HomeFragment : Fragment() {
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
-                //Toast.makeText(requireContext(), tempToken, Toast.LENGTH_SHORT).show()
-                //Log.d("TOKENNEWWW", tempToken)
                 adminViewModel.getCampaign(tempToken).observe(viewLifecycleOwner) { result ->
                     if (result != null) {
                         when (result) {
                             is Resource.Success -> {
-                                listCampaign = result.data!!.listCampaign
-                                //campaignAdapter.setData(listCampaign)
-                                setDataAdapter(listCampaign)
-                                renderLoading(false)
-                                binding.root.visibility = View.VISIBLE
+                                if(result.data != null) {
+                                    listCampaign = result.data!!.listCampaign
+                                    //campaignAdapter.setData(listCampaign)
+                                    setDataAdapter(listCampaign)
+                                    renderLoading(false)
+                                    binding.root.visibility = View.VISIBLE
+                                }else{
+                                    Toast.makeText(requireContext(), "Failed to get data", Toast.LENGTH_SHORT).show()
+                                    renderLoading(false)
+                                    binding.root.visibility = View.VISIBLE
+                                }
                             }
                             is Resource.Error -> {
                                 renderLoading(false)
@@ -81,8 +85,7 @@ class HomeFragment : Fragment() {
                                 ).show()
                             }
                             is Resource.Loading -> {
-                                renderLoading(false)
-                                binding.root.visibility = View.VISIBLE
+
                             }
                         }
                     }
@@ -92,8 +95,7 @@ class HomeFragment : Fragment() {
             renderLoading(false)
             Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             signOut()
-//            startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
-//            finishAffinity()
+
         }
 
         return binding.root
@@ -143,7 +145,9 @@ class HomeFragment : Fragment() {
         listCampaignAdapter.setOnItemClickCallback(object :
             AdminCampaignAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Campaign) {
-                Toast.makeText(requireContext(), "it is clicked", Toast.LENGTH_SHORT).show()
+                val campaignDetailIntent = Intent(requireContext(), DetailCampaignActivity::class.java)
+                campaignDetailIntent.putExtra(DetailCampaignActivity.ID_CAMPAIGN, data.id)
+                startActivity(campaignDetailIntent)
             }
         })
     }

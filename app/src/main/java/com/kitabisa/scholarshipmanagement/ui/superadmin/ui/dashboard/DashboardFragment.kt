@@ -12,10 +12,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
+import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.NewCampaignBody
 import com.kitabisa.scholarshipmanagement.data.Resource
 import com.kitabisa.scholarshipmanagement.databinding.FragmentDashboardBinding
@@ -114,11 +117,17 @@ class DashboardFragment : Fragment() {
         var imgLink: String? = null
 
         if(getFile != null){
+            renderLoading(true)
+            binding.root.visibility = View.INVISIBLE
+
             var file = Uri.fromFile(getFile)
             val imgRef = storageRef.child("Campaigns/${UUID.randomUUID()}.png")
             uploadTask = imgRef.putFile(file)
             uploadTask.addOnFailureListener{
                 Toast.makeText(requireContext(), "IT FAILED ${it.message}", Toast.LENGTH_SHORT).show()
+                renderLoading(false)
+                binding.root.visibility = View.VISIBLE
+
             }.addOnSuccessListener { it ->
                 Toast.makeText(requireContext(), "it is success", Toast.LENGTH_SHORT).show()
                 it.storage.downloadUrl.addOnCompleteListener{ res ->
@@ -151,13 +160,15 @@ class DashboardFragment : Fragment() {
                     if(result != null){
                         when(result){
                             is Resource.Success -> {
-                                Toast.makeText(requireContext(), "Campaign Added", Toast.LENGTH_SHORT).show()
+                                renderLoading(false)
+                                binding.root.visibility = View.VISIBLE
+                                findNavController().navigate(R.id.navigation_home)
                             }
                             is Resource.Error -> {
-                                Toast.makeText(requireContext(), "Campaign Failed", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Failed to add campaign", Toast.LENGTH_SHORT).show()
+                                binding.root.visibility = View.VISIBLE
                             }
                             is Resource.Loading -> {
-                                Toast.makeText(requireContext(), "Campaign Loading", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -187,6 +198,15 @@ class DashboardFragment : Fragment() {
             getFile = myFile
             Toast.makeText(requireContext(), selectedImg.toString(), Toast.LENGTH_SHORT).show()
             binding.imgCampaign?.setImageURI(selectedImg)
+        }
+    }
+
+    private fun renderLoading(state: Boolean) {
+        if (state) {
+            customLoadingDialog.show()
+            customLoadingDialog.setCancelable(false)
+        } else {
+            customLoadingDialog.dismiss()
         }
     }
 
