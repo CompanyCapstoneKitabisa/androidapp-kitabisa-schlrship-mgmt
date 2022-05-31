@@ -21,7 +21,7 @@ data class Campaign(
     val id: String,
 
     @field:SerializedName("name")
-    val name: String?,
+    val name: String,
 
     @field:SerializedName("penggalangDana")
     val penggalangDana: String,

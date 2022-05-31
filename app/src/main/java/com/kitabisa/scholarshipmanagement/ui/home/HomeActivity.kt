@@ -62,7 +62,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
                                     Toast.makeText(
-                                        baseContext, result.data.message,
+                                        this, result.data.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
@@ -72,7 +72,6 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                                 }
                             }
                             is Resource.Error -> {
-                                renderLoading(true)
                                 Toast.makeText(
                                     this,
                                     result.message.toString(),
@@ -90,7 +89,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
             }
         }?.addOnFailureListener {
             renderLoading(false)
-            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
             signOut()
         }
         //end

@@ -17,7 +17,7 @@ interface ApiService {
     suspend fun getAllApplicant(
         @Header("authToken") token: String,
         @Path("id") id: String,
-    ): Response<AllApplicantResponse>
+    ): Response<AllAplicantResponse>
 
     @GET("applicants")
     suspend fun getDetailApplicant(
@@ -37,4 +37,11 @@ interface ApiService {
         @Header("authToken") token: String,
         @Body NewCampaignBody: NewCampaignBody
     ): Response<NewCampaignBodyResponse>
+
+    @GET("campaigns/{id}/applicants/processData")
+    suspend fun triggerDataProcess(
+        @Header("authToken") token: String,
+        @Path("id") id: String,
+    ): Response<TriggerProcessResponse>
+
 }

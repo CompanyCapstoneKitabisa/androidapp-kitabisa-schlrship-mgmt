@@ -29,7 +29,7 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(listCampaign[position])
-        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listCampaign[position]) }
+//        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listCampaign[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -44,7 +44,7 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
                 digalangOleh.text = "Digalang oleh " + campaign.penggalangDana
                 ivCampaignImage.loadImage(campaign.photoUrl, R.drawable.ic_image)
                 btnProcessData.setOnClickListener {
-
+                    onItemClickCallback.onProccessClicked(campaign)
                 }
             }
         }
@@ -53,5 +53,6 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
 
     interface OnItemClickCallback {
         fun onItemClicked(data: Campaign)
+        fun onProccessClicked(data: Campaign)
     }
 }

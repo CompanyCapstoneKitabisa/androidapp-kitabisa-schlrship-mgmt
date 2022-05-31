@@ -71,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
+                            renderLoading(false)
                             Log.d(TAG, "signInWithEmail:success")
                             val user = auth.currentUser
                             updateUI(user)

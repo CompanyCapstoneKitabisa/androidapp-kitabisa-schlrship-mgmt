@@ -10,4 +10,6 @@ class AdminCampaignViewModel(private val dataRepository: DataRepository) : ViewM
 
     fun addCampaign(token: String, body: NewCampaignBody) = dataRepository.addCampaign(token, body)
 
+    fun triggerDataProcess(token: String, id: String) = dataRepository.triggerDataProcess(token, id)
+
 }

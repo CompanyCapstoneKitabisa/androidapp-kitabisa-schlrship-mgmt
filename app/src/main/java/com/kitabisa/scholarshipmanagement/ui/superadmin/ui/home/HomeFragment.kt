@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
+    private lateinit var adminViewModel: AdminCampaignViewModel
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private var listCampaign = ArrayList<Campaign>()
 
@@ -37,7 +39,6 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private var tempToken: String = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,14 +49,11 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         customLoadingDialog = CustomLoadingDialog(requireContext())
         setupLogoutFunc(binding.logout)
-        val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
-
-        val adminViewModel: AdminCampaignViewModel by viewModels {
-            factory
-        }
+        adminViewModel = obtainViewModel(requireActivity() as AppCompatActivity)
+        renderLoading(true)
+        binding.root.visibility = View.GONE
 
         val firebaseUser = auth.currentUser
-
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
@@ -63,21 +61,32 @@ class HomeFragment : Fragment() {
                     if (result != null) {
                         when (result) {
                             is Resource.Success -> {
-                                listCampaign = result.data!!.listCampaign
-                                setDataAdapter(listCampaign)
-                                binding.root.visibility = View.VISIBLE
-                                renderLoading(false)
+                                if (result.data?.listCampaign != null) {
+                                    listCampaign = result.data.listCampaign
+                                    setDataAdapter(listCampaign)
+                                    renderLoading(false)
+                                    binding.root.visibility = View.VISIBLE
+                                    Toast.makeText(
+                                        requireActivity(), result.data.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    renderLoading(false)
+                                    binding.tvDataNull.visibility = View.VISIBLE
+                                    binding.root.visibility = View.VISIBLE
+                                }
                             }
                             is Resource.Error -> {
                                 Toast.makeText(
-                                    requireContext(),
-                                    result.data?.error.toString(),
+                                    requireActivity(),
+                                    result.message.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                renderLoading(false)
+                                signOut()
                             }
                             is Resource.Loading -> {
                                 renderLoading(true)
+                                binding.root.visibility = View.GONE
                             }
                         }
                     }
@@ -85,7 +94,7 @@ class HomeFragment : Fragment() {
             }
         }?.addOnFailureListener {
             renderLoading(false)
-            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
             signOut()
         }
 
@@ -97,7 +106,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    fun setupLogoutFunc(id: ImageView) {
+    private fun setupLogoutFunc(id: ImageView) {
         id.setOnClickListener {
             signOut()
         }
@@ -136,8 +145,43 @@ class HomeFragment : Fragment() {
         listCampaignAdapter.setOnItemClickCallback(object :
             AdminCampaignAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Campaign) {
-                Toast.makeText(requireContext(), "it is clicked", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "It is clicked", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onProccessClicked(data: Campaign) {
+                if (tempToken.isNotEmpty()) {
+                    adminViewModel.triggerDataProcess(tempToken, data.id)
+                        .observe(viewLifecycleOwner) { result ->
+                            if (result != null) {
+                                when (result) {
+                                    is Resource.Success -> {
+                                        renderLoading(false)
+                                        Toast.makeText(
+                                            requireActivity(), result.data?.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    is Resource.Error -> {
+                                        Toast.makeText(
+                                            requireActivity(),
+                                            result.message.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        signOut()
+                                    }
+                                    is Resource.Loading -> {
+                                        renderLoading(true)
+                                    }
+                                }
+                            }
+                        }
+                }
             }
         })
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity): AdminCampaignViewModel {
+        val factory = DataViewModelFactory.getInstance()
+        return ViewModelProvider(activity, factory).get(AdminCampaignViewModel::class.java)
     }
 }

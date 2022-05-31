@@ -24,20 +24,6 @@
             tools:src="@drawable/kitabisa_logo" />
     </com.google.android.material.card.MaterialCardView>
 
-    <!--        <com.google.android.material.textview.MaterialTextView-->
-    <!--            android:id="@+id/tv_greeting"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="16dp"-->
-    <!--            android:text="Hi, Jyo"-->
-    <!--            android:textColor="@color/grey"-->
-    <!--            android:textSize="16sp"-->
-    <!--            android:textStyle="bold"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@id/profile_image"-->
-    <!--            app:layout_constraintStart_toEndOf="@id/profile_image"-->
-    <!--            app:layout_constraintTop_toTopOf="@id/profile_image"-->
-    <!--            tools:text="Hi, Jyo" />-->
-
     <ImageView
         android:id="@+id/logout"
         android:layout_width="24dp"
@@ -89,7 +75,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_data_null"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"

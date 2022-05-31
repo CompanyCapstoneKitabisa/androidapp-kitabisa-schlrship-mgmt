@@ -23,7 +23,6 @@ object Utils {
     }
     private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
-
     val timeStamp: String = SimpleDateFormat(
         FILENAME_FORMAT,
         Locale.US

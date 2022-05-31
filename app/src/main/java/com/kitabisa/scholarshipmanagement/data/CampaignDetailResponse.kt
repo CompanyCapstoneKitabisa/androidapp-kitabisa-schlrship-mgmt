@@ -16,13 +16,19 @@ data class CampaignDetailResponse(
 
 data class CampaignDetail(
     @field:SerializedName("name")
-    val name: String?,
+    val name: String,
 
     @field:SerializedName("penggalangDana")
     val penggalangDana: String,
 
     @field:SerializedName("photoUrl")
     val photoUrl: String,
+
+    @field:SerializedName("proccessData")
+    val processData: String,
+
+    @field:SerializedName("proccessPageNumber")
+    val processPageNumber: String,
 
     @field:SerializedName("applicantsCount")
     val applicantsCount: Int,

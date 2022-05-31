@@ -1,5 +1,6 @@
 package com.kitabisa.scholarshipmanagement.ui.detailcampaign
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,40 +9,34 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.kitabisa.scholarshipmanagement.R
-import com.kitabisa.scholarshipmanagement.data.Applicant
 import com.kitabisa.scholarshipmanagement.data.CampaignDetail
+import com.kitabisa.scholarshipmanagement.data.ListApplicantsItem
 import com.kitabisa.scholarshipmanagement.data.Resource
 import com.kitabisa.scholarshipmanagement.databinding.ActivityDetailCampaignBinding
-import com.kitabisa.scholarshipmanagement.databinding.BottomSheetFilterBinding
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
-import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
-import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 import java.util.*
 
 class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCallback {
 
     private lateinit var binding: ActivityDetailCampaignBinding
-    private lateinit var bottomSheetBinding: BottomSheetFilterBinding
     private val applicantAdapter = ApplicantAdapter(this)
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
     private var tempToken: String = ""
-    val tempListApplicant = ArrayList<Applicant>()
-    val tempListApplicant2 = ArrayList<Applicant>()
+    val tempListApplicant = ArrayList<ListApplicantsItem>()
+    val tempListApplicant2 = ArrayList<ListApplicantsItem>()
     lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var campaignDetail: CampaignDetail
     private lateinit var customLoadingDialog: CustomLoadingDialog
-    var listApplicant = ArrayList<Applicant>()
+    var listApplicant = ArrayList<ListApplicantsItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +82,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                         R.drawable.ic_image
                                     )
                                 }
+                                Toast.makeText(
+                                    this,
+                                    result.data.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 binding.root.visibility = View.VISIBLE
                             }
                             is Resource.Error -> {
@@ -107,7 +107,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
         }?.addOnFailureListener {
             renderLoading(false)
-            startActivity(Intent(this@DetailCampaignActivity, HomeActivity::class.java))
             finishAffinity()
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
@@ -123,6 +122,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                 applicantAdapter.setData(tempListApplicant)
                                 renderLoading(false)
                                 binding.root.visibility = View.VISIBLE
+                                Toast.makeText(
+                                    this,
+                                    result.data.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             is Resource.Error -> {
                                 finish()
@@ -193,6 +197,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         })
 
         binding.filter.setOnClickListener {
+            @SuppressLint("InflateParams")
             val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filter, null)
 
             bottomSheetDialog = BottomSheetDialog(this@DetailCampaignActivity)
@@ -207,15 +212,15 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             applyButton.setOnClickListener {
                 bottomSheetDialog.dismiss()
 
-                val selectedOptionStatus: Int? = radioGroupStatus.checkedRadioButtonId
-                val radioButtonStatus: RadioButton? = selectedOptionStatus?.let { it1 ->
+                val selectedOptionStatus: Int = radioGroupStatus.checkedRadioButtonId
+                val radioButtonStatus: RadioButton? = selectedOptionStatus.let { it1 ->
                     dialogView.findViewById(
                         it1
                     )
                 }
 
-                val selectedOptionBerkas: Int? = radioGroupBerkas.checkedRadioButtonId
-                val radioButtonBerkas: RadioButton? = selectedOptionBerkas?.let { it1 ->
+                val selectedOptionBerkas: Int = radioGroupBerkas.checkedRadioButtonId
+                val radioButtonBerkas: RadioButton? = selectedOptionBerkas.let { it1 ->
                     dialogView.findViewById(
                         it1
                     )
@@ -240,7 +245,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     }
 
                     for (applicant in listApplicant) {
-                        if (applicant.status.lowercase(Locale.getDefault())
+                        if (applicant.statusApplicant.lowercase(Locale.getDefault())
                                 .contains(applicantStatusFilter)
                         ) {
                             tempListApplicant.add(applicant)
@@ -254,19 +259,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 radioButtonBerkas?.text?.let {
                     if (radioButtonBerkas.text.toString() == "Data Valid") {
                         for (applicant in tempListApplicant) {
-                            if (applicant.dataStatus.lowercase(Locale.getDefault()) == "valid") {
+                            if (applicant.statusData.lowercase(Locale.getDefault()) == "valid") {
                                 tempListApplicant2.add(applicant)
                             }
                         }
                     } else if (radioButtonBerkas.text.toString() == "Rumah Valid") {
                         for (applicant in tempListApplicant) {
-                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid") {
+                            if (applicant.statusRumah.lowercase(Locale.getDefault()) == "valid") {
                                 tempListApplicant2.add(applicant)
                             }
                         }
                     } else {
                         for (applicant in tempListApplicant) {
-                            if (applicant.rumahStatus.lowercase(Locale.getDefault()) == "valid" && applicant.dataStatus.lowercase(
+                            if (applicant.statusRumah.lowercase(Locale.getDefault()) == "valid" && applicant.statusData.lowercase(
                                     Locale.getDefault()
                                 ) == "valid"
                             ) {
@@ -281,7 +286,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 tempListApplicant.clear()
                 province.text?.let {
                     for (applicant in tempListApplicant2) {
-                        if (applicant.province.lowercase(Locale.getDefault())
+                        if (applicant.provinsi.lowercase(Locale.getDefault())
                                 .contains(province.text.toString().lowercase())
                         ) {
                             tempListApplicant.add(applicant)
@@ -299,7 +304,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.acceptedCount.setOnClickListener {
             tempListApplicant.clear()
             for (applicant in listApplicant) {
-                if (applicant.status.lowercase(Locale.getDefault()).contains("accepted")) {
+                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("accepted")) {
                     tempListApplicant.add(applicant)
                 }
             }
@@ -309,7 +314,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.rejectedCount.setOnClickListener {
             tempListApplicant.clear()
             for (applicant in listApplicant) {
-                if (applicant.status.lowercase(Locale.getDefault()).contains("rejected")) {
+                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("rejected")) {
                     tempListApplicant.add(applicant)
                 }
             }
@@ -319,7 +324,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.onholdCount.setOnClickListener {
             tempListApplicant.clear()
             for (applicant in listApplicant) {
-                if (applicant.status.lowercase(Locale.getDefault()).contains("onhold")) {
+                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("onhold")) {
                     tempListApplicant.add(applicant)
                 }
             }
@@ -331,7 +336,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    override fun onApplicantClick(applicant: Applicant) {
+    override fun onApplicantClick(applicant: ListApplicantsItem) {
         val applicantDetailIntent = Intent(this, DetailApplicantActivity::class.java)
         applicantDetailIntent.putExtra(DetailApplicantActivity.ID_APPLICANT, applicant.id)
         startActivity(applicantDetailIntent)
@@ -344,16 +349,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         } else {
             customLoadingDialog.dismiss()
         }
-    }
-
-    private fun signOut() {
-        GoogleSignIn.getClient(
-            this,
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-        ).signOut()
-        auth.signOut()
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
     }
 
     companion object {

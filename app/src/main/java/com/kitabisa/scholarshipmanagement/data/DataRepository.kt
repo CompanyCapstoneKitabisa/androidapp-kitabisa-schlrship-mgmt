@@ -40,10 +40,14 @@ class DataRepository private constructor(private val apiService: ApiService) {
         body: NewCampaignBody
     ): LiveData<Resource<NewCampaignBodyResponse>> = liveData {
         emit(Resource.Loading())
-        try{
+        try {
             val response = apiService.addCampaign(token, body)
-            emit(Resource.Success(response.body()))
-        }catch (e: Exception){
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()))
+            } else {
+                emit(Resource.Error("Session Expired, You can Re-Login"))
+            }
+        } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
             emit(Resource.Error(e.message.toString()))
         }
@@ -64,7 +68,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
         emit(Resource.Loading())
         try {
             val response = apiService.getCampaigns(token)
-            if(response.isSuccessful) {
+            if (response.isSuccessful) {
                 emit(Resource.Success(response.body()))
             } else {
                 emit(Resource.Error("Session Expired, You can Re-Login"))
@@ -87,7 +91,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }
         }
 
-    fun getAllApplicant(token: String, id: String): LiveData<Resource<AllApplicantResponse>> =
+    fun getAllApplicant(token: String, id: String): LiveData<Resource<AllAplicantResponse>> =
         liveData {
             emit(Resource.Loading())
             try {
@@ -99,5 +103,17 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }
         }
 
+    fun triggerDataProcess(token: String, id: String): LiveData<Resource<TriggerProcessResponse>> =
+        liveData {
+            emit(Resource.Loading())
+            try {
+                val response = apiService.triggerDataProcess(token, id)
+                emit(Resource.Success(response.body()))
+            } catch (e: Exception) {
+                Log.d("DataRepository", "data: ${e.message.toString()} ")
+                emit(Resource.Error(e.message.toString()))
+            }
+        }
 
+    //TRIGGER PAGINGNYA BELOM
 }
