@@ -2,14 +2,12 @@ package com.kitabisa.scholarshipmanagement.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.kitabisa.scholarshipmanagement.data.Campaign
@@ -21,9 +19,6 @@ import com.kitabisa.scholarshipmanagement.ui.detailcampaign.DetailCampaignActivi
 import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 
 class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
-
-    //    private lateinit var auth: FirebaseAuth
-    lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private val auth by lazy {
         FirebaseAuth.getInstance()
@@ -51,7 +46,6 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
             factory
         }
 
-
         val firebaseUser = auth.currentUser
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -67,18 +61,24 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                                     campaignAdapter.setData(listCampaign)
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
+                                    Toast.makeText(
+                                        baseContext, result.data.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 } else {
-
+                                    renderLoading(false)
+                                    binding.tvDataNull.visibility = View.VISIBLE
+                                    binding.root.visibility = View.VISIBLE
                                 }
                             }
                             is Resource.Error -> {
-                                renderLoading(false)
-                                finish()
+                                renderLoading(true)
                                 Toast.makeText(
                                     this,
-                                    result.data?.error.toString(),
+                                    result.message.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                signOut()
                             }
                             is Resource.Loading -> {
                                 renderLoading(true)
@@ -92,8 +92,6 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
             renderLoading(false)
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             signOut()
-//            startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
-//            finishAffinity()
         }
         //end
 
@@ -104,19 +102,10 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
             rvCampaign.adapter = campaignAdapter
         }
 
-        Log.d("EMAIL", firebaseUser?.email.toString())
-
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.default_web_client_id))
-//            .requestEmail()
-//            .build()
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
         binding.logout.setOnClickListener {
             signOut()
         }
 
-        Log.v("YOYYYY", "Berhasil Mendapatkan Data Campaign\"")
     }
 
     override fun onStoryClick(campaign: Campaign) {
@@ -133,12 +122,6 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
         auth.signOut()
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
-//        mGoogleSignInClient.signOut().addOnCompleteListener {
-//            val intent = Intent(this, LoginActivity::class.java)
-//            Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show()
-//            startActivity(intent)
-//            finish()
-//        }
     }
 
     private fun renderLoading(state: Boolean) {

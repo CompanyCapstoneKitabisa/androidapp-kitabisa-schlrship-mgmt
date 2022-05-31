@@ -68,13 +68,16 @@ class LoginActivity : AppCompatActivity() {
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
                 renderLoading(true);
-//                binding.root.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "signInWithEmail:success")
                             val user = auth.currentUser
                             updateUI(user)
+                            Toast.makeText(
+                                baseContext, "Login Success.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }.addOnFailureListener(this) {
                         Log.w(TAG, "signInWithEmail:failure", it)
@@ -82,13 +85,12 @@ class LoginActivity : AppCompatActivity() {
                             baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT
                         ).show()
-                        renderLoading(false);
-                        binding.root.visibility = View.VISIBLE
+                        renderLoading(false)
                         binding.errorMessage.visibility = View.VISIBLE
                         updateUI(null)
                     }
             } else {
-                Toast.makeText(this, "Some data is invalid", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Some data are invalid", Toast.LENGTH_SHORT).show()
             }
         }
     }

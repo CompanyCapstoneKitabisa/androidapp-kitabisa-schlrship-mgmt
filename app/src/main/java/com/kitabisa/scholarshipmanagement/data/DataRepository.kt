@@ -64,8 +64,11 @@ class DataRepository private constructor(private val apiService: ApiService) {
         emit(Resource.Loading())
         try {
             val response = apiService.getCampaigns(token)
-            Log.v("ini response body", response.body().toString())
-            emit(Resource.Success(response.body()))
+            if(response.isSuccessful) {
+                emit(Resource.Success(response.body()))
+            } else {
+                emit(Resource.Error("Session Expired, You can Re-Login"))
+            }
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
             emit(Resource.Error(e.message.toString()))

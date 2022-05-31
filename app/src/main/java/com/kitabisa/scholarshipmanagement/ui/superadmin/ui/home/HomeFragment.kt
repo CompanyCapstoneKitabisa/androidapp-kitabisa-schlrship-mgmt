@@ -47,7 +47,6 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         customLoadingDialog = CustomLoadingDialog(requireContext())
-        renderLoading(true)
         setupLogoutFunc(binding.logout)
         val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
 
@@ -60,29 +59,25 @@ class HomeFragment : Fragment() {
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
-                //Toast.makeText(requireContext(), tempToken, Toast.LENGTH_SHORT).show()
-                //Log.d("TOKENNEWWW", tempToken)
                 adminViewModel.getCampaign(tempToken).observe(viewLifecycleOwner) { result ->
                     if (result != null) {
                         when (result) {
                             is Resource.Success -> {
                                 listCampaign = result.data!!.listCampaign
-                                //campaignAdapter.setData(listCampaign)
                                 setDataAdapter(listCampaign)
-                                renderLoading(false)
                                 binding.root.visibility = View.VISIBLE
+                                renderLoading(false)
                             }
                             is Resource.Error -> {
-                                renderLoading(false)
                                 Toast.makeText(
                                     requireContext(),
                                     result.data?.error.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                renderLoading(false)
                             }
                             is Resource.Loading -> {
-                                renderLoading(false)
-                                binding.root.visibility = View.VISIBLE
+                                renderLoading(true)
                             }
                         }
                     }
@@ -92,8 +87,6 @@ class HomeFragment : Fragment() {
             renderLoading(false)
             Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             signOut()
-//            startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
-//            finishAffinity()
         }
 
         return binding.root

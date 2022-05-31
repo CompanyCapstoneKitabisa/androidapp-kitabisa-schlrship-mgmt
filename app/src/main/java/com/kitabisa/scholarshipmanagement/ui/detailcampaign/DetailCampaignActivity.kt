@@ -8,6 +8,8 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +23,7 @@ import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
+import com.kitabisa.scholarshipmanagement.ui.login.LoginActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 import java.util.*
 
@@ -57,9 +60,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         val idCampaign: String = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
 
-        Log.v("Ini ID CAmpaign", idCampaign)
-
-        Log.v("Ini token", "zonkk")
         //comment code to use local data
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
@@ -93,7 +93,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                 finish()
                                 Toast.makeText(
                                     this,
-                                    result.data?.error.toString(),
+                                    result.message.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -331,10 +331,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    companion object {
-        const val ID_CAMPAIGN = "id_campaign"
-    }
-
     override fun onApplicantClick(applicant: Applicant) {
         val applicantDetailIntent = Intent(this, DetailApplicantActivity::class.java)
         applicantDetailIntent.putExtra(DetailApplicantActivity.ID_APPLICANT, applicant.id)
@@ -348,5 +344,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         } else {
             customLoadingDialog.dismiss()
         }
+    }
+
+    private fun signOut() {
+        GoogleSignIn.getClient(
+            this,
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        ).signOut()
+        auth.signOut()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
+    companion object {
+        const val ID_CAMPAIGN = "id_campaign"
     }
 }
