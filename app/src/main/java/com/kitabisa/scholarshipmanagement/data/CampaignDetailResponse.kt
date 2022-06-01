@@ -24,14 +24,14 @@ data class CampaignDetail(
     @field:SerializedName("photoUrl")
     val photoUrl: String,
 
-    @field:SerializedName("proccessData")
+    @field:SerializedName("processData")
     val processData: String,
 
-    @field:SerializedName("proccessPageNumber")
+    @field:SerializedName("processPageNumber")
     val processPageNumber: String,
 
-    @field:SerializedName("applicantsCount")
-    val applicantsCount: Int,
+    @field:SerializedName("pendingApplicants")
+    val pendingApplicants: Int,
 
     @field:SerializedName("acceptedApplicants")
     val acceptedApplicants: Int,
