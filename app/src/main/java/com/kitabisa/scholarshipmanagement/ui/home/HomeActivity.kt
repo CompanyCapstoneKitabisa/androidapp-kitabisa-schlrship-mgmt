@@ -61,10 +61,10 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                                     campaignAdapter.setData(listCampaign)
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
-                                    Toast.makeText(
-                                        this, result.data.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+//                                    Toast.makeText(
+//                                        this, result.data.message,
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
                                 } else {
                                     renderLoading(false)
                                     binding.tvDataNull.visibility = View.VISIBLE

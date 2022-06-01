@@ -86,6 +86,7 @@ class DetailApplicantActivity : AppCompatActivity() {
         moreDataDialog = Dialog(this)
 
         val idApplicant = intent.getStringExtra(ID_APPLICANT).toString()
+        val idCampaign = intent.getStringExtra(DetailCampaignActivity.ID_CAMPAIGN).toString()
 
         activityDetailApplicantBinding.root.visibility = View.GONE
         val firebaseUser = auth.currentUser
@@ -169,7 +170,10 @@ class DetailApplicantActivity : AppCompatActivity() {
                         }
                         is Resource.Success -> {
                             renderLoading(false)
-//                            startActivity(Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java))
+
+                            val campaignDetailIntent = Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java)
+                            campaignDetailIntent.putExtra(DetailCampaignActivity.ID_CAMPAIGN, idCampaign)
+                            startActivity(campaignDetailIntent)
                             finish()
                             Toast.makeText(
                                 this,
