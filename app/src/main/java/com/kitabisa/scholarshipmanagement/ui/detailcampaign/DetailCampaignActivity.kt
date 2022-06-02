@@ -37,6 +37,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
     private lateinit var campaignDetail: CampaignDetail
     private lateinit var customLoadingDialog: CustomLoadingDialog
     var listApplicant = ArrayList<ListApplicantsItem>()
+    private lateinit var idCampaign: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +54,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         val firebaseUser = auth.currentUser
 
-        val idCampaign: String = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
+        idCampaign = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
 
         //comment code to use local data
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
@@ -67,27 +68,36 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                         when (result) {
                             is Resource.Success -> {
                                 campaignDetail = result.data?.Data!!
-                                binding.apply {
-                                    campaignName.text = campaignDetail.name
-                                    applicantCount.text =
-                                        campaignDetail.applicantsCount.toString()
-                                    acceptedCount.text =
-                                        campaignDetail.acceptedApplicants.toString()
-                                    onholdCount.text =
-                                        campaignDetail.onHoldApplicants.toString()
-                                    rejectedCount.text =
-                                        campaignDetail.rejectedApplicants.toString()
-                                    ivCampaignPhoto.loadImage(
-                                        campaignDetail.photoUrl,
-                                        R.drawable.ic_image
-                                    )
+
+                                if(campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0"){
+                                    finish()
+                                    Toast.makeText(
+                                        this,
+                                        "Data Pada Campaign ${campaignDetail.name} Masih Diproses",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }else{
+                                    binding.apply {
+                                        campaignName.text = campaignDetail.name
+                                        applicantCount.text =
+                                            campaignDetail.pendingApplicants.toString()
+                                        acceptedCount.text =
+                                            campaignDetail.acceptedApplicants.toString()
+                                        onholdCount.text =
+                                            campaignDetail.onHoldApplicants.toString()
+                                        rejectedCount.text =
+                                            campaignDetail.rejectedApplicants.toString()
+                                        ivCampaignPhoto.loadImage(
+                                            campaignDetail.photoUrl,
+                                            R.drawable.ic_image
+                                        )
+                                    }
+//                                    Toast.makeText(
+//                                        this,
+//                                        result.data.message,
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
                                 }
-                                Toast.makeText(
-                                    this,
-                                    result.data.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                binding.root.visibility = View.VISIBLE
                             }
                             is Resource.Error -> {
                                 finish()
@@ -118,15 +128,20 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                         when (result) {
                             is Resource.Success -> {
                                 listApplicant = result.data?.listApplicants!!
-                                tempListApplicant.addAll(listApplicant)
+                                tempListApplicant.clear()
+                                for (applicant in listApplicant) {
+                                    if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("pending")) {
+                                        tempListApplicant.add(applicant)
+                                    }
+                                }
                                 applicantAdapter.setData(tempListApplicant)
                                 renderLoading(false)
                                 binding.root.visibility = View.VISIBLE
-                                Toast.makeText(
-                                    this,
-                                    result.data.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+//                                Toast.makeText(
+//                                    this,
+//                                    result.data.message,
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
                             }
                             is Resource.Error -> {
                                 finish()
@@ -156,40 +171,38 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                tempListApplicant.clear()
+                tempListApplicant2.clear()
                 val queryText = query!!.lowercase(Locale.getDefault())
                 if (queryText.isNotEmpty()) {
-                    for (applicant in listApplicant) {
+                    for (applicant in tempListApplicant) {
                         if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)) {
-                            tempListApplicant.add(applicant)
+                            tempListApplicant2.add(applicant)
                         }
                     }
 
-                    applicantAdapter.setData(tempListApplicant)
+                    applicantAdapter.setData(tempListApplicant2)
                 } else {
-                    tempListApplicant.clear()
-                    tempListApplicant.addAll(listApplicant)
-                    applicantAdapter.setData(tempListApplicant)
+                    tempListApplicant2.addAll(tempListApplicant)
+                    applicantAdapter.setData(tempListApplicant2)
                 }
                 return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
                 Log.v("search", "onchange masuk")
-                tempListApplicant.clear()
+                tempListApplicant2.clear()
                 val queryText = query!!.lowercase(Locale.getDefault())
                 if (queryText.isNotEmpty()) {
-                    for (applicant in listApplicant) {
+                    for (applicant in tempListApplicant) {
                         if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)) {
-                            tempListApplicant.add(applicant)
+                            tempListApplicant2.add(applicant)
                         }
                     }
 
-                    applicantAdapter.setData(tempListApplicant)
+                    applicantAdapter.setData(tempListApplicant2)
                 } else {
-                    tempListApplicant.clear()
-                    tempListApplicant.addAll(listApplicant)
-                    applicantAdapter.setData(tempListApplicant)
+                    tempListApplicant2.addAll(tempListApplicant)
+                    applicantAdapter.setData(tempListApplicant2)
                 }
                 return false
             }
@@ -332,13 +345,20 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
 
         binding.applicantCount.setOnClickListener {
-            applicantAdapter.setData(listApplicant)
+            tempListApplicant.clear()
+            for (applicant in listApplicant) {
+                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("pending")) {
+                    tempListApplicant.add(applicant)
+                }
+            }
+            applicantAdapter.setData(tempListApplicant)
         }
     }
 
     override fun onApplicantClick(applicant: ListApplicantsItem) {
         val applicantDetailIntent = Intent(this, DetailApplicantActivity::class.java)
         applicantDetailIntent.putExtra(DetailApplicantActivity.ID_APPLICANT, applicant.id)
+        applicantDetailIntent.putExtra(ID_CAMPAIGN, idCampaign)
         startActivity(applicantDetailIntent)
     }
 
