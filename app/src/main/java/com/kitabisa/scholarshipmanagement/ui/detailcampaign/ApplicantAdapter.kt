@@ -64,6 +64,8 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
                     statusIndicator.setImageResource(R.drawable.pending)
                 }
 
+                score.text = applicant.score.toString()
+
                 root.setOnClickListener { callback.onApplicantClick(applicant) }
             }
         }

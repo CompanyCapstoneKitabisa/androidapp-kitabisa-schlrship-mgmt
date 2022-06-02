@@ -69,14 +69,14 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             is Resource.Success -> {
                                 campaignDetail = result.data?.Data!!
 
-                                if(campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0"){
-                                    finish()
-                                    Toast.makeText(
-                                        this,
-                                        "Data Pada Campaign ${campaignDetail.name} Masih Diproses",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }else{
+//                                if(campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0"){
+//                                    finish()
+//                                    Toast.makeText(
+//                                        this,
+//                                        "Data Pada Campaign ${campaignDetail.name} Masih Diproses",
+//                                        Toast.LENGTH_LONG
+//                                    ).show()
+//                                }else{
                                     binding.apply {
                                         campaignName.text = campaignDetail.name
                                         applicantCount.text =
@@ -97,7 +97,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 //                                        result.data.message,
 //                                        Toast.LENGTH_SHORT
 //                                    ).show()
-                                }
+//                                }
                             }
                             is Resource.Error -> {
                                 finish()
