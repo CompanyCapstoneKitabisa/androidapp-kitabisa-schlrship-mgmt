@@ -17,7 +17,7 @@ object ApiConfig {
             .addInterceptor(loggingInterceptor)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://kitabisa-test-app.herokuapp.com/")
+            .baseUrl("http://34.124.184.46/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

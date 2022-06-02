@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
 
             val noErrorResult = inputFieldFilled()
             if (noErrorResult) {
-                renderLoading(true);
+                renderLoading(true)
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
