@@ -38,6 +38,15 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
     private lateinit var customLoadingDialog: CustomLoadingDialog
     var listApplicant = ArrayList<ListApplicantsItem>()
     private lateinit var idCampaign: String
+    private var status: String = "pending"
+    private var nama: String = ""
+    private var provinsi: String = ""
+    private var statusRumah: String = ""
+    private var statusData: String = ""
+    val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
+    private val detailCampaignViewModel: DetailCampaignViewModel by viewModels {
+        factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +56,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         binding.root.visibility = View.GONE
 
         customLoadingDialog = CustomLoadingDialog(this)
-        val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
-        val detailCampaignViewModel: DetailCampaignViewModel by viewModels {
-            factory
-        }
+
 
         val firebaseUser = auth.currentUser
 
@@ -69,35 +75,43 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             is Resource.Success -> {
                                 campaignDetail = result.data?.Data!!
 
-//                                if(campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0"){
-//                                    finish()
-//                                    Toast.makeText(
-//                                        this,
-//                                        "Data Pada Campaign ${campaignDetail.name} Masih Diproses",
-//                                        Toast.LENGTH_LONG
-//                                    ).show()
-//                                }else{
+                                if(campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0"){
                                     binding.apply {
-                                        campaignName.text = campaignDetail.name
-                                        applicantCount.text =
-                                            campaignDetail.pendingApplicants.toString()
-                                        acceptedCount.text =
-                                            campaignDetail.acceptedApplicants.toString()
-                                        onholdCount.text =
-                                            campaignDetail.onHoldApplicants.toString()
-                                        rejectedCount.text =
-                                            campaignDetail.rejectedApplicants.toString()
-                                        ivCampaignPhoto.loadImage(
-                                            campaignDetail.photoUrl,
-                                            R.drawable.ic_image
-                                        )
+                                        emptyIcon.visibility = View.VISIBLE
+                                        emptyLabel.visibility = View.VISIBLE
+                                        emptyDesc.text = "Applicant Data is in Process, Please Try Again Later"
+                                        emptyDesc.visibility = View.VISIBLE
+                                        btnEmpty.visibility = View.VISIBLE
+                                        btnEmpty.setOnClickListener{
+                                            finish()
+                                        }
                                     }
-//                                    Toast.makeText(
-//                                        this,
-//                                        result.data.message,
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
-//                                }
+                                }
+
+                                binding.apply {
+                                    campaignName.text = campaignDetail.name
+                                    applicantCount.text =
+                                        campaignDetail.pendingApplicants.toString()
+                                    acceptedCount.text =
+                                        campaignDetail.acceptedApplicants.toString()
+                                    onholdCount.text =
+                                        campaignDetail.onHoldApplicants.toString()
+                                    rejectedCount.text =
+                                        campaignDetail.rejectedApplicants.toString()
+                                    ivCampaignPhoto.loadImage(
+                                        campaignDetail.photoUrl,
+                                        R.drawable.ic_image
+                                    )
+                                }
+                                Toast.makeText(
+                                    this,
+                                    result.data.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                renderLoading(false)
+                                binding.root.visibility = View.VISIBLE
+
                             }
                             is Resource.Error -> {
                                 finish()
@@ -122,42 +136,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
 
         firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-            detailCampaignViewModel.getAllApplicant(res.token.toString(), idCampaign)
-                .observe(this) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Resource.Success -> {
-                                listApplicant = result.data?.listApplicants!!
-                                tempListApplicant.clear()
-                                for (applicant in listApplicant) {
-                                    if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("pending")) {
-                                        tempListApplicant.add(applicant)
-                                    }
-                                }
-                                applicantAdapter.setData(tempListApplicant)
-                                renderLoading(false)
-                                binding.root.visibility = View.VISIBLE
-//                                Toast.makeText(
-//                                    this,
-//                                    result.data.message,
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-                            }
-                            is Resource.Error -> {
-                                finish()
-                                Toast.makeText(
-                                    this,
-                                    result.data?.error.toString(),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is Resource.Loading -> {
-                                renderLoading(true)
-                                binding.root.visibility = View.GONE
-                            }
-                        }
-                    }
-                }
+            getData(res.token.toString())
+            renderLoading(false)
+            binding.root.visibility = View.VISIBLE
         }
         //end
 
@@ -171,39 +152,28 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                tempListApplicant2.clear()
+                renderLoading(true)
+                binding.root.visibility = View.GONE
                 val queryText = query!!.lowercase(Locale.getDefault())
                 if (queryText.isNotEmpty()) {
-                    for (applicant in tempListApplicant) {
-                        if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)) {
-                            tempListApplicant2.add(applicant)
-                        }
+                    nama = queryText
+                    firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                        getData(res.token.toString())
+                        renderLoading(false)
+                        binding.root.visibility = View.VISIBLE
                     }
-
-                    applicantAdapter.setData(tempListApplicant2)
                 } else {
-                    tempListApplicant2.addAll(tempListApplicant)
-                    applicantAdapter.setData(tempListApplicant2)
+                    nama = ""
+                    firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                        getData(res.token.toString())
+                        renderLoading(false)
+                        binding.root.visibility = View.VISIBLE
+                    }
                 }
                 return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                Log.v("search", "onchange masuk")
-                tempListApplicant2.clear()
-                val queryText = query!!.lowercase(Locale.getDefault())
-                if (queryText.isNotEmpty()) {
-                    for (applicant in tempListApplicant) {
-                        if (applicant.name.lowercase(Locale.getDefault()).contains(queryText)) {
-                            tempListApplicant2.add(applicant)
-                        }
-                    }
-
-                    applicantAdapter.setData(tempListApplicant2)
-                } else {
-                    tempListApplicant2.addAll(tempListApplicant)
-                    applicantAdapter.setData(tempListApplicant2)
-                }
                 return false
             }
 
@@ -223,7 +193,10 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
             val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
             applyButton.setOnClickListener {
+                renderLoading(true)
+                binding.root.visibility = View.GONE
                 bottomSheetDialog.dismiss()
+                setDataEmpty()
 
                 val selectedOptionStatus: Int = radioGroupStatus.checkedRadioButtonId
                 val radioButtonStatus: RadioButton? = selectedOptionStatus.let { it1 ->
@@ -239,119 +212,99 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     )
                 }
 
-                tempListApplicant.clear()
                 radioButtonStatus?.text?.let {
-                    var applicantStatusFilter = ""
                     when (radioButtonStatus.text) {
                         "Belum Direview" -> {
-                            applicantStatusFilter = "pending"
+                            status = "pending"
                         }
                         "Diterima" -> {
-                            applicantStatusFilter = "accepted"
+                            status = "accepted"
                         }
                         "Onhold" -> {
-                            applicantStatusFilter = "onhold"
+                            status = "onhold"
                         }
                         "Ditolak" -> {
-                            applicantStatusFilter = "rejected"
-                        }
-                    }
-
-                    for (applicant in listApplicant) {
-                        if (applicant.statusApplicant.lowercase(Locale.getDefault())
-                                .contains(applicantStatusFilter)
-                        ) {
-                            tempListApplicant.add(applicant)
+                            status = "rejected"
                         }
                     }
                 } ?: run {
-                    tempListApplicant.addAll(listApplicant)
+                    status = ""
                 }
-
 
                 radioButtonBerkas?.text?.let {
                     if (radioButtonBerkas.text.toString() == "Data Valid") {
-                        for (applicant in tempListApplicant) {
-                            if (applicant.statusData.lowercase(Locale.getDefault()) == "valid") {
-                                tempListApplicant2.add(applicant)
-                            }
-                        }
+                        statusData = "valid"
                     } else if (radioButtonBerkas.text.toString() == "Rumah Valid") {
-                        for (applicant in tempListApplicant) {
-                            if (applicant.statusRumah.lowercase(Locale.getDefault()) == "valid") {
-                                tempListApplicant2.add(applicant)
-                            }
-                        }
+                        statusRumah = "valid"
                     } else {
-                        for (applicant in tempListApplicant) {
-                            if (applicant.statusRumah.lowercase(Locale.getDefault()) == "valid" && applicant.statusData.lowercase(
-                                    Locale.getDefault()
-                                ) == "valid"
-                            ) {
-                                tempListApplicant2.add(applicant)
-                            }
-                        }
+                        statusData = "valid"
+                        statusRumah = "valid"
                     }
                 } ?: run {
-                    tempListApplicant2.addAll(tempListApplicant)
+                    statusData = ""
+                    statusRumah = ""
                 }
 
-                tempListApplicant.clear()
                 province.text?.let {
-                    for (applicant in tempListApplicant2) {
-                        if (applicant.provinsi.lowercase(Locale.getDefault())
-                                .contains(province.text.toString().lowercase())
-                        ) {
-                            tempListApplicant.add(applicant)
-                        }
-                    }
+                    provinsi = province.text.toString()
                 } ?: run {
-                    tempListApplicant.addAll(tempListApplicant2)
+                    provinsi = ""
                 }
 
-                tempListApplicant2.clear()
-                applicantAdapter.setData(tempListApplicant)
+                firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                    getData(res.token.toString())
+                    renderLoading(false)
+                    binding.root.visibility = View.VISIBLE
+                }
             }
         }
 
         binding.acceptedCount.setOnClickListener {
-            tempListApplicant.clear()
-            for (applicant in listApplicant) {
-                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("accepted")) {
-                    tempListApplicant.add(applicant)
-                }
+            renderLoading(true)
+            binding.root.visibility = View.GONE
+            setDataEmpty()
+            status = "accepted"
+            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                getData(res.token.toString())
+                renderLoading(false)
+                binding.root.visibility = View.VISIBLE
             }
-            applicantAdapter.setData(tempListApplicant)
         }
 
         binding.rejectedCount.setOnClickListener {
-            tempListApplicant.clear()
-            for (applicant in listApplicant) {
-                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("rejected")) {
-                    tempListApplicant.add(applicant)
-                }
+            renderLoading(true)
+            binding.root.visibility = View.GONE
+            setDataEmpty()
+            status = "rejected"
+            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                getData(res.token.toString())
+                renderLoading(false)
+                binding.root.visibility = View.VISIBLE
             }
-            applicantAdapter.setData(tempListApplicant)
         }
 
         binding.onholdCount.setOnClickListener {
-            tempListApplicant.clear()
-            for (applicant in listApplicant) {
-                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("onhold")) {
-                    tempListApplicant.add(applicant)
-                }
+            renderLoading(true)
+            binding.root.visibility = View.GONE
+            setDataEmpty()
+            status = "onhold"
+            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                getData(res.token.toString())
+                renderLoading(false)
+                binding.root.visibility = View.VISIBLE
             }
-            applicantAdapter.setData(tempListApplicant)
         }
 
         binding.applicantCount.setOnClickListener {
-            tempListApplicant.clear()
-            for (applicant in listApplicant) {
-                if (applicant.statusApplicant.lowercase(Locale.getDefault()).contains("pending")) {
-                    tempListApplicant.add(applicant)
-                }
+            renderLoading(true)
+            binding.root.visibility = View.GONE
+            setDataEmpty()
+            status = "pending"
+            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                getData(res.token.toString())
+                renderLoading(false)
+                binding.root.visibility = View.VISIBLE
             }
-            applicantAdapter.setData(tempListApplicant)
         }
     }
 
@@ -373,5 +326,39 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
     companion object {
         const val ID_CAMPAIGN = "id_campaign"
+    }
+
+    private fun getData(token: String) {
+        Log.v("di jyo getData", idCampaign)
+        val adapter = ApplicantAdapter(this)
+        binding.rvApplicant.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        detailCampaignViewModel.getAllApplicant(status, nama, provinsi, statusRumah, statusData, token, idCampaign).observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
+//        if (adapter.itemCount == 0){
+//            showEmptyApplicant()
+//        }
+    }
+
+    private fun setDataEmpty(){
+        status = ""
+        nama = ""
+        provinsi = ""
+        statusRumah = ""
+        statusData = ""
+    }
+
+    private fun showEmptyApplicant(){
+        binding.apply {
+            emptyIcon.visibility = View.VISIBLE
+            emptyLabel.visibility = View.VISIBLE
+            emptyDesc.text = "Try to use other filter setting"
+            emptyDesc.visibility = View.VISIBLE
+            btnEmpty.visibility = View.GONE
+        }
     }
 }
