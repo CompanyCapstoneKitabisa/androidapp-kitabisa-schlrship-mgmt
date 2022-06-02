@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -73,7 +74,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                     finish()
                                     Toast.makeText(
                                         this,
-                                        "Data Pada Campaign ${campaignDetail.name} Masih Diproses",
+                                        "Data Pada Campaign ${campaignDetail.name} Belum Diproses",
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }else{

@@ -44,4 +44,10 @@ interface ApiService {
         @Path("id") id: String,
     ): Response<TriggerProcessResponse>
 
+    @GET("campaigns/{id}/applicants/givePageNumber")
+    suspend fun triggerPagingData(
+        @Header("authToken") token: String,
+        @Path("id") id: String,
+    ): Response<TriggerProcessResponse>
+
 }
