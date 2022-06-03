@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,6 +23,12 @@ import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -77,14 +84,15 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             is Resource.Success -> {
                                 campaignDetail = result.data?.Data!!
 
-                                if(campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0"){
+                                if (campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0") {
                                     binding.apply {
                                         emptyIcon.visibility = View.VISIBLE
                                         emptyLabel.visibility = View.VISIBLE
-                                        emptyDesc.text = "Applicant Data is in Process, Please Try Again Later"
+                                        emptyDesc.text =
+                                            "Applicant Data is in Process, Please Try Again Later"
                                         emptyDesc.visibility = View.VISIBLE
                                         btnEmpty.visibility = View.VISIBLE
-                                        btnEmpty.setOnClickListener{
+                                        btnEmpty.setOnClickListener {
                                             finish()
                                         }
                                     }
@@ -340,19 +348,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         )
 
         val options: HashMap<String, String> = HashMap()
-        if (status != ""){
+        if (status != "") {
             options["status"] = status
         }
-        if (nama != ""){
+        if (nama != "") {
             options["nama"] = nama
         }
-        if (provinsi != ""){
+        if (provinsi != "") {
             options["provinsi"] = provinsi
         }
-        if (statusRumah != ""){
+        if (statusRumah != "") {
             options["statusRumah"] = statusRumah
         }
-        if (statusData != ""){
+        if (statusData != "") {
             options["statusData"] = statusData
         }
 
@@ -369,7 +377,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    private fun setDataEmpty(){
+    private fun setDataEmpty() {
         status = ""
         nama = ""
         provinsi = ""

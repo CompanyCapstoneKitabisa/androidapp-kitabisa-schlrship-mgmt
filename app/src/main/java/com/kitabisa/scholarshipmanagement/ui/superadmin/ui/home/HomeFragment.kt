@@ -160,6 +160,7 @@ class HomeFragment : Fragment() {
                                             requireActivity(), result.data?.message,
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        triggerPagingFunction(tempToken, data.id)
                                     }
                                     is Resource.Error -> {
                                         Toast.makeText(
@@ -176,31 +177,7 @@ class HomeFragment : Fragment() {
                             }
                         }
 
-                    adminViewModel.triggerPagingData(tempToken, data.id)
-                        .observe(viewLifecycleOwner) { result ->
-                            if (result != null) {
-                                when (result) {
-                                    is Resource.Success -> {
-                                        renderLoading(false)
-                                        Toast.makeText(
-                                            requireActivity(), result.data?.message,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                    is Resource.Error -> {
-                                        Toast.makeText(
-                                            requireActivity(),
-                                            result.message.toString(),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        signOut()
-                                    }
-                                    is Resource.Loading -> {
-                                        renderLoading(true)
-                                    }
-                                }
-                            }
-                        }
+
                 }
             }
         })
@@ -209,5 +186,33 @@ class HomeFragment : Fragment() {
     private fun obtainViewModel(activity: AppCompatActivity): AdminCampaignViewModel {
         val factory = DataViewModelFactory.getInstance()
         return ViewModelProvider(activity, factory).get(AdminCampaignViewModel::class.java)
+    }
+
+    private fun triggerPagingFunction(token: String, id: String) {
+        adminViewModel.triggerPagingData(token, id)
+            .observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            renderLoading(false)
+                            Toast.makeText(
+                                requireActivity(), result.data?.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Error -> {
+                            Toast.makeText(
+                                requireActivity(),
+                                result.message.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            signOut()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                        }
+                    }
+                }
+            }
     }
 }
