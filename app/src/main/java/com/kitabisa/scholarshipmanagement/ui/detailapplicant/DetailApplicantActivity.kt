@@ -148,7 +148,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                 when ((activityDetailApplicantBinding.pilihanMenu.editText as? AutoCompleteTextView)?.text.toString()) {
                     "Accept" -> "accepted"
                     "Reject" -> "rejected"
-                    "Hold" -> "onHold"
+                    "Hold" -> "onhold"
                     else -> ""
                 }
 
@@ -334,7 +334,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                     "rejected" -> {
                         setStatusValue(pilihanMenu.editText, items, 2)
                     }
-                    "onHold" -> {
+                    "onhold" -> {
                         setStatusValue(pilihanMenu.editText, items, 3)
                     }
                 }
