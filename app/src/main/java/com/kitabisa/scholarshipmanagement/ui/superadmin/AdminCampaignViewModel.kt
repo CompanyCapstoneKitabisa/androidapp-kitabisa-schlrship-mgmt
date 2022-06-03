@@ -12,4 +12,5 @@ class AdminCampaignViewModel(private val dataRepository: DataRepository) : ViewM
 
     fun triggerDataProcess(token: String, id: String) = dataRepository.triggerDataProcess(token, id)
 
+    fun triggerPagingData(token: String, id: String) = dataRepository.triggerPagingData(token, id)
 }

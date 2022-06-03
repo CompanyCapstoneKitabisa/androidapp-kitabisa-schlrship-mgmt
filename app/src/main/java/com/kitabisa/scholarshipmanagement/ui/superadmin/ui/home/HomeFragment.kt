@@ -175,6 +175,32 @@ class HomeFragment : Fragment() {
                                 }
                             }
                         }
+
+                    adminViewModel.triggerPagingData(tempToken, data.id)
+                        .observe(viewLifecycleOwner) { result ->
+                            if (result != null) {
+                                when (result) {
+                                    is Resource.Success -> {
+                                        renderLoading(false)
+                                        Toast.makeText(
+                                            requireActivity(), result.data?.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    is Resource.Error -> {
+                                        Toast.makeText(
+                                            requireActivity(),
+                                            result.message.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        signOut()
+                                    }
+                                    is Resource.Loading -> {
+                                        renderLoading(true)
+                                    }
+                                }
+                            }
+                        }
                 }
             }
         })
