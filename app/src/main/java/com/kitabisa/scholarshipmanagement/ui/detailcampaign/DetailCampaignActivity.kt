@@ -22,6 +22,7 @@ import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 import java.util.*
+import kotlin.collections.HashMap
 
 class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCallback {
 
@@ -152,22 +153,22 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                renderLoading(true)
-                binding.root.visibility = View.GONE
+//                renderLoading(true)
+//                binding.root.visibility = View.GONE
                 val queryText = query!!.lowercase(Locale.getDefault())
                 if (queryText.isNotEmpty()) {
                     nama = queryText
                     firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                         getData(res.token.toString())
-                        renderLoading(false)
-                        binding.root.visibility = View.VISIBLE
+//                        renderLoading(false)
+//                        binding.root.visibility = View.VISIBLE
                     }
                 } else {
                     nama = ""
                     firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                         getData(res.token.toString())
-                        renderLoading(false)
-                        binding.root.visibility = View.VISIBLE
+//                        renderLoading(false)
+//                        binding.root.visibility = View.VISIBLE
                     }
                 }
                 return false
@@ -193,8 +194,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
             val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
             applyButton.setOnClickListener {
-                renderLoading(true)
-                binding.root.visibility = View.GONE
+//                renderLoading(true)
+//                binding.root.visibility = View.GONE
                 bottomSheetDialog.dismiss()
                 setDataEmpty()
 
@@ -253,57 +254,57 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
                 firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                     getData(res.token.toString())
-                    renderLoading(false)
-                    binding.root.visibility = View.VISIBLE
+//                    renderLoading(false)
+//                    binding.root.visibility = View.VISIBLE
                 }
             }
         }
 
         binding.acceptedCount.setOnClickListener {
-            renderLoading(true)
-            binding.root.visibility = View.GONE
+//            renderLoading(true)
+//            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "accepted"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                renderLoading(false)
-                binding.root.visibility = View.VISIBLE
+//                renderLoading(false)
+//                binding.root.visibility = View.VISIBLE
             }
         }
 
         binding.rejectedCount.setOnClickListener {
-            renderLoading(true)
-            binding.root.visibility = View.GONE
+//            renderLoading(true)
+//            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "rejected"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                renderLoading(false)
-                binding.root.visibility = View.VISIBLE
+//                renderLoading(false)
+//                binding.root.visibility = View.VISIBLE
             }
         }
 
         binding.onholdCount.setOnClickListener {
-            renderLoading(true)
-            binding.root.visibility = View.GONE
+//            renderLoading(true)
+//            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "onhold"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                renderLoading(false)
-                binding.root.visibility = View.VISIBLE
+//                renderLoading(false)
+//                binding.root.visibility = View.VISIBLE
             }
         }
 
         binding.applicantCount.setOnClickListener {
-            renderLoading(true)
-            binding.root.visibility = View.GONE
+//            renderLoading(true)
+//            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "pending"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                renderLoading(false)
-                binding.root.visibility = View.VISIBLE
+//                renderLoading(false)
+//                binding.root.visibility = View.VISIBLE
             }
         }
     }
@@ -336,7 +337,25 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 adapter.retry()
             }
         )
-        detailCampaignViewModel.getAllApplicant(status, nama, provinsi, statusRumah, statusData, token, idCampaign).observe(this) {
+
+        val options: HashMap<String, String> = HashMap()
+        if (status != ""){
+            options["status"] = status
+        }
+        if (nama != ""){
+            options["nama"] = nama
+        }
+        if (provinsi != ""){
+            options["provinsi"] = provinsi
+        }
+        if (statusRumah != ""){
+            options["statusRumah"] = statusRumah
+        }
+        if (statusData != ""){
+            options["statusData"] = statusData
+        }
+
+        detailCampaignViewModel.getAllApplicant(options, token, idCampaign).observe(this) {
             adapter.submitData(lifecycle, it)
         }
 //        if (adapter.itemCount == 0){

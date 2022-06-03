@@ -6,11 +6,7 @@ import androidx.paging.PagingState
 
 class ApplicantPagingSource(
     private val apiService: ApiService,
-    private val status: String,
-    private val nama: String,
-    private val provinsi: String,
-    private val statusRumah: String,
-    private val statusData: String,
+    private val options: Map<String, String>,
     private val authToken: String,
     private val id: String
     ) : PagingSource<Int, ListApplicantsItem>() {
@@ -30,7 +26,7 @@ class ApplicantPagingSource(
         return try {
             Log.v("di jyo load paging", id)
             val position = params.key ?: INITIAL_PAGE_INDEX
-            val responseData = apiService.getAllApplicant(authToken, id, position, status, nama, provinsi, statusRumah, statusData)
+            val responseData = apiService.getAllApplicant(authToken, id, position, options)
             Log.v("di jyo load respon", responseData.toString())
             LoadResult.Page(
                 data = responseData.body()!!.listApplicants,

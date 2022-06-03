@@ -95,14 +95,14 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }
         }
 
-    fun getAllApplicant(status: String, nama: String, provinsi: String, statusRumah: String, statusData: String, authToken: String, id: String): LiveData<PagingData<ListApplicantsItem>> {
+    fun getAllApplicant(options: Map<String, String>, authToken: String, id: String): LiveData<PagingData<ListApplicantsItem>> {
         Log.v("di jyo getAllAppl", id)
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
             pagingSourceFactory = {
-                ApplicantPagingSource(apiService, status, nama, provinsi, statusRumah, statusData, authToken, id)
+                ApplicantPagingSource(apiService, options, authToken, id)
             }
         ).liveData
     }

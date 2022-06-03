@@ -18,11 +18,7 @@ interface ApiService {
         @Header("authToken") token: String,
         @Path("id") id: String,
         @Query("page") page: Int,
-        @Query("status") status: String,
-        @Query("nama") nama: String,
-        @Query("provinsi") provinsi: String,
-        @Query("statusRumah") statusRumah: String,
-        @Query("statusData") statusData: String,
+        @QueryMap options: Map<String, String>
     ): Response<AllAplicantResponse>
 
     @GET("applicants")

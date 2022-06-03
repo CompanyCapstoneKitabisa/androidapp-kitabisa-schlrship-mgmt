@@ -14,14 +14,10 @@ class DetailCampaignViewModel(private val dataRepository: DataRepository) : View
     fun getCampaignDetail(token: String, id: String) = dataRepository.getCampaignDetail(token, id)
 
     fun getAllApplicant(
-        status: String,
-        nama: String,
-        provinsi: String,
-        statusRumah: String,
-        statusData: String,
+        options: Map<String, String>,
         token: String,
         id: String): LiveData<PagingData<ListApplicantsItem>> {
-        return dataRepository.getAllApplicant(status, nama, provinsi, statusRumah, statusData, token, id).cachedIn(viewModelScope)
+        return dataRepository.getAllApplicant(options, token, id).cachedIn(viewModelScope)
     }
 
 }
