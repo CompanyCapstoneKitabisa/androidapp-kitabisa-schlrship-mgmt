@@ -160,12 +160,21 @@ class HomeFragment : Fragment() {
                                         triggerPagingFunction(tempToken, data.id)
                                     }
                                     is Resource.Error -> {
-                                        Toast.makeText(
-                                            requireActivity(),
-                                            result.message.toString(),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        signOut()
+                                        if(result.message.toString().contains("404")) {
+                                            Toast.makeText(
+                                                requireActivity(),
+                                                result.message.toString(),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            renderLoading(false)
+                                        } else {
+                                            Toast.makeText(
+                                                requireActivity(),
+                                                result.message.toString(),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            signOut()
+                                        }
                                     }
                                     is Resource.Loading -> {
                                         renderLoading(true)
@@ -192,10 +201,6 @@ class HomeFragment : Fragment() {
                     when (result) {
                         is Resource.Success -> {
                             renderLoading(false)
-                            Toast.makeText(
-                                requireActivity(), result.data?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                         is Resource.Error -> {
                             Toast.makeText(

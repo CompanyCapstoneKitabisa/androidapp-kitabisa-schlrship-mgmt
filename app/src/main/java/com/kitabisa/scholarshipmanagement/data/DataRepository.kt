@@ -118,8 +118,10 @@ class DataRepository private constructor(private val apiService: ApiService) {
                 val response = apiService.triggerDataProcess(token, id)
                 if (response.isSuccessful) {
                     emit(Resource.Success(response.body()))
-                } else {
-                    emit(Resource.Error("Response Code : ${response.code()}"))
+                } else if (response.code() == 404) {
+                    emit(Resource.Error("ID Sheet Not Found, 404"))
+                } else if (response.code() == 403) {
+                    emit(Resource.Error("Session Expired, You can Re-Login, 403"))
                 }
             } catch (e: Exception) {
                 Log.d("DataRepository", "data: ${e.message.toString()} ")
