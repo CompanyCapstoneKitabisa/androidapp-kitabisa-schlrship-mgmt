@@ -2,6 +2,8 @@ package com.kitabisa.scholarshipmanagement.ui.detailcampaign
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.ListApplicantsItem
@@ -9,16 +11,9 @@ import com.kitabisa.scholarshipmanagement.databinding.ItemApplicantBinding
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 
 class ApplicantAdapter(private val callback: ApplicantCallback) :
-    RecyclerView.Adapter<ApplicantAdapter.ApplicantViewHolder>() {
-    private val _data = ArrayList<ListApplicantsItem>()
+    PagingDataAdapter<ListApplicantsItem, ApplicantAdapter.ApplicantViewHolder>(DIFF_CALLBACK) {
 
-    fun setData(applicants: ArrayList<ListApplicantsItem>?) {
-        _data.clear()
-        if (applicants != null) {
-            _data.addAll(applicants)
-        }
-        notifyDataSetChanged()
-    }
+    private val _data = ArrayList<ListApplicantsItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicantViewHolder {
         val applicantBinding =
@@ -27,7 +22,10 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
     }
 
     override fun onBindViewHolder(holder: ApplicantViewHolder, position: Int) {
-        holder.bind(_data[position])
+        val data = getItem(position)
+        if (data != null) {
+            holder.bind(data)
+        }
     }
 
     override fun getItemCount(): Int = _data.size
@@ -64,6 +62,8 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
                     statusIndicator.setImageResource(R.drawable.pending)
                 }
 
+                score.text = applicant.score.toString()
+
                 root.setOnClickListener { callback.onApplicantClick(applicant) }
             }
         }
@@ -71,5 +71,17 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
 
     interface ApplicantCallback {
         fun onApplicantClick(applicant: ListApplicantsItem)
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListApplicantsItem>() {
+            override fun areItemsTheSame(oldItem: ListApplicantsItem, newItem: ListApplicantsItem): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: ListApplicantsItem, newItem: ListApplicantsItem): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
     }
 }

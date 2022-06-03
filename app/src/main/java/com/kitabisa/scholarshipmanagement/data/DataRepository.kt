@@ -3,6 +3,10 @@ package com.kitabisa.scholarshipmanagement.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 
 class DataRepository private constructor(private val apiService: ApiService) {
 
@@ -91,17 +95,17 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }
         }
 
-    fun getAllApplicant(token: String, id: String): LiveData<Resource<AllAplicantResponse>> =
-        liveData {
-            emit(Resource.Loading())
-            try {
-                val response = apiService.getAllApplicant(token, id)
-                emit(Resource.Success(response.body()))
-            } catch (e: Exception) {
-                Log.d("DataRepository", "data: ${e.message.toString()} ")
-                emit(Resource.Error(e.message.toString()))
+    fun getAllApplicant(options: Map<String, String>, authToken: String, id: String): LiveData<PagingData<ListApplicantsItem>> {
+        Log.v("di jyo getAllAppl", id)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                ApplicantPagingSource(apiService, options, authToken, id)
             }
-        }
+        ).liveData
+    }
 
     fun triggerDataProcess(token: String, id: String): LiveData<Resource<TriggerProcessResponse>> =
         liveData {

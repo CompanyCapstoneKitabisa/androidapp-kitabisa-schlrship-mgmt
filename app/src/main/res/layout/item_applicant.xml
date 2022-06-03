@@ -99,6 +99,29 @@
             app:layout_constraintTop_toTopOf="@+id/applicant_data_indicator" />
 
         <ImageView
+            android:id="@+id/bg_score"
+            android:layout_width="48dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/bg_score"
+            app:layout_constraintBottom_toBottomOf="@+id/applicant_data_indicator"
+            app:layout_constraintStart_toEndOf="@id/status_indicator"
+            app:layout_constraintTop_toTopOf="@+id/applicant_data_indicator" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="9sp"
+            tools:text="200"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/bg_score"
+            app:layout_constraintStart_toStartOf="@id/bg_score"
+            app:layout_constraintEnd_toEndOf="@+id/bg_score"
+            app:layout_constraintTop_toTopOf="@+id/bg_score" />
+
+        <ImageView
             android:id="@+id/detail_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"

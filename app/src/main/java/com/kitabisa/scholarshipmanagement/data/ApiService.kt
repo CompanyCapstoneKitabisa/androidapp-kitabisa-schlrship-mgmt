@@ -17,6 +17,8 @@ interface ApiService {
     suspend fun getAllApplicant(
         @Header("authToken") token: String,
         @Path("id") id: String,
+        @Query("page") page: Int,
+        @QueryMap options: Map<String, String>
     ): Response<AllAplicantResponse>
 
     @GET("applicants")
