@@ -31,7 +31,6 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
         fun bind(applicant: ListApplicantsItem) {
             with(binding) {
                 applicantName.text = applicant.name
-//                applicantUniversity.text = applicant.university
                 applicantCity.text = applicant.kota + ","
                 applicantProvince.text = applicant.provinsi
                 ivProfile.loadImage(applicant.photoURL, R.drawable.profile_icon)
@@ -71,11 +70,17 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListApplicantsItem>() {
-            override fun areItemsTheSame(oldItem: ListApplicantsItem, newItem: ListApplicantsItem): Boolean {
+            override fun areItemsTheSame(
+                oldItem: ListApplicantsItem,
+                newItem: ListApplicantsItem
+            ): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ListApplicantsItem, newItem: ListApplicantsItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ListApplicantsItem,
+                newItem: ListApplicantsItem
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
         }

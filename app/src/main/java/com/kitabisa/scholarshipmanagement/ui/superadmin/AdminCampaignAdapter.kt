@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kitabisa.scholarshipmanagement.R
 import com.kitabisa.scholarshipmanagement.data.Campaign
 import com.kitabisa.scholarshipmanagement.databinding.ItemCampaignAdminBinding
-import com.kitabisa.scholarshipmanagement.databinding.ItemCampaignBinding
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 
 
@@ -29,7 +28,6 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(listCampaign[position])
-//        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listCampaign[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -52,7 +50,6 @@ class AdminCampaignAdapter(private val listCampaign: ArrayList<Campaign>) :
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: Campaign)
         fun onProccessClicked(data: Campaign)
     }
 }

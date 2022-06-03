@@ -9,7 +9,7 @@ class ApplicantPagingSource(
     private val options: Map<String, String>,
     private val authToken: String,
     private val id: String
-    ) : PagingSource<Int, ListApplicantsItem>() {
+) : PagingSource<Int, ListApplicantsItem>() {
 
     private companion object {
         const val INITIAL_PAGE_INDEX = 1

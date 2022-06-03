@@ -27,9 +27,6 @@ data class CampaignDetail(
     @field:SerializedName("processData")
     val processData: String,
 
-    @field:SerializedName("processPageNumber")
-    val processPageNumber: String,
-
     @field:SerializedName("pendingApplicants")
     val pendingApplicants: Int,
 

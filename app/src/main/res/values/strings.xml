@@ -4,10 +4,9 @@
     <string name="ditolak">Rejected</string>
     <string name="pendaftar">Remaining</string>
     <string name="webclient_id">621942935909-ne4g8p16aaliv9omqb19q7p4e7upvgni.apps.googleusercontent.com</string>
-        <!-- TODO: Remove or change this placeholder text -->
-        <string name="hello_blank_fragment">Hello blank fragment</string>
-        <string name="title_activity_admin">AdminActivity</string>
-        <string name="title_home">Home</string>
-        <string name="title_dashboard">Dashboard</string>
-        <string name="title_notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_admin">AdminActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

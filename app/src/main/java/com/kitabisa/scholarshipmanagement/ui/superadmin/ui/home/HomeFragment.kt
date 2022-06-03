@@ -144,9 +144,6 @@ class HomeFragment : Fragment() {
         binding.rvCampaign.adapter = listCampaignAdapter
         listCampaignAdapter.setOnItemClickCallback(object :
             AdminCampaignAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Campaign) {
-                Toast.makeText(requireContext(), "It is clicked", Toast.LENGTH_SHORT).show()
-            }
 
             override fun onProccessClicked(data: Campaign) {
                 if (tempToken.isNotEmpty()) {

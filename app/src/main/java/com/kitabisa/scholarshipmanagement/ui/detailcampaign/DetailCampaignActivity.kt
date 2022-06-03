@@ -8,8 +8,6 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -22,15 +20,9 @@ import com.kitabisa.scholarshipmanagement.databinding.ActivityDetailCampaignBind
 import com.kitabisa.scholarshipmanagement.ui.CustomLoadingDialog
 import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
+import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.HashMap
 
 class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCallback {
 
@@ -40,12 +32,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         FirebaseAuth.getInstance()
     }
     private var tempToken: String = ""
-    val tempListApplicant = ArrayList<ListApplicantsItem>()
-    val tempListApplicant2 = ArrayList<ListApplicantsItem>()
     lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var campaignDetail: CampaignDetail
     private lateinit var customLoadingDialog: CustomLoadingDialog
-    var listApplicant = ArrayList<ListApplicantsItem>()
     private lateinit var idCampaign: String
     private var status: String = "pending"
     private var nama: String = ""
@@ -67,11 +56,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         customLoadingDialog = CustomLoadingDialog(this)
 
-
-
         idCampaign = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
 
-        //comment code to use local data
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
@@ -84,7 +70,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             is Resource.Success -> {
                                 campaignDetail = result.data?.Data!!
 
-                                if (campaignDetail.processData == "0" || campaignDetail.processPageNumber == "0") {
+                                if (campaignDetail.processData == "0") {
                                     binding.apply {
                                         emptyIcon.visibility = View.VISIBLE
                                         emptyLabel.visibility = View.VISIBLE
@@ -93,10 +79,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                         emptyDesc.visibility = View.VISIBLE
                                         btnEmpty.visibility = View.VISIBLE
                                         btnEmpty.setOnClickListener {
+                                            startActivity(Intent(this@DetailCampaignActivity, HomeActivity::class.java))
                                             finish()
                                         }
                                     }
-                                }else{
+                                } else {
                                     getData(tempToken)
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
@@ -149,7 +136,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             finishAffinity()
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
-        //end
 
         binding.apply {
             val layoutManager = LinearLayoutManager(this@DetailCampaignActivity)
@@ -164,7 +150,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         applicantDetailIntent.putExtra(DetailApplicantActivity.ID_APPLICANT, applicant.id)
         applicantDetailIntent.putExtra(ID_CAMPAIGN, idCampaign)
         startActivity(applicantDetailIntent)
-        finish()
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        super.onBackPressed()
     }
 
     private fun renderLoading(state: Boolean) {
@@ -190,19 +180,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         )
 
         val options: HashMap<String, String> = HashMap()
-        if (status != ""){
+        if (status != "") {
             options["status"] = status
         }
-        if (nama != ""){
+        if (nama != "") {
             options["nama"] = nama
         }
-        if (provinsi != ""){
+        if (provinsi != "") {
             options["provinsi"] = provinsi
         }
-        if (statusRumah != ""){
+        if (statusRumah != "") {
             options["statusRumah"] = statusRumah
         }
-        if (statusData != ""){
+        if (statusData != "") {
             options["statusData"] = statusData
         }
 
@@ -211,15 +201,15 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
         adapter.addLoadStateListener { loadState ->
             Log.v("item count jyo", adapter.itemCount.toString())
-            if ( loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+            if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
                 showEmptyApplicant(true)
-            }else{
+            } else {
                 showEmptyApplicant(false)
             }
         }
     }
 
-    private fun setDataEmpty(){
+    private fun setDataEmpty() {
         status = ""
         nama = ""
         provinsi = ""
@@ -227,7 +217,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         statusData = ""
     }
 
-    private fun showEmptyApplicant(state: Boolean){
+    private fun showEmptyApplicant(state: Boolean) {
 
         if (state) {
             binding.apply {
@@ -237,7 +227,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 emptyDesc.visibility = View.VISIBLE
                 btnEmpty.visibility = View.GONE
             }
-        }else{
+        } else {
             binding.apply {
                 emptyIcon.visibility = View.GONE
                 emptyLabel.visibility = View.GONE
@@ -247,25 +237,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    fun setSearchAndFilter(){
+    fun setSearchAndFilter() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                //                renderLoading(true)
-                //                binding.root.visibility = View.GONE
                 val queryText = query!!.lowercase(Locale.getDefault())
                 if (queryText.isNotEmpty()) {
                     nama = queryText
                     firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                         getData(res.token.toString())
-                        //                        renderLoading(false)
-                        //                        binding.root.visibility = View.VISIBLE
                     }
                 } else {
                     nama = ""
                     firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                         getData(res.token.toString())
-                        //                        renderLoading(false)
-                        //                        binding.root.visibility = View.VISIBLE
                     }
                 }
                 return false
@@ -291,8 +275,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
             val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
             applyButton.setOnClickListener {
-                //                renderLoading(true)
-                //                binding.root.visibility = View.GONE
                 bottomSheetDialog.dismiss()
                 setDataEmpty()
 
@@ -351,57 +333,39 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
                 firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                     getData(res.token.toString())
-                    //                    renderLoading(false)
-                    //                    binding.root.visibility = View.VISIBLE
                 }
             }
         }
 
         binding.acceptedCount.setOnClickListener {
-            //            renderLoading(true)
-            //            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "accepted"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                //                renderLoading(false)
-                //                binding.root.visibility = View.VISIBLE
             }
         }
 
         binding.rejectedCount.setOnClickListener {
-            //            renderLoading(true)
-            //            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "rejected"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                //                renderLoading(false)
-                //                binding.root.visibility = View.VISIBLE
             }
         }
 
         binding.onholdCount.setOnClickListener {
-            //            renderLoading(true)
-            //            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "onhold"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                //                renderLoading(false)
-                //                binding.root.visibility = View.VISIBLE
             }
         }
 
         binding.applicantCount.setOnClickListener {
-            //            renderLoading(true)
-            //            binding.root.visibility = View.GONE
             setDataEmpty()
             status = "pending"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                //                renderLoading(false)
-                //                binding.root.visibility = View.VISIBLE
             }
         }
     }

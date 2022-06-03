@@ -77,7 +77,6 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-
     private fun postCampaign() {
 
         var noError = true

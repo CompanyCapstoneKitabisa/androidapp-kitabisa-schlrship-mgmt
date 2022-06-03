@@ -21,6 +21,7 @@ object Utils {
             .placeholder(placeholder)
             .into(this)
     }
+
     private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
     val timeStamp: String = SimpleDateFormat(

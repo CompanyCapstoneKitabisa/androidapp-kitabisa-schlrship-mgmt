@@ -61,10 +61,10 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                                     campaignAdapter.setData(listCampaign)
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
-//                                    Toast.makeText(
-//                                        this, result.data.message,
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
+                                    Toast.makeText(
+                                        this, result.data.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 } else {
                                     renderLoading(false)
                                     binding.tvDataNull.visibility = View.VISIBLE
@@ -92,7 +92,6 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
             Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
             signOut()
         }
-        //end
 
         binding.apply {
             val layoutManager = LinearLayoutManager(this@HomeActivity)
@@ -111,6 +110,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
         val campaignDetailIntent = Intent(this, DetailCampaignActivity::class.java)
         campaignDetailIntent.putExtra(DetailCampaignActivity.ID_CAMPAIGN, campaign.id)
         startActivity(campaignDetailIntent)
+        finish()
     }
 
     private fun signOut() {

@@ -17,5 +17,5 @@ data class NewCampaignBody(
 
     @field:SerializedName("photoUrl")
     val photoUrl: String
-    )
+)
 

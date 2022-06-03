@@ -17,7 +17,11 @@ class DataRepository private constructor(private val apiService: ApiService) {
         emit(Resource.Loading())
         try {
             val response = apiService.getDetailApplicant(token, id)
-            emit(Resource.Success(response.body()))
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()))
+            } else {
+                emit(Resource.Error("Session Expired, You can Re-Login"))
+            }
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
             emit(Resource.Error(e.message.toString()))
@@ -32,7 +36,11 @@ class DataRepository private constructor(private val apiService: ApiService) {
         emit(Resource.Loading())
         try {
             val response = apiService.setApplicantStatus(token, id, updateApplicantStatusBody)
-            emit(Resource.Success(response.body()))
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()))
+            } else {
+                emit(Resource.Error("Session Expired, You can Re-Login"))
+            }
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
             emit(Resource.Error(e.message.toString()))
@@ -49,23 +57,12 @@ class DataRepository private constructor(private val apiService: ApiService) {
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()))
             } else {
-                emit(Resource.Error("Session Expired, You can Re-Login"))
+                emit(Resource.Error("Response Code : ${response.code()}"))
             }
         } catch (e: Exception) {
             Log.d("DataRepository", "data: ${e.message.toString()} ")
             emit(Resource.Error(e.message.toString()))
         }
-    }
-
-    companion object {
-        @Volatile
-        private var instance: DataRepository? = null
-        fun getInstance(
-            apiService: ApiService,
-        ): DataRepository =
-            instance ?: synchronized(this) {
-                instance ?: DataRepository(apiService)
-            }.also { instance = it }
     }
 
     fun getCampaign(token: String): LiveData<Resource<CampaignResponse>> = liveData {
@@ -88,15 +85,22 @@ class DataRepository private constructor(private val apiService: ApiService) {
             emit(Resource.Loading())
             try {
                 val response = apiService.getCampaignDetail(token, id)
-                emit(Resource.Success(response.body()))
+                if (response.isSuccessful) {
+                    emit(Resource.Success(response.body()))
+                } else {
+                    emit(Resource.Error("Session Expired, You can Re-Login"))
+                }
             } catch (e: Exception) {
                 Log.d("DataRepository", "data: ${e.message.toString()} ")
                 emit(Resource.Error(e.message.toString()))
             }
         }
 
-    fun getAllApplicant(options: Map<String, String>, authToken: String, id: String): LiveData<PagingData<ListApplicantsItem>> {
-        Log.v("di jyo getAllAppl", id)
+    fun getAllApplicant(
+        options: Map<String, String>,
+        authToken: String,
+        id: String
+    ): LiveData<PagingData<ListApplicantsItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
@@ -138,5 +142,16 @@ class DataRepository private constructor(private val apiService: ApiService) {
                 emit(Resource.Error(e.message.toString()))
             }
         }
+
+    companion object {
+        @Volatile
+        private var instance: DataRepository? = null
+        fun getInstance(
+            apiService: ApiService,
+        ): DataRepository =
+            instance ?: synchronized(this) {
+                instance ?: DataRepository(apiService)
+            }.also { instance = it }
+    }
 
 }

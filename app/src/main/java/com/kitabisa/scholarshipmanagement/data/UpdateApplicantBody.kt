@@ -11,4 +11,10 @@ data class UpdateApplicantStatusBody(
 
     @field:SerializedName("notes")
     val notes: String,
+
+    @field:SerializedName("currStatus")
+    val currStatus: String,
+
+    @field:SerializedName("idCampaign")
+    val idCampaign: String
 )

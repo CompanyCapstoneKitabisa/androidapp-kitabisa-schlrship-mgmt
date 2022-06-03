@@ -112,14 +112,14 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="9sp"
-            tools:text="200"
-            android:textStyle="bold"
             android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/bg_score"
-            app:layout_constraintStart_toStartOf="@id/bg_score"
             app:layout_constraintEnd_toEndOf="@+id/bg_score"
-            app:layout_constraintTop_toTopOf="@+id/bg_score" />
+            app:layout_constraintStart_toStartOf="@id/bg_score"
+            app:layout_constraintTop_toTopOf="@+id/bg_score"
+            tools:text="200" />
 
         <ImageView
             android:id="@+id/detail_icon"

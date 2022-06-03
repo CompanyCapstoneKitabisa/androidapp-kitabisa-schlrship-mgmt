@@ -49,6 +49,7 @@ class DetailApplicantActivity : AppCompatActivity() {
     private lateinit var broadcastReceiver: BroadcastReceiver
 
     private var tempToken: String = ""
+    private var tempCurrStatus: String = ""
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
@@ -90,8 +91,6 @@ class DetailApplicantActivity : AppCompatActivity() {
 
         activityDetailApplicantBinding.root.visibility = View.GONE
         val firebaseUser = auth.currentUser
-
-        renderLoading(true)
 
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
@@ -149,7 +148,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                     "Accept" -> "accepted"
                     "Reject" -> "rejected"
                     "Hold" -> "onhold"
-                    else -> ""
+                    else -> "pending"
                 }
 
             val tempReviewer = firebaseUser?.email
@@ -157,7 +156,14 @@ class DetailApplicantActivity : AppCompatActivity() {
             val tempNotes =
                 activityDetailApplicantBinding.etCatatanReviewer.editText?.text.toString()
 
-            val body = UpdateApplicantStatusBody(tempReviewer.toString(), tempStatus, tempNotes)
+
+            val body = UpdateApplicantStatusBody(
+                tempReviewer.toString(),
+                tempStatus,
+                tempNotes,
+                tempCurrStatus,
+                idCampaign
+            )
 
             detailApplicantViewModel.setApplicantStatus(
                 tempToken, idApplicant,
@@ -171,8 +177,14 @@ class DetailApplicantActivity : AppCompatActivity() {
                         is Resource.Success -> {
                             renderLoading(false)
 
-                            val campaignDetailIntent = Intent(this@DetailApplicantActivity, DetailCampaignActivity::class.java)
-                            campaignDetailIntent.putExtra(DetailCampaignActivity.ID_CAMPAIGN, idCampaign)
+                            val campaignDetailIntent = Intent(
+                                this@DetailApplicantActivity,
+                                DetailCampaignActivity::class.java
+                            )
+                            campaignDetailIntent.putExtra(
+                                DetailCampaignActivity.ID_CAMPAIGN,
+                                idCampaign
+                            )
                             startActivity(campaignDetailIntent)
                             finish()
                             Toast.makeText(
@@ -185,7 +197,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                             renderLoading(false)
                             Toast.makeText(
                                 this,
-                                result.data?.error.toString(),
+                                result.message.toString(),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -339,6 +351,8 @@ class DetailApplicantActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            tempCurrStatus = data.statusApplicant
 
             val adapter = ArrayAdapter(this@DetailApplicantActivity, R.layout.list_pilihan, items)
             (pilihanMenu.editText as? AutoCompleteTextView)?.setAdapter(adapter)

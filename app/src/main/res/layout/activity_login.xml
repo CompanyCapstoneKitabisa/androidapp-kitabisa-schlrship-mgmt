@@ -109,10 +109,9 @@
         android:layout_height="wrap_content"
         android:text="or log in with"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_input"
         app:layout_constraintBottom_toTopOf="@id/google_button"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_input" />
 
     <View
         android:id="@+id/view_left"

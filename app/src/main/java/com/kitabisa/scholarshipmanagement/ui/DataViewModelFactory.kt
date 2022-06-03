@@ -19,7 +19,7 @@ class DataViewModelFactory private constructor(private val dataRepository: DataR
             return DetailCampaignViewModel(dataRepository) as T
         } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(dataRepository) as T
-        }else if (modelClass.isAssignableFrom(AdminCampaignViewModel::class.java)){
+        } else if (modelClass.isAssignableFrom(AdminCampaignViewModel::class.java)) {
             return AdminCampaignViewModel(dataRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
