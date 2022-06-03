@@ -165,6 +165,9 @@ data class ScoreApplicant(
     @field:SerializedName("scorePerjuangan")
     val scorePerjuangan: Int,
 
+    @field:SerializedName("scorePenting")
+    val scorePenting: Int,
+
     @field:SerializedName("scoreNIK")
     val scoreNIK: Int,
 
@@ -176,6 +179,9 @@ data class ScoreApplicant(
 
     @field:SerializedName("scoreKota")
     val scoreKota: Int,
+
+    @field:SerializedName("scoreKepemilikanRumah")
+    val scoreKepemilikanRumah: Int,
 
     @field:SerializedName("scoreKegiatan")
     val scoreKegiatan: Int,

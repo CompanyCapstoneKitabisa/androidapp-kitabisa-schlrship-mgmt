@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_provinsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score Provinsi"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_kota_kabupaten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Kota/Kabupaten"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_provinsi" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_nik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score NIK"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_kota_kabupaten" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_sosmed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Sosial Media"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_nik" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_cerita_dana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Cerita Penggunaan Dana"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_sosmed" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_kepemilikan_rumah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Kepemilikan Rumah"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_cerita_dana" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_klasifikasi_rumah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Klasifikasi Rumah"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_kepemilikan_rumah" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_cerita_latar_belakang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Cerita Latar Belakang"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_klasifikasi_rumah" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_cerita_perjuangan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Cerita Perjuangan"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_cerita_latar_belakang" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_cerita_beasiswa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Cerita Beasiswa Ini Penting"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_cerita_perjuangan" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_cerita_kegiatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score Cerita Kegiatan"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_cerita_beasiswa" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/score_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Total :"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_cerita_kegiatan" />
+
+    <!--    SCORE-->
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_provinsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_provinsi" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_kota_kabupaten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_kota_kabupaten" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_nik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_nik" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_sosmed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_sosmed" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_cerita_dana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_cerita_dana" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_kepemilikan_rumah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_kepemilikan_rumah" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_klasifikasi_rumah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_klasifikasi_rumah" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_cerita_latar_belakang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_cerita_latar_belakang" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_cerita_perjuangan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_cerita_perjuangan" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_cerita_beasiswa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_cerita_beasiswa" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_kegiatan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_cerita_kegiatan" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_score_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:textColor="@color/blue_main"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/score_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/score_total" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
