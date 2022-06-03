@@ -13,8 +13,6 @@ import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
 class ApplicantAdapter(private val callback: ApplicantCallback) :
     PagingDataAdapter<ListApplicantsItem, ApplicantAdapter.ApplicantViewHolder>(DIFF_CALLBACK) {
 
-    private val _data = ArrayList<ListApplicantsItem>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicantViewHolder {
         val applicantBinding =
             ItemApplicantBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,8 +25,6 @@ class ApplicantAdapter(private val callback: ApplicantCallback) :
             holder.bind(data)
         }
     }
-
-    override fun getItemCount(): Int = _data.size
 
     inner class ApplicantViewHolder(private val binding: ItemApplicantBinding) :
         RecyclerView.ViewHolder(binding.root) {

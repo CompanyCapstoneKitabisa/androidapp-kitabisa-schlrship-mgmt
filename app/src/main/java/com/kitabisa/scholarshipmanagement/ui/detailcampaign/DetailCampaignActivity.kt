@@ -367,6 +367,14 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         detailCampaignViewModel.getAllApplicant(options, token, idCampaign).observe(this) {
             adapter.submitData(lifecycle, it)
         }
+        adapter.addLoadStateListener { loadState ->
+            Log.v("item count jyo", adapter.itemCount.toString())
+            if ( loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                showEmptyApplicant(true)
+            }else{
+                showEmptyApplicant(false)
+            }
+        }
     }
 
     private fun setDataEmpty() {
