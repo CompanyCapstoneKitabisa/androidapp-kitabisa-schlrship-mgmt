@@ -317,6 +317,10 @@ class DetailApplicantActivity : AppCompatActivity() {
                 tvScoreCeritaPerjuangan.text = data.scoreApplicant.scorePerjuangan.toString()
                 tvScoreCeritaBeasiswa.text = data.scoreApplicant.scorePenting.toString()
                 tvScoreKegiatan.text = data.scoreApplicant.scoreKegiatan.toString()
+                tvScoreTotal.text = data.scoreApplicant.total.toString()
+            }
+            headerDetailScore.headerIcon.setOnClickListener {
+                expand(detailScore.root, headerDetailScore.headerIcon)
             }
 
             val items = listOf("No Status", "Accept", "Reject", "Hold")

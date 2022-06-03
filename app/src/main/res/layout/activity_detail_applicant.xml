@@ -386,7 +386,8 @@
 
                 <include
                     android:id="@+id/detail_score"
-                    layout="@layout/detail_score" />
+                    layout="@layout/detail_score"
+                    android:visibility="gone" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
