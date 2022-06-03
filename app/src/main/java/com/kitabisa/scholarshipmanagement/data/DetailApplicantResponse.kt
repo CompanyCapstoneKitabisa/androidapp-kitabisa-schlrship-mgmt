@@ -125,7 +125,10 @@ data class FetchedData(
     val pengajuanBantuan: PengajuanBantuan,
 
     @field:SerializedName("misc")
-    val misc: Misc
+    val misc: Misc,
+
+    @field:SerializedName("scoreApplicant")
+    val scoreApplicant: ScoreApplicant
 )
 
 data class PengajuanBantuan(
@@ -147,4 +150,42 @@ data class PengajuanBantuan(
 
     @field:SerializedName("ceritaPenggunaanDana")
     val ceritaPenggunaanDana: String
+)
+
+data class ScoreApplicant(
+    @field:SerializedName("total")
+    val total: Int,
+
+    @field:SerializedName("scoreRumah")
+    val scoreRumah: Int,
+
+    @field:SerializedName("scoreProvinsi")
+    val scoreProvinsi: Int,
+
+    @field:SerializedName("scorePerjuangan")
+    val scorePerjuangan: Int,
+
+    @field:SerializedName("scorePenting")
+    val scorePenting: Int,
+
+    @field:SerializedName("scoreNIK")
+    val scoreNIK: Int,
+
+    @field:SerializedName("scoreMedsos")
+    val scoreMedsos: Int,
+
+    @field:SerializedName("scoreLatarBelakang")
+    val scoreLatarBelakang: Int,
+
+    @field:SerializedName("scoreKota")
+    val scoreKota: Int,
+
+    @field:SerializedName("scoreKepemilikanRumah")
+    val scoreKepemilikanRumah: Int,
+
+    @field:SerializedName("scoreKegiatan")
+    val scoreKegiatan: Int,
+
+    @field:SerializedName("scoreDana")
+    val scoreDana: Int,
 )

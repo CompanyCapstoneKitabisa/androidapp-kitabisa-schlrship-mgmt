@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.paging.LoadState
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -359,14 +359,9 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         detailCampaignViewModel.getAllApplicant(options, token, idCampaign).observe(this) {
             adapter.submitData(lifecycle, it)
         }
-        adapter.addLoadStateListener { loadState ->
-            Log.v("item count jyo", adapter.itemCount.toString())
-            if ( loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                showEmptyApplicant(true)
-            }else{
-                showEmptyApplicant(false)
-            }
-        }
+//        if (adapter.itemCount == 0){
+//            showEmptyApplicant()
+//        }
     }
 
     private fun setDataEmpty(){
@@ -377,23 +372,13 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         statusData = ""
     }
 
-    private fun showEmptyApplicant(state: Boolean){
-
-        if (state) {
-            binding.apply {
-                emptyIcon.visibility = View.VISIBLE
-                emptyLabel.visibility = View.VISIBLE
-                emptyDesc.text = "Try to use other filter setting"
-                emptyDesc.visibility = View.VISIBLE
-                btnEmpty.visibility = View.GONE
-            }
-        }else{
-            binding.apply {
-                emptyIcon.visibility = View.GONE
-                emptyLabel.visibility = View.GONE
-                emptyDesc.visibility = View.GONE
-                btnEmpty.visibility = View.GONE
-            }
+    private fun showEmptyApplicant(){
+        binding.apply {
+            emptyIcon.visibility = View.VISIBLE
+            emptyLabel.visibility = View.VISIBLE
+            emptyDesc.text = "Try to use other filter setting"
+            emptyDesc.visibility = View.VISIBLE
+            btnEmpty.visibility = View.GONE
         }
     }
 }

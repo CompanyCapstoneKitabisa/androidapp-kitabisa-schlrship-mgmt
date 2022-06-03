@@ -358,6 +358,39 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!--        DETAIL SCORE-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_detail_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardview_kegiatan_aktif">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <include
+                    android:id="@+id/header_detail_score"
+                    layout="@layout/expand_title_and_button" />
+
+                <include
+                    android:id="@+id/detail_score"
+                    layout="@layout/detail_score" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!--        LAMPIRAN DOKUMEN-->
 
         <com.google.android.material.textview.MaterialTextView
@@ -370,7 +403,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardview_kegiatan_aktif" />
+            app:layout_constraintTop_toBottomOf="@id/cardview_detail_score" />
 
         <!--        PILIHAN-->
 

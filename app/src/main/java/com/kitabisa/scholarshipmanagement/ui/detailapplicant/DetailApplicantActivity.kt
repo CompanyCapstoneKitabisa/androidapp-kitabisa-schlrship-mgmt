@@ -254,9 +254,11 @@ class DetailApplicantActivity : AppCompatActivity() {
 
             headerRincianBeasiswa.headerText.text = "Rincian Beasiswa"
             headerRincianBeasiswa.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            rincianBeasiswa.tvPilihanBantuan.text = data.pengajuanBantuan.kebutuhan
-            rincianBeasiswa.tvTotalBiaya.text = data.pengajuanBantuan.totalBiaya
-            rincianBeasiswa.tvRincianBiaya.text = data.pengajuanBantuan.ceritaPenggunaanDana
+            rincianBeasiswa.apply {
+                tvPilihanBantuan.text = data.pengajuanBantuan.kebutuhan
+                tvTotalBiaya.text = data.pengajuanBantuan.totalBiaya
+                tvRincianBiaya.text = data.pengajuanBantuan.ceritaPenggunaanDana
+            }
             renderZoomImage(
                 data.pengajuanBantuan.fotoBuktiTunggakan,
                 rincianBeasiswa.ivFotoBuktiTagihan
@@ -299,6 +301,22 @@ class DetailApplicantActivity : AppCompatActivity() {
                     tvCeritaKegiatan.visibility = View.GONE
                     headerKegiatanAktif.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
                 }
+            }
+
+            headerDetailScore.headerText.text = "Detail Score"
+            headerDetailScore.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+            detailScore.apply {
+                tvScoreProvinsi.text = data.scoreApplicant.scoreProvinsi.toString()
+                tvScoreKotaKabupaten.text = data.scoreApplicant.scoreKota.toString()
+                tvScoreNik.text = data.scoreApplicant.scoreNIK.toString()
+                tvScoreSosmed.text = data.scoreApplicant.scoreMedsos.toString()
+                tvScoreCeritaDana.text = data.scoreApplicant.scoreDana.toString()
+                tvScoreKepemilikanRumah.text = data.scoreApplicant.scoreKepemilikanRumah.toString()
+                tvScoreKlasifikasiRumah.text = data.scoreApplicant.scoreRumah.toString()
+                tvScoreCeritaLatarBelakang.text = data.scoreApplicant.scoreLatarBelakang.toString()
+                tvScoreCeritaPerjuangan.text = data.scoreApplicant.scorePerjuangan.toString()
+                tvScoreCeritaBeasiswa.text = data.scoreApplicant.scorePenting.toString()
+                tvScoreKegiatan.text = data.scoreApplicant.scoreKegiatan.toString()
             }
 
             val items = listOf("No Status", "Accept", "Reject", "Hold")
