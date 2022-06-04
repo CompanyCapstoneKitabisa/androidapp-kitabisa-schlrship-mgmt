@@ -97,75 +97,72 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
-                detailCampaignViewModel.getCampaignDetail(
-                    tempToken,
-                    idCampaign
-                ).observe(this) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Resource.Success -> {
-                                campaignDetail = result.data?.Data!!
+                detailCampaignViewModel.getCampaignDetail(tempToken, idCampaign)
+                    .observe(this) { result ->
+                        if (result != null) {
+                            when (result) {
+                                is Resource.Success -> {
+                                    campaignDetail = result.data?.Data!!
 
-                                if (campaignDetail.processData == "0") {
-                                    binding.apply {
-                                        emptyIcon.visibility = View.VISIBLE
-                                        emptyLabel.visibility = View.VISIBLE
-                                        emptyDesc.text =
-                                            "Applicant Data is in Process, Please Try Again Later"
-                                        emptyDesc.visibility = View.VISIBLE
-                                        btnEmpty.visibility = View.VISIBLE
-                                        btnEmpty.setOnClickListener {
-                                            startActivity(
-                                                Intent(
-                                                    this@DetailCampaignActivity,
-                                                    HomeActivity::class.java
+                                    if (campaignDetail.processData == "0") {
+                                        binding.apply {
+                                            emptyIcon.visibility = View.VISIBLE
+                                            emptyLabel.visibility = View.VISIBLE
+                                            emptyDesc.text =
+                                                "Applicant Data is in Process, Please Try Again Later"
+                                            emptyDesc.visibility = View.VISIBLE
+                                            btnEmpty.visibility = View.VISIBLE
+                                            btnEmpty.setOnClickListener {
+                                                startActivity(
+                                                    Intent(
+                                                        this@DetailCampaignActivity,
+                                                        HomeActivity::class.java
+                                                    )
                                                 )
-                                            )
-                                            finish()
+                                                finish()
+                                            }
                                         }
+                                        renderLoading(false)
+                                        binding.root.visibility = View.VISIBLE
+                                    } else {
+                                        triggerData(tempToken)
                                     }
-                                    renderLoading(false)
-                                    binding.root.visibility = View.VISIBLE
-                                } else {
-                                    triggerData(tempToken, campaignDetail.applicantsCount)
+                                    binding.apply {
+                                        campaignName.text = campaignDetail.name
+                                        applicantCount.text =
+                                            campaignDetail.pendingApplicants.toString()
+                                        acceptedCount.text =
+                                            campaignDetail.acceptedApplicants.toString()
+                                        onholdCount.text =
+                                            campaignDetail.onHoldApplicants.toString()
+                                        rejectedCount.text =
+                                            campaignDetail.rejectedApplicants.toString()
+                                        ivCampaignPhoto.loadImage(
+                                            campaignDetail.photoUrl,
+                                            R.drawable.ic_image
+                                        )
+                                    }
+                                    Toast.makeText(
+                                        this,
+                                        result.data.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-
-                                binding.apply {
-                                    campaignName.text = campaignDetail.name
-                                    applicantCount.text =
-                                        campaignDetail.pendingApplicants.toString()
-                                    acceptedCount.text =
-                                        campaignDetail.acceptedApplicants.toString()
-                                    onholdCount.text =
-                                        campaignDetail.onHoldApplicants.toString()
-                                    rejectedCount.text =
-                                        campaignDetail.rejectedApplicants.toString()
-                                    ivCampaignPhoto.loadImage(
-                                        campaignDetail.photoUrl,
-                                        R.drawable.ic_image
-                                    )
+                                is Resource.Error -> {
+                                    finish()
+                                    Toast.makeText(
+                                        this,
+                                        result.message.toString(),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                                Toast.makeText(
-                                    this,
-                                    result.data.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is Resource.Error -> {
-                                finish()
-                                Toast.makeText(
-                                    this,
-                                    result.message.toString(),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is Resource.Loading -> {
-                                renderLoading(true)
-                                binding.root.visibility = View.GONE
+                                is Resource.Loading -> {
+                                    renderLoading(true)
+                                    binding.root.visibility = View.GONE
+                                }
                             }
                         }
                     }
-                }
             }
         }?.addOnFailureListener {
             renderLoading(false)
@@ -426,8 +423,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    private fun triggerData(token: String, applicantsCount: Int){
-        detailCampaignViewModel.triggerDataProcess(token, idCampaign, applicantsCount)
+    private fun triggerData(token: String) {
+        detailCampaignViewModel.triggerDataProcess(token, idCampaign)
             .observe(this) { result ->
                 if (result != null) {
                     when (result) {
@@ -437,10 +434,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                 this, result.data?.message,
                                 Toast.LENGTH_SHORT
                             ).show()
+                            Log.d("PAGING", "MASUK SINI 1")
                             triggerPagingFunction(token, idCampaign)
                         }
                         is Resource.Error -> {
-                            if(result.message.toString().contains("404")) {
+                            if (result.message.toString().contains("404")) {
                                 Toast.makeText(
                                     this,
                                     result.message.toString(),
@@ -463,6 +461,56 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
     }
 
+    private fun triggerDetailCampaign(token: String, id: String) {
+        detailCampaignViewModel.getCampaignDetail(
+            token, id
+        ).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Resource.Success -> {
+                        campaignDetail = result.data?.Data!!
+
+                        renderLoading(false)
+                        binding.root.visibility = View.VISIBLE
+
+                        binding.apply {
+                            campaignName.text = campaignDetail.name
+                            applicantCount.text =
+                                campaignDetail.pendingApplicants.toString()
+                            acceptedCount.text =
+                                campaignDetail.acceptedApplicants.toString()
+                            onholdCount.text =
+                                campaignDetail.onHoldApplicants.toString()
+                            rejectedCount.text =
+                                campaignDetail.rejectedApplicants.toString()
+                            ivCampaignPhoto.loadImage(
+                                campaignDetail.photoUrl,
+                                R.drawable.ic_image
+                            )
+                        }
+                        Toast.makeText(
+                            this,
+                            result.data.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    is Resource.Error -> {
+                        finish()
+                        Toast.makeText(
+                            this,
+                            result.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    is Resource.Loading -> {
+                        renderLoading(true)
+                        binding.root.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
+
     private fun triggerPagingFunction(token: String, id: String) {
         detailCampaignViewModel.triggerPagingData(token, id)
             .observe(this) { result ->
@@ -473,6 +521,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             renderLoading(false)
                             binding.root.visibility = View.VISIBLE
                             setSearchAndFilter()
+                            Log.d("PAGING", "MASUK SINI 2")
+                            triggerDetailCampaign(token, id)
                         }
                         is Resource.Error -> {
                             renderLoading(false)
@@ -490,7 +540,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
     }
 
-    private fun showFilter(){
+    private fun showFilter() {
         @SuppressLint("InflateParams")
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filter, null)
 

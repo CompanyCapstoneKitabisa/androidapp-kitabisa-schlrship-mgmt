@@ -50,7 +50,6 @@ interface ApiService {
     suspend fun triggerDataProcess(
         @Header("authToken") token: String,
         @Path("id") id: String,
-        @Body applicantsCount: ApplicantsCountBody
     ): Response<TriggerProcessResponse>
 
     @GET("campaigns/{id}/applicants/givePageNumber")
