@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -124,10 +125,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                         }
                                     }
                                 } else {
-                                    getData(tempToken)
-                                    renderLoading(false)
-                                    binding.root.visibility = View.VISIBLE
-                                    setSearchAndFilter()
+                                    triggerData(tempToken)
                                 }
 
                                 binding.apply {
@@ -150,10 +148,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                     result.data.message,
                                     Toast.LENGTH_SHORT
                                 ).show()
-
-                                renderLoading(false)
-                                binding.root.visibility = View.VISIBLE
-
                             }
                             is Resource.Error -> {
                                 finish()
@@ -323,79 +317,56 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         })
 
         binding.filter.setOnClickListener {
-            @SuppressLint("InflateParams")
-            val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filter, null)
+            val popup = PopupMenu(this, it)
+            popup.inflate(R.menu.campaign_detail_menu)
 
-            bottomSheetDialog = BottomSheetDialog(this@DetailCampaignActivity)
-            bottomSheetDialog.setContentView(dialogView)
-            bottomSheetDialog.show()
+            popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
 
-            val radioGroupStatus: RadioGroup = dialogView.findViewById(R.id.status_applicant_group)
-            val radioGroupBerkas: RadioGroup = dialogView.findViewById(R.id.status_berkas_group)
-            val province: TextInputEditText = dialogView.findViewById(R.id.province)
-
-            val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
-            applyButton.setOnClickListener {
-                bottomSheetDialog.dismiss()
-                setDataEmpty()
-
-                val selectedOptionStatus: Int = radioGroupStatus.checkedRadioButtonId
-                val radioButtonStatus: RadioButton? = selectedOptionStatus.let { it1 ->
-                    dialogView.findViewById(
-                        it1
-                    )
-                }
-
-                val selectedOptionBerkas: Int = radioGroupBerkas.checkedRadioButtonId
-                val radioButtonBerkas: RadioButton? = selectedOptionBerkas.let { it1 ->
-                    dialogView.findViewById(
-                        it1
-                    )
-                }
-
-                radioButtonStatus?.text?.let {
-                    when (radioButtonStatus.text) {
-                        "Belum Direview" -> {
-                            status = "pending"
-                        }
-                        "Diterima" -> {
-                            status = "accepted"
-                        }
-                        "Onhold" -> {
-                            status = "onhold"
-                        }
-                        "Ditolak" -> {
-                            status = "rejected"
+                when (item!!.itemId) {
+                    R.id.download_data -> {
+                        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                            detailCampaignViewModel.downloadCsv(res.token.toString(), idCampaign)
+                                .observe(this) {
+                                    if (it != null) {
+                                        when (it) {
+                                            is Resource.Success -> {
+                                                Log.d("URLCSV", it.data?.fileDownload.toString())
+                                                if (!isPermissionsGranted()) {
+                                                    ActivityCompat.requestPermissions(
+                                                        this@DetailCampaignActivity,
+                                                        REQUIRED_PERMISSIONS,
+                                                        REQUEST_CODE_PERMISSIONS
+                                                    )
+                                                } else {
+                                                    downloadAccCsv(
+                                                        it.data?.fileDownload?.get(0).toString(),
+                                                        campaignName
+                                                    )
+                                                }
+                                            }
+                                            is Resource.Error -> {
+                                                finish()
+                                                Toast.makeText(
+                                                    this,
+                                                    it.message.toString(),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                            is Resource.Loading -> {
+                                                renderLoading(true)
+                                            }
+                                        }
+                                    }
+                                }
                         }
                     }
-                } ?: run {
-                    status = ""
-                }
-
-                radioButtonBerkas?.text?.let {
-                    if (radioButtonBerkas.text.toString() == "Data Valid") {
-                        statusData = "valid"
-                    } else if (radioButtonBerkas.text.toString() == "Rumah Valid") {
-                        statusRumah = "valid"
-                    } else {
-                        statusData = "valid"
-                        statusRumah = "valid"
+                    R.id.show_filter -> {
+                        showFilter()
                     }
-                } ?: run {
-                    statusData = ""
-                    statusRumah = ""
                 }
-
-                province.text?.let {
-                    provinsi = province.text.toString()
-                } ?: run {
-                    provinsi = ""
-                }
-
-                firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                    getData(res.token.toString())
-                }
-            }
+                true
+            })
+            popup.show()
         }
 
         binding.acceptedCount.setOnClickListener {
@@ -403,39 +374,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "accepted"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
-                detailCampaignViewModel.downloadCsv(res.token.toString(), idCampaign)
-                    .observe(this) {
-                        if (it != null) {
-                            when (it) {
-                                is Resource.Success -> {
-                                    Log.d("URLCSV", it.data?.fileDownload.toString())
-                                    if (!isPermissionsGranted()) {
-                                        ActivityCompat.requestPermissions(
-                                            this@DetailCampaignActivity,
-                                            REQUIRED_PERMISSIONS,
-                                            REQUEST_CODE_PERMISSIONS
-                                        )
-                                    } else {
-                                        downloadAccCsv(
-                                            it.data?.fileDownload?.get(0).toString(),
-                                            campaignName
-                                        )
-                                    }
-                                }
-                                is Resource.Error -> {
-                                    finish()
-                                    Toast.makeText(
-                                        this,
-                                        it.message.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                is Resource.Loading -> {
-                                    renderLoading(true)
-                                }
-                            }
-                        }
-                    }
             }
         }
 
@@ -483,6 +421,146 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         } catch (e: Exception) {
             renderLoading(false)
             Toast.makeText(this, "Download Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun triggerData(token: String){
+        detailCampaignViewModel.triggerDataProcess(token, idCampaign)
+            .observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            renderLoading(false)
+                            Toast.makeText(
+                                this, result.data?.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            triggerPagingFunction(token, idCampaign)
+                        }
+                        is Resource.Error -> {
+                            if(result.message.toString().contains("404")) {
+                                Toast.makeText(
+                                    this,
+                                    result.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                renderLoading(false)
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    result.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun triggerPagingFunction(token: String, id: String) {
+        detailCampaignViewModel.triggerPagingData(token, id)
+            .observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            getData(tempToken)
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
+                            setSearchAndFilter()
+                        }
+                        is Resource.Error -> {
+                            renderLoading(false)
+                            Toast.makeText(
+                                this,
+                                result.message.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun showFilter(){
+        @SuppressLint("InflateParams")
+        val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filter, null)
+
+        bottomSheetDialog = BottomSheetDialog(this@DetailCampaignActivity)
+        bottomSheetDialog.setContentView(dialogView)
+        bottomSheetDialog.show()
+
+        val radioGroupStatus: RadioGroup = dialogView.findViewById(R.id.status_applicant_group)
+        val radioGroupBerkas: RadioGroup = dialogView.findViewById(R.id.status_berkas_group)
+        val province: TextInputEditText = dialogView.findViewById(R.id.province)
+
+        val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
+        applyButton.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            setDataEmpty()
+
+            val selectedOptionStatus: Int = radioGroupStatus.checkedRadioButtonId
+            val radioButtonStatus: RadioButton? = selectedOptionStatus.let { it1 ->
+                dialogView.findViewById(
+                    it1
+                )
+            }
+
+            val selectedOptionBerkas: Int = radioGroupBerkas.checkedRadioButtonId
+            val radioButtonBerkas: RadioButton? = selectedOptionBerkas.let { it1 ->
+                dialogView.findViewById(
+                    it1
+                )
+            }
+
+            radioButtonStatus?.text?.let {
+                when (radioButtonStatus.text) {
+                    "Belum Direview" -> {
+                        status = "pending"
+                    }
+                    "Diterima" -> {
+                        status = "accepted"
+                    }
+                    "Onhold" -> {
+                        status = "onhold"
+                    }
+                    "Ditolak" -> {
+                        status = "rejected"
+                    }
+                }
+            } ?: run {
+                status = ""
+            }
+
+            radioButtonBerkas?.text?.let {
+                if (radioButtonBerkas.text.toString() == "Data Valid") {
+                    statusData = "valid"
+                } else if (radioButtonBerkas.text.toString() == "Rumah Valid") {
+                    statusRumah = "valid"
+                } else {
+                    statusData = "valid"
+                    statusRumah = "valid"
+                }
+            } ?: run {
+                statusData = ""
+                statusRumah = ""
+            }
+
+            province.text?.let {
+                provinsi = province.text.toString()
+            } ?: run {
+                provinsi = ""
+            }
+
+            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+                getData(res.token.toString())
+            }
         }
     }
 }

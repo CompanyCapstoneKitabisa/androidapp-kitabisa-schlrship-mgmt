@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/download_data"
+        android:title="Download CSV" />
+    <item
+        android:id="@+id/show_filter"
+        android:title="Show Filter" />
+</menu>
