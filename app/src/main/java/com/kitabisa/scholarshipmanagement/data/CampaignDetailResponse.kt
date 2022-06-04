@@ -37,5 +37,8 @@ data class CampaignDetail(
     val rejectedApplicants: Int,
 
     @field:SerializedName("onHoldApplicants")
-    val onHoldApplicants: Int
+    val onHoldApplicants: Int,
+
+    @field:SerializedName("applicantsCount")
+    val applicantsCount: Int
 )
