@@ -124,6 +124,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                             finish()
                                         }
                                     }
+                                    renderLoading(false)
+                                    binding.root.visibility = View.VISIBLE
                                 } else {
                                     triggerData(tempToken, campaignDetail.applicantsCount)
                                 }
