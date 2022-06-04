@@ -203,6 +203,7 @@ class HomeFragment : Fragment() {
                             renderLoading(false)
                         }
                         is Resource.Error -> {
+                            renderLoading(false)
                             Toast.makeText(
                                 requireActivity(),
                                 result.message.toString(),

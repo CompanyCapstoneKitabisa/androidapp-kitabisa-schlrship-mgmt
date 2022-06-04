@@ -20,4 +20,6 @@ class DetailCampaignViewModel(private val dataRepository: DataRepository) : View
         return dataRepository.getAllApplicant(options, token, id).cachedIn(viewModelScope)
     }
 
+    fun downloadCsv(token: String, id: String) = dataRepository.downloadCsv(token, id)
+
 }

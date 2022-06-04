@@ -72,6 +72,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
                                 }
                             }
                             is Resource.Error -> {
+                                renderLoading(false)
                                 Toast.makeText(
                                     this,
                                     result.message.toString(),
@@ -109,6 +110,7 @@ class HomeActivity : AppCompatActivity(), CampaignAdapter.CampaignCallback {
     override fun onStoryClick(campaign: Campaign) {
         val campaignDetailIntent = Intent(this, DetailCampaignActivity::class.java)
         campaignDetailIntent.putExtra(DetailCampaignActivity.ID_CAMPAIGN, campaign.id)
+        campaignDetailIntent.putExtra(DetailCampaignActivity.NAMA_CAMPAIGN, campaign.name)
         startActivity(campaignDetailIntent)
         finish()
     }

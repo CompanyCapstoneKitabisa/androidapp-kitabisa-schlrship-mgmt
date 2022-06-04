@@ -126,7 +126,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                                 finish()
                                 Toast.makeText(
                                     this,
-                                    result.data?.error.toString(),
+                                    result.message.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -140,7 +140,6 @@ class DetailApplicantActivity : AppCompatActivity() {
             finishAffinity()
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
-
 
         activityDetailApplicantBinding.btnSubmit.setOnClickListener {
             val tempStatus =
@@ -447,7 +446,7 @@ class DetailApplicantActivity : AppCompatActivity() {
             val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val documentsLink = Uri.parse(data.lampiranTambahan)
             val request = DownloadManager.Request(documentsLink)
-            val tempName = data.bioDiri.nama.plus(" LampiranDokumen")
+            val tempName = "Lampiran Dokumen".plus(" ${data.bioDiri.nama}")
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
                 .setMimeType("application/pdf")
                 .setAllowedOverRoaming(false)

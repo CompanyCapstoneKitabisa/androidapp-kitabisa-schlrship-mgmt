@@ -145,6 +145,22 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }
         }
 
+    fun downloadCsv(token: String, id: String): LiveData<Resource<DownloadFileResponse>> =
+        liveData {
+            emit(Resource.Loading())
+            try {
+                val response = apiService.downloadAcceptedApplicantsCsv(token, id)
+                if(response.isSuccessful) {
+                    emit(Resource.Success(response.body()))
+                } else {
+                    emit(Resource.Error("Response Code : ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Log.d("DataRepository", "data: ${e.message.toString()} ")
+                emit(Resource.Error(e.message.toString()))
+            }
+        }
+
     companion object {
         @Volatile
         private var instance: DataRepository? = null

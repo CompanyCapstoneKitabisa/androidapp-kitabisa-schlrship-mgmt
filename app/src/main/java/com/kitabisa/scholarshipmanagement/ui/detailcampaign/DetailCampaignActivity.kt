@@ -1,13 +1,23 @@
 package com.kitabisa.scholarshipmanagement.ui.detailcampaign
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -22,6 +32,7 @@ import com.kitabisa.scholarshipmanagement.ui.DataViewModelFactory
 import com.kitabisa.scholarshipmanagement.ui.detailapplicant.DetailApplicantActivity
 import com.kitabisa.scholarshipmanagement.ui.home.HomeActivity
 import com.kitabisa.scholarshipmanagement.utils.Utils.loadImage
+import java.io.File
 import java.util.*
 
 class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCallback {
@@ -36,6 +47,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
     private lateinit var campaignDetail: CampaignDetail
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private lateinit var idCampaign: String
+    private lateinit var campaignName: String
+    private lateinit var broadcastReceiver: BroadcastReceiver
     private var status: String = "pending"
     private var nama: String = ""
     private var provinsi: String = ""
@@ -47,6 +60,28 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
     }
     val firebaseUser = auth.currentUser
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (!isPermissionsGranted()) {
+                Toast.makeText(
+                    this,
+                    "Tidak mendapatkan permission.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        }
+    }
+
+    private fun isPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailCampaignBinding.inflate(layoutInflater)
@@ -57,7 +92,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         customLoadingDialog = CustomLoadingDialog(this)
 
         idCampaign = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
-
+        campaignName = intent.getStringExtra(NAMA_CAMPAIGN).toString()
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 tempToken = task.result.token.toString()
@@ -79,7 +114,12 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                         emptyDesc.visibility = View.VISIBLE
                                         btnEmpty.visibility = View.VISIBLE
                                         btnEmpty.setOnClickListener {
-                                            startActivity(Intent(this@DetailCampaignActivity, HomeActivity::class.java))
+                                            startActivity(
+                                                Intent(
+                                                    this@DetailCampaignActivity,
+                                                    HomeActivity::class.java
+                                                )
+                                            )
                                             finish()
                                         }
                                     }
@@ -143,6 +183,26 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             rvApplicant.setHasFixedSize(true)
             rvApplicant.adapter = applicantAdapter
         }
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(p0: Context, p1: Intent) {
+                Toast.makeText(
+                    p0,
+                    "Download Complete",
+                    Toast.LENGTH_SHORT
+                ).show()
+                renderLoading(false)
+            }
+        }
+        registerReceiver(
+            broadcastReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(broadcastReceiver)
     }
 
     override fun onApplicantClick(applicant: ListApplicantsItem) {
@@ -168,10 +228,12 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
     companion object {
         const val ID_CAMPAIGN = "id_campaign"
+        const val NAMA_CAMPAIGN = "nama_campaign"
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
     private fun getData(token: String) {
-        Log.v("di jyo getData", idCampaign)
         val adapter = ApplicantAdapter(this)
         binding.rvApplicant.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
@@ -200,7 +262,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             adapter.submitData(lifecycle, it)
         }
         adapter.addLoadStateListener { loadState ->
-            Log.v("item count jyo", adapter.itemCount.toString())
             if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
                 showEmptyApplicant(true)
             } else {
@@ -237,7 +298,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    fun setSearchAndFilter() {
+    private fun setSearchAndFilter() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val queryText = query!!.lowercase(Locale.getDefault())
@@ -342,6 +403,39 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "accepted"
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
+                detailCampaignViewModel.downloadCsv(res.token.toString(), idCampaign)
+                    .observe(this) {
+                        if (it != null) {
+                            when (it) {
+                                is Resource.Success -> {
+                                    Log.d("URLCSV", it.data?.fileDownload.toString())
+                                    if (!isPermissionsGranted()) {
+                                        ActivityCompat.requestPermissions(
+                                            this@DetailCampaignActivity,
+                                            REQUIRED_PERMISSIONS,
+                                            REQUEST_CODE_PERMISSIONS
+                                        )
+                                    } else {
+                                        downloadAccCsv(
+                                            it.data?.fileDownload?.get(0).toString(),
+                                            campaignName
+                                        )
+                                    }
+                                }
+                                is Resource.Error -> {
+                                    finish()
+                                    Toast.makeText(
+                                        this,
+                                        it.message.toString(),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                is Resource.Loading -> {
+                                    renderLoading(true)
+                                }
+                            }
+                        }
+                    }
             }
         }
 
@@ -367,6 +461,28 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
                 getData(res.token.toString())
             }
+        }
+    }
+
+    private fun downloadAccCsv(url: String, campaignName: String) {
+        try {
+            val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val documentsLink = Uri.parse(url)
+            val request = DownloadManager.Request(documentsLink)
+            val tempName = "$campaignName Accepted Results"
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+                .setMimeType("text/csv")
+                .setAllowedOverRoaming(false)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setTitle(tempName)
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    File.separator + tempName + ".csv"
+                )
+            downloadManager.enqueue(request)
+        } catch (e: Exception) {
+            renderLoading(false)
+            Toast.makeText(this, "Download Failed", Toast.LENGTH_SHORT).show()
         }
     }
 }

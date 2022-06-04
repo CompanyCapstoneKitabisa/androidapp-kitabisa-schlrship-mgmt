@@ -21,6 +21,12 @@ interface ApiService {
         @QueryMap options: Map<String, String>
     ): Response<AllAplicantResponse>
 
+    @GET("campaigns/{id}/downloadResult")
+    suspend fun downloadAcceptedApplicantsCsv(
+        @Header("authToken") token: String,
+        @Path("id") id: String,
+    ): Response<DownloadFileResponse>
+
     @GET("applicants")
     suspend fun getDetailApplicant(
         @Header("authToken") token: String,
