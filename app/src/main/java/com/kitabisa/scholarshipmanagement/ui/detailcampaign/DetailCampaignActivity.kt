@@ -125,7 +125,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                         }
                                     }
                                 } else {
-                                    triggerData(tempToken)
+                                    triggerData(tempToken, campaignDetail.applicantsCount)
                                 }
 
                                 binding.apply {
@@ -424,8 +424,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    private fun triggerData(token: String){
-        detailCampaignViewModel.triggerDataProcess(token, idCampaign)
+    private fun triggerData(token: String, applicantsCount: Int){
+        detailCampaignViewModel.triggerDataProcess(token, idCampaign, applicantsCount)
             .observe(this) { result ->
                 if (result != null) {
                     when (result) {
