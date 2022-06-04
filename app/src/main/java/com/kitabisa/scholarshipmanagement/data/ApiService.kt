@@ -46,10 +46,11 @@ interface ApiService {
         @Body NewCampaignBody: NewCampaignBody
     ): Response<NewCampaignBodyResponse>
 
-    @GET("campaigns/{id}/applicants/processData")
+    @POST("campaigns/{id}/applicants/processData")
     suspend fun triggerDataProcess(
         @Header("authToken") token: String,
         @Path("id") id: String,
+        @Body applicantsCount: ApplicantsCountBody
     ): Response<TriggerProcessResponse>
 
     @GET("campaigns/{id}/applicants/givePageNumber")

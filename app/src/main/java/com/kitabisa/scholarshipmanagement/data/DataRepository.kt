@@ -115,8 +115,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
         liveData {
             emit(Resource.Loading())
             try {
-//                val response = apiService.triggerDataProcess(token, id, applicantsCount)
-                val response = apiService.triggerDataProcess(token, id)
+                val response = apiService.triggerDataProcess(token, id, ApplicantsCountBody(applicantsCount))
                 if (response.isSuccessful) {
                     emit(Resource.Success(response.body()))
                 } else if (response.code() == 404) {
