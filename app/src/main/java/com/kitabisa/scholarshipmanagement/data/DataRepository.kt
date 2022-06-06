@@ -103,7 +103,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
     ): LiveData<PagingData<ListApplicantsItem>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 5
+                pageSize = 10
             ),
             pagingSourceFactory = {
                 ApplicantPagingSource(apiService, options, authToken, id)

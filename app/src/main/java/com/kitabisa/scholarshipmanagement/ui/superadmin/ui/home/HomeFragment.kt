@@ -201,6 +201,11 @@ class HomeFragment : Fragment() {
                     when (result) {
                         is Resource.Success -> {
                             renderLoading(false)
+                            Toast.makeText(
+                                requireActivity(),
+                                result.message.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         is Resource.Error -> {
                             renderLoading(false)
