@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="Filter Applicant"
+        android:text="@string/filter_applicant"
         android:textColor="@color/grey"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Status Applicant"
+        android:text="@string/applicant_status"
         android:textColor="@color/grey"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -56,25 +56,25 @@
             android:id="@+id/pending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Belum Direview" />
+            android:text="@string/pending" />
 
         <RadioButton
             android:id="@+id/accepted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Diterima" />
+            android:text="@string/accepted" />
 
         <RadioButton
             android:id="@+id/onhold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Onhold" />
+            android:text="@string/on_hold" />
 
         <RadioButton
             android:id="@+id/rejected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ditolak" />
+            android:text="@string/rejected" />
     </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Status Berkas"
+        android:text="@string/document_status"
         android:textColor="@color/grey"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -103,19 +103,19 @@
             android:id="@+id/data_valid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data Valid" />
+            android:text="@string/data_valid" />
 
         <RadioButton
             android:id="@+id/rumah_calid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rumah Valid" />
+            android:text="@string/home_valid" />
 
         <RadioButton
             android:id="@+id/data_dan_rumah_valid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data dan Rumah Valid" />
+            android:text="@string/data_and_home_valid" />
     </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Provinsi"
+        android:text="@string/province"
         android:textColor="@color/grey"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -139,7 +139,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="Masukkan Nama Provinsi"
+        android:hint="@string/enter_province_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/provinsi_label">
@@ -156,7 +156,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Apply Filter"
+        android:text="@string/apply_filter"
         app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
