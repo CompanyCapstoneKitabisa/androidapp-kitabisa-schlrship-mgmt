@@ -64,7 +64,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
@@ -74,7 +74,6 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     "Tidak mendapatkan permission.",
                     Toast.LENGTH_SHORT
                 ).show()
-                finish()
             }
         }
     }
@@ -319,7 +318,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             val popup = PopupMenu(this, it)
             popup.inflate(R.menu.campaign_detail_menu)
 
-            popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+            popup.setOnMenuItemClickListener { item: MenuItem? ->
 
                 when (item!!.itemId) {
                     R.id.download_data -> {
@@ -336,11 +335,13 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                                         REQUIRED_PERMISSIONS,
                                                         REQUEST_CODE_PERMISSIONS
                                                     )
+                                                    renderLoading(false)
                                                 } else {
                                                     downloadAccCsv(
                                                         it.data?.fileDownload?.get(0).toString(),
                                                         campaignName
                                                     )
+                                                    renderLoading(false)
                                                 }
                                             }
                                             is Resource.Error -> {
@@ -364,7 +365,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     }
                 }
                 true
-            })
+            }
             popup.show()
         }
 
@@ -434,8 +435,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                 this, result.data?.message,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Log.d("PAGING", "MASUK SINI 1")
-                            triggerPagingFunction(token, idCampaign)
+                            triggerDetailCampaign(token, idCampaign)
+//                            triggerPagingFunction(token, idCampaign)
                         }
                         is Resource.Error -> {
                             if (result.message.toString().contains("404")) {
@@ -469,7 +470,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 when (result) {
                     is Resource.Success -> {
                         campaignDetail = result.data?.Data!!
-
+                        setSearchAndFilter()
+                        getData(token)
                         renderLoading(false)
                         binding.root.visibility = View.VISIBLE
 
@@ -511,34 +513,33 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    private fun triggerPagingFunction(token: String, id: String) {
-        detailCampaignViewModel.triggerPagingData(token, id)
-            .observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            getData(tempToken)
-                            renderLoading(false)
-                            binding.root.visibility = View.VISIBLE
-                            setSearchAndFilter()
-                            Log.d("PAGING", "MASUK SINI 2")
-                            triggerDetailCampaign(token, id)
-                        }
-                        is Resource.Error -> {
-                            renderLoading(false)
-                            Toast.makeText(
-                                this,
-                                result.message.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        is Resource.Loading -> {
-                            renderLoading(true)
-                        }
-                    }
-                }
-            }
-    }
+//    private fun triggerPagingFunction(token: String, id: String) {
+//        detailCampaignViewModel.triggerPagingData(token, id)
+//            .observe(this) { result ->
+//                if (result != null) {
+//                    when (result) {
+//                        is Resource.Success -> {
+//                            getData(tempToken)
+//                            renderLoading(false)
+//                            binding.root.visibility = View.VISIBLE
+//                            setSearchAndFilter()
+//                            triggerDetailCampaign(token, id)
+//                        }
+//                        is Resource.Error -> {
+//                            renderLoading(false)
+//                            Toast.makeText(
+//                                this,
+//                                result.message.toString(),
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                        is Resource.Loading -> {
+//                            renderLoading(true)
+//                        }
+//                    }
+//                }
+//            }
+//    }
 
     private fun showFilter() {
         @SuppressLint("InflateParams")

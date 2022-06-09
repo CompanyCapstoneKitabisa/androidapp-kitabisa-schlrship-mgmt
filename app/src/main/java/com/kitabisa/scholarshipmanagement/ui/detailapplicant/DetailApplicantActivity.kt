@@ -67,7 +67,6 @@ class DetailApplicantActivity : AppCompatActivity() {
                     "Tidak mendapatkan permission.",
                     Toast.LENGTH_SHORT
                 ).show()
-                finish()
             }
         }
     }
