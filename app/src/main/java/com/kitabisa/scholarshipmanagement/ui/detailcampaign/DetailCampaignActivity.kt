@@ -40,31 +40,31 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
     private lateinit var binding: ActivityDetailCampaignBinding
     private val applicantAdapter = ApplicantAdapter(this)
+    private val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
-    private var tempToken: String = ""
-    lateinit var bottomSheetDialog: BottomSheetDialog
+    private val detailCampaignViewModel: DetailCampaignViewModel by viewModels {
+        factory
+    }
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var campaignDetail: CampaignDetail
     private lateinit var customLoadingDialog: CustomLoadingDialog
     private lateinit var idCampaign: String
     private lateinit var campaignName: String
     private lateinit var broadcastReceiver: BroadcastReceiver
+    private val firebaseUser = auth.currentUser
+    private var tempToken: String = ""
     private var status: String = "pending"
     private var nama: String = ""
     private var provinsi: String = ""
     private var statusRumah: String = ""
     private var statusData: String = ""
-    val factory: DataViewModelFactory = DataViewModelFactory.getInstance()
-    private val detailCampaignViewModel: DetailCampaignViewModel by viewModels {
-        factory
-    }
-    val firebaseUser = auth.currentUser
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
@@ -74,6 +74,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     "Tidak mendapatkan permission.",
                     Toast.LENGTH_SHORT
                 ).show()
+                finish()
             }
         }
     }
@@ -91,7 +92,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
         customLoadingDialog = CustomLoadingDialog(this)
 
-        idCampaign = intent.getStringExtra(ID_CAMPAIGN).toString() // 2
+        idCampaign = intent.getStringExtra(ID_CAMPAIGN).toString()
         campaignName = intent.getStringExtra(NAMA_CAMPAIGN).toString()
         firebaseUser?.getIdToken(true)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
@@ -102,45 +103,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             when (result) {
                                 is Resource.Success -> {
                                     campaignDetail = result.data?.Data!!
-
-                                    if (campaignDetail.processData == "0") {
-                                        binding.apply {
-                                            emptyIcon.visibility = View.VISIBLE
-                                            emptyLabel.visibility = View.VISIBLE
-                                            emptyDesc.text =
-                                                "Applicant Data is in Process, Please Try Again Later"
-                                            emptyDesc.visibility = View.VISIBLE
-                                            btnEmpty.visibility = View.VISIBLE
-                                            btnEmpty.setOnClickListener {
-                                                startActivity(
-                                                    Intent(
-                                                        this@DetailCampaignActivity,
-                                                        HomeActivity::class.java
-                                                    )
-                                                )
-                                                finish()
-                                            }
-                                        }
-                                        renderLoading(false)
-                                        binding.root.visibility = View.VISIBLE
-                                    } else {
-                                        triggerData(tempToken)
-                                    }
-                                    binding.apply {
-                                        campaignName.text = campaignDetail.name
-                                        applicantCount.text =
-                                            campaignDetail.pendingApplicants.toString()
-                                        acceptedCount.text =
-                                            campaignDetail.acceptedApplicants.toString()
-                                        onholdCount.text =
-                                            campaignDetail.onHoldApplicants.toString()
-                                        rejectedCount.text =
-                                            campaignDetail.rejectedApplicants.toString()
-                                        ivCampaignPhoto.loadImage(
-                                            campaignDetail.photoUrl,
-                                            R.drawable.ic_image
-                                        )
-                                    }
+                                    isDataProcessed()
+                                    setDetailCampaignData()
                                     Toast.makeText(
                                         this,
                                         result.data.message,
@@ -209,6 +173,24 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         super.onBackPressed()
     }
 
+    private fun setDetailCampaignData(){
+        binding.apply {
+            campaignName.text = campaignDetail.name
+            applicantCount.text =
+                campaignDetail.pendingApplicants.toString()
+            acceptedCount.text =
+                campaignDetail.acceptedApplicants.toString()
+            onholdCount.text =
+                campaignDetail.onHoldApplicants.toString()
+            rejectedCount.text =
+                campaignDetail.rejectedApplicants.toString()
+            ivCampaignPhoto.loadImage(
+                campaignDetail.photoUrl,
+                R.drawable.ic_image
+            )
+        }
+    }
+
     private fun renderLoading(state: Boolean) {
         if (state) {
             customLoadingDialog.show()
@@ -218,51 +200,47 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    companion object {
-        const val ID_CAMPAIGN = "id_campaign"
-        const val NAMA_CAMPAIGN = "nama_campaign"
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        private const val REQUEST_CODE_PERMISSIONS = 10
-    }
+    private fun getApplicantData() {
+        firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
+            val token = res.token.toString()
+            val adapter = ApplicantAdapter(this)
+            binding.rvApplicant.adapter = adapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    adapter.retry()
+                }
+            )
 
-    private fun getData(token: String) {
-        val adapter = ApplicantAdapter(this)
-        binding.rvApplicant.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter {
-                adapter.retry()
+            val options: HashMap<String, String> = HashMap()
+            if (status != "") {
+                options["status"] = status
             }
-        )
+            if (nama != "") {
+                options["nama"] = nama
+            }
+            if (provinsi != "") {
+                options["provinsi"] = provinsi
+            }
+            if (statusRumah != "") {
+                options["statusRumah"] = statusRumah
+            }
+            if (statusData != "") {
+                options["statusData"] = statusData
+            }
 
-        val options: HashMap<String, String> = HashMap()
-        if (status != "") {
-            options["status"] = status
-        }
-        if (nama != "") {
-            options["nama"] = nama
-        }
-        if (provinsi != "") {
-            options["provinsi"] = provinsi
-        }
-        if (statusRumah != "") {
-            options["statusRumah"] = statusRumah
-        }
-        if (statusData != "") {
-            options["statusData"] = statusData
-        }
-
-        detailCampaignViewModel.getAllApplicant(options, token, idCampaign).observe(this) {
-            adapter.submitData(lifecycle, it)
-        }
-        adapter.addLoadStateListener { loadState ->
-            if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                showEmptyApplicant(true)
-            } else {
-                showEmptyApplicant(false)
+            detailCampaignViewModel.getAllApplicant(options, token, idCampaign).observe(this) {
+                adapter.submitData(lifecycle, it)
+            }
+            adapter.addLoadStateListener { loadState ->
+                if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                    applicantEmptyState(true)
+                } else {
+                    applicantEmptyState(false)
+                }
             }
         }
     }
 
-    private fun setDataEmpty() {
+    private fun setApplicantDataFilterEmpty() {
         status = ""
         nama = ""
         provinsi = ""
@@ -270,13 +248,12 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         statusData = ""
     }
 
-    private fun showEmptyApplicant(state: Boolean) {
-
+    private fun applicantEmptyState(state: Boolean) {
         if (state) {
             binding.apply {
                 emptyIcon.visibility = View.VISIBLE
                 emptyLabel.visibility = View.VISIBLE
-                emptyDesc.text = "Try to use other filter setting"
+                emptyDesc.text = getString(R.string.use_other_filter)
                 emptyDesc.visibility = View.VISIBLE
                 btnEmpty.visibility = View.GONE
             }
@@ -290,31 +267,56 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
+    private fun isDataProcessed(){
+        if (campaignDetail.processData == "0") {
+            binding.apply {
+                emptyIcon.visibility = View.VISIBLE
+                emptyLabel.visibility = View.VISIBLE
+                emptyDesc.text = getString(R.string.data_in_process)
+                emptyDesc.visibility = View.VISIBLE
+                btnEmpty.visibility = View.VISIBLE
+                btnEmpty.setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@DetailCampaignActivity,
+                            HomeActivity::class.java
+                        )
+                    )
+                    finish()
+                }
+            }
+            renderLoading(false)
+            binding.root.visibility = View.VISIBLE
+        } else {
+            triggerData(tempToken)
+        }
+    }
+
     private fun setSearchAndFilter() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val queryText = query!!.lowercase(Locale.getDefault())
                 if (queryText.isNotEmpty()) {
                     nama = queryText
-                    firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                        getData(res.token.toString())
-                    }
+                    getApplicantData()
                 } else {
                     nama = ""
-                    firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                        getData(res.token.toString())
-                    }
+                    getApplicantData()
                 }
+                binding.search.clearFocus()
                 return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
+                if (query == ""){
+                    nama = ""
+                    getApplicantData()
+                }
                 return false
             }
-
         })
 
-        binding.filter.setOnClickListener {
+        binding.filter.setOnClickListener { it ->
             val popup = PopupMenu(this, it)
             popup.inflate(R.menu.campaign_detail_menu)
 
@@ -335,13 +337,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                                         REQUIRED_PERMISSIONS,
                                                         REQUEST_CODE_PERMISSIONS
                                                     )
-                                                    renderLoading(false)
                                                 } else {
                                                     downloadAccCsv(
                                                         it.data?.fileDownload?.get(0).toString(),
                                                         campaignName
                                                     )
-                                                    renderLoading(false)
                                                 }
                                             }
                                             is Resource.Error -> {
@@ -370,35 +370,27 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
 
         binding.acceptedCount.setOnClickListener {
-            setDataEmpty()
+            setApplicantDataFilterEmpty()
             status = "accepted"
-            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                getData(res.token.toString())
-            }
+            getApplicantData()
         }
 
         binding.rejectedCount.setOnClickListener {
-            setDataEmpty()
+            setApplicantDataFilterEmpty()
             status = "rejected"
-            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                getData(res.token.toString())
-            }
+            getApplicantData()
         }
 
         binding.onholdCount.setOnClickListener {
-            setDataEmpty()
+            setApplicantDataFilterEmpty()
             status = "onhold"
-            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                getData(res.token.toString())
-            }
+            getApplicantData()
         }
 
         binding.applicantCount.setOnClickListener {
-            setDataEmpty()
+            setApplicantDataFilterEmpty()
             status = "pending"
-            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                getData(res.token.toString())
-            }
+            getApplicantData()
         }
     }
 
@@ -435,8 +427,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                                 this, result.data?.message,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            triggerDetailCampaign(token, idCampaign)
-//                            triggerPagingFunction(token, idCampaign)
+                            Log.d("PAGING", "MASUK SINI 1")
+                            triggerPagingFunction(token, idCampaign)
                         }
                         is Resource.Error -> {
                             if (result.message.toString().contains("404")) {
@@ -470,26 +462,12 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 when (result) {
                     is Resource.Success -> {
                         campaignDetail = result.data?.Data!!
-                        setSearchAndFilter()
-                        getData(token)
+
                         renderLoading(false)
                         binding.root.visibility = View.VISIBLE
 
-                        binding.apply {
-                            campaignName.text = campaignDetail.name
-                            applicantCount.text =
-                                campaignDetail.pendingApplicants.toString()
-                            acceptedCount.text =
-                                campaignDetail.acceptedApplicants.toString()
-                            onholdCount.text =
-                                campaignDetail.onHoldApplicants.toString()
-                            rejectedCount.text =
-                                campaignDetail.rejectedApplicants.toString()
-                            ivCampaignPhoto.loadImage(
-                                campaignDetail.photoUrl,
-                                R.drawable.ic_image
-                            )
-                        }
+                        setDetailCampaignData()
+
                         Toast.makeText(
                             this,
                             result.data.message,
@@ -513,33 +491,39 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-//    private fun triggerPagingFunction(token: String, id: String) {
-//        detailCampaignViewModel.triggerPagingData(token, id)
-//            .observe(this) { result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Resource.Success -> {
-//                            getData(tempToken)
-//                            renderLoading(false)
-//                            binding.root.visibility = View.VISIBLE
-//                            setSearchAndFilter()
-//                            triggerDetailCampaign(token, id)
-//                        }
-//                        is Resource.Error -> {
-//                            renderLoading(false)
-//                            Toast.makeText(
-//                                this,
-//                                result.message.toString(),
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
-//                        is Resource.Loading -> {
-//                            renderLoading(true)
-//                        }
-//                    }
-//                }
-//            }
-//    }
+    private fun triggerPagingFunction(token: String, id: String) {
+        detailCampaignViewModel.triggerPagingData(token, id)
+            .observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            getApplicantData()
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
+                            setSearchAndFilter()
+                            Log.d("PAGING", "MASUK SINI 2")
+                            triggerDetailCampaign(token, id)
+                        }
+                        is Resource.Error -> {
+                            renderLoading(false)
+                            // delete / hapus tar
+                            getApplicantData()
+                            setSearchAndFilter()
+                            //sampe sini
+                            binding.root.visibility = View.VISIBLE
+                            Toast.makeText(
+                                this,
+                                result.message.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                        }
+                    }
+                }
+            }
+    }
 
     private fun showFilter() {
         @SuppressLint("InflateParams")
@@ -556,7 +540,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
         applyButton.setOnClickListener {
             bottomSheetDialog.dismiss()
-            setDataEmpty()
+            setApplicantDataFilterEmpty()
 
             val selectedOptionStatus: Int = radioGroupStatus.checkedRadioButtonId
             val radioButtonStatus: RadioButton? = selectedOptionStatus.let { it1 ->
@@ -574,16 +558,16 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
 
             radioButtonStatus?.text?.let {
                 when (radioButtonStatus.text) {
-                    "Belum Direview" -> {
+                    "Pending" -> {
                         status = "pending"
                     }
-                    "Diterima" -> {
+                    "Accepted" -> {
                         status = "accepted"
                     }
-                    "Onhold" -> {
+                    "On Hold" -> {
                         status = "onhold"
                     }
-                    "Ditolak" -> {
+                    "Rejected" -> {
                         status = "rejected"
                     }
                 }
@@ -592,13 +576,17 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
 
             radioButtonBerkas?.text?.let {
-                if (radioButtonBerkas.text.toString() == "Data Valid") {
-                    statusData = "valid"
-                } else if (radioButtonBerkas.text.toString() == "Rumah Valid") {
-                    statusRumah = "valid"
-                } else {
-                    statusData = "valid"
-                    statusRumah = "valid"
+                when {
+                    radioButtonBerkas.text.toString() == "Data Valid" -> {
+                        statusData = "valid"
+                    }
+                    radioButtonBerkas.text.toString() == "Home Valid" -> {
+                        statusRumah = "valid"
+                    }
+                    else -> {
+                        statusData = "valid"
+                        statusRumah = "valid"
+                    }
                 }
             } ?: run {
                 statusData = ""
@@ -611,9 +599,14 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 provinsi = ""
             }
 
-            firebaseUser?.getIdToken(true)?.addOnSuccessListener { res ->
-                getData(res.token.toString())
-            }
+            getApplicantData()
         }
+    }
+
+    companion object {
+        const val ID_CAMPAIGN = "id_campaign"
+        const val NAMA_CAMPAIGN = "nama_campaign"
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 }

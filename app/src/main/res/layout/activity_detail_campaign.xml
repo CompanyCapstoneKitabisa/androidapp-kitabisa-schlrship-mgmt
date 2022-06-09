@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.detailcampaign.DetailCampaignActivity">
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content">-->
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/campaign_image"
         android:layout_width="match_parent"
@@ -21,7 +17,8 @@
             android:id="@+id/iv_campaign_photo"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/avatars"
+            android:contentDescription="@string/campaign_image"/>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
@@ -38,7 +35,7 @@
         tools:text="Celengan Beasiswa Narasi" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/aplicants_data"
+        android:id="@+id/applicants_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -132,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@string/diterima"
+                android:text="@string/accepted"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/accepted_count"
@@ -144,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@string/ditolak"
+                android:text="@string/rejected"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/rejected_count"
@@ -156,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Onhold"
+                android:text="@string/on_hold"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/onhold_count"
@@ -178,7 +175,7 @@
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/aplicants_data">
+        app:layout_constraintTop_toBottomOf="@id/applicants_data">
 
         <SearchView
             android:id="@+id/search"
@@ -198,7 +195,8 @@
         android:src="@drawable/ic_baseline_menu_24"
         app:layout_constraintBottom_toBottomOf="@+id/search_card"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/search_card" />
+        app:layout_constraintTop_toTopOf="@+id/search_card"
+        android:contentDescription="@string/show_filter_and_download_csv_menu_image" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_applicant"
@@ -223,14 +221,15 @@
         app:layout_constraintBottom_toTopOf="@+id/empty_label"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_card" />
+        app:layout_constraintTop_toBottomOf="@id/search_card"
+        android:contentDescription="@string/empty_state_applicant_image" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/empty_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="No Applicant Found"
+        android:text="@string/no_applicant_found"
         android:textColor="@color/grey"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -245,7 +244,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Try to use other filter setting"
+        android:text="@string/use_other_filter"
         android:textAlignment="center"
         android:textColor="@color/grey"
         android:textSize="18sp"
@@ -260,7 +259,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="Back To Home"
+        android:text="@string/back_to_home"
         android:visibility="gone"
         app:cornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -268,5 +267,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/empty_desc" />
 
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

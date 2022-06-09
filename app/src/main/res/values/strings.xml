@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Scholarship Management</string>
-    <string name="diterima">Accepted</string>
-    <string name="ditolak">Rejected</string>
     <string name="pendaftar">Remaining</string>
     <string name="webclient_id">621942935909-ne4g8p16aaliv9omqb19q7p4e7upvgni.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -9,4 +7,29 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="use_other_filter">Try to use other filter setting</string>
+    <string name="data_in_process">Applicant Data is in Process, Please Try Again Later</string>
+    <string name="filter_applicant">Filter Applicant</string>
+    <string name="applicant_status">Applicant Status</string>
+    <string name="pending">Pending</string>
+    <string name="accepted">Accepted</string>
+    <string name="on_hold">On Hold</string>
+    <string name="rejected">Rejected</string>
+    <string name="document_status">Document Status</string>
+    <string name="data_valid">Data Valid</string>
+    <string name="home_valid">Home Valid</string>
+    <string name="data_and_home_valid">Data and Home Valid</string>
+    <string name="province">Province</string>
+    <string name="enter_province_name">Enter Province Name</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="campaign_image">Campaign Image</string>
+    <string name="no_applicant_found">No Applicant Found</string>
+    <string name="back_to_home">Back To Home</string>
+    <string name="show_filter_and_download_csv_menu_image">Show Filter And Download CSV Menu Image</string>
+    <string name="empty_state_applicant_image">Empty State Applicant Image</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="logout_icon">Logout Icon</string>
+    <string name="our_campaigns">Our Campaigns</string>
+    <string name="home_heading">Please kindly review our applicants form</string>
+    <string name="no_available_campaign_yet">No Available Campaign Yet</string>
 </resources>
