@@ -173,7 +173,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         super.onBackPressed()
     }
 
-    private fun setDetailCampaignData() {
+    private fun setDetailCampaignData(){
         binding.apply {
             campaignName.text = campaignDetail.name
             applicantCount.text =
@@ -267,7 +267,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    private fun isDataProcessed() {
+    private fun isDataProcessed(){
         if (campaignDetail.processData == "0") {
             binding.apply {
                 emptyIcon.visibility = View.VISIBLE
@@ -308,7 +308,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                if (query == "") {
+                if (query == ""){
                     nama = ""
                     getApplicantData()
                 }
@@ -373,24 +373,28 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             setApplicantDataFilterEmpty()
             status = "accepted"
             getApplicantData()
+            showIndicator("accepted")
         }
 
         binding.rejectedCount.setOnClickListener {
             setApplicantDataFilterEmpty()
             status = "rejected"
             getApplicantData()
+            showIndicator("rejected")
         }
 
         binding.onholdCount.setOnClickListener {
             setApplicantDataFilterEmpty()
             status = "onhold"
             getApplicantData()
+            showIndicator("onhold")
         }
 
         binding.applicantCount.setOnClickListener {
             setApplicantDataFilterEmpty()
             status = "pending"
             getApplicantData()
+            showIndicator("pending")
         }
     }
 
@@ -422,12 +426,13 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 if (result != null) {
                     when (result) {
                         is Resource.Success -> {
+                            renderLoading(false)
                             Toast.makeText(
                                 this, result.data?.message,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            renderLoading(false)
-                            triggerDetailCampaign(token, idCampaign)
+                            Log.d("PAGING", "MASUK SINI 1")
+                            triggerPagingFunction(token, idCampaign)
                         }
                         is Resource.Error -> {
                             if (result.message.toString().contains("404")) {
@@ -461,11 +466,17 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 when (result) {
                     is Resource.Success -> {
                         campaignDetail = result.data?.Data!!
-                        getApplicantData()
-                        setSearchAndFilter()
-                        setDetailCampaignData()
+
                         renderLoading(false)
                         binding.root.visibility = View.VISIBLE
+
+                        setDetailCampaignData()
+
+                        Toast.makeText(
+                            this,
+                            result.data.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     is Resource.Error -> {
                         finish()
@@ -477,45 +488,47 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     }
                     is Resource.Loading -> {
                         renderLoading(true)
+                        binding.root.visibility = View.GONE
                     }
                 }
             }
         }
     }
 
-//    private fun triggerPagingFunction(token: String, id: String) {
-//        detailCampaignViewModel.triggerPagingData(token, id)
-//            .observe(this) { result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Resource.Success -> {
-//                            getApplicantData()
-//                            renderLoading(false)
-//                            binding.root.visibility = View.VISIBLE
-//                            setSearchAndFilter()
-//                            Log.d("PAGING", "MASUK SINI 2")
-//                            triggerDetailCampaign(token, id)
-//                        }
-//                        is Resource.Error -> {
-//                            renderLoading(false)
-//                            // delete / hapus tar
-//                            getApplicantData()
-//                            setSearchAndFilter()
-//                            //sampe sini
-//                            binding.root.visibility = View.VISIBLE
-//                            Toast.makeText(
-//                                this,
-//                                result.message.toString(),
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
-//                        is Resource.Loading -> {
-//                            renderLoading(true)
-//                        }
-//                    }
-//                }
-//            }
-//    }
+    private fun triggerPagingFunction(token: String, id: String) {
+        detailCampaignViewModel.triggerPagingData(token, id)
+            .observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            getApplicantData()
+                            renderLoading(false)
+                            binding.root.visibility = View.VISIBLE
+                            setSearchAndFilter()
+                            Log.d("PAGING", "MASUK SINI 2")
+                            triggerDetailCampaign(token, id)
+                        }
+                        is Resource.Error -> {
+                            renderLoading(false)
+                            // delete / hapus tar
+                            getApplicantData()
+                            setSearchAndFilter()
+                            triggerDetailCampaign(token, id)
+                            //sampe sini
+                            binding.root.visibility = View.VISIBLE
+                            Toast.makeText(
+                                this,
+                                result.message.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Loading -> {
+                            renderLoading(true)
+                        }
+                    }
+                }
+            }
+    }
 
     private fun showFilter() {
         @SuppressLint("InflateParams")
@@ -528,6 +541,42 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         val radioGroupStatus: RadioGroup = dialogView.findViewById(R.id.status_applicant_group)
         val radioGroupBerkas: RadioGroup = dialogView.findViewById(R.id.status_berkas_group)
         val province: TextInputEditText = dialogView.findViewById(R.id.province)
+
+        when (status) {
+            "pending" -> {
+                radioGroupStatus.check(R.id.pending)
+            }
+            "accepted" -> {
+                radioGroupStatus.check(R.id.accepted)
+            }
+            "onhold" -> {
+                radioGroupStatus.check(R.id.onhold)
+            }
+            "rejected" -> {
+                radioGroupStatus.check(R.id.rejected)
+            }
+        }
+
+        if (statusData == "valid" && statusRumah == "valid"){
+            radioGroupBerkas.check(R.id.data_dan_rumah_valid)
+        }else if(statusRumah == "valid"){
+            radioGroupBerkas.check(R.id.rumah_calid)
+        }else if(statusData == "valid"){
+            radioGroupBerkas.check(R.id.data_valid)
+        }
+
+        if (provinsi != ""){
+            province.setText(provinsi)
+        }
+
+        val clearButton: Button = dialogView.findViewById(R.id.btn_clear_filter)
+        clearButton.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            setApplicantDataFilterEmpty()
+            status = "pending"
+            showIndicator("pending")
+            getApplicantData()
+        }
 
         val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
         applyButton.setOnClickListener {
@@ -592,6 +641,29 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
 
             getApplicantData()
+        }
+    }
+
+    private fun showIndicator(status: String){
+        binding.apply {
+            remainingIndicator.visibility = View.INVISIBLE
+            acceptedIndicator.visibility = View.INVISIBLE
+            onholdIndicator.visibility = View.INVISIBLE
+            rejectedIndicator.visibility = View.INVISIBLE
+        }
+        when (status) {
+            "pending" -> {
+                binding.remainingIndicator.visibility = View.VISIBLE
+            }
+            "accepted" -> {
+                binding.acceptedIndicator.visibility = View.VISIBLE
+            }
+            "onhold" -> {
+                binding.onholdIndicator.visibility = View.VISIBLE
+            }
+            "rejected" -> {
+                binding.rejectedIndicator.visibility = View.VISIBLE
+            }
         }
     }
 
