@@ -368,6 +368,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "accepted"
             getApplicantData()
             showIndicator("accepted")
+            binding.search.setQuery("", false);
+            binding.search.clearFocus();
         }
 
         binding.rejectedCount.setOnClickListener {
@@ -375,6 +377,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "rejected"
             getApplicantData()
             showIndicator("rejected")
+            binding.search.setQuery("", false);
+            binding.search.clearFocus();
         }
 
         binding.onholdCount.setOnClickListener {
@@ -382,6 +386,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "onhold"
             getApplicantData()
             showIndicator("onhold")
+            binding.search.setQuery("", false);
+            binding.search.clearFocus();
         }
 
         binding.applicantCount.setOnClickListener {
@@ -389,6 +395,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "pending"
             getApplicantData()
             showIndicator("pending")
+            binding.search.setQuery("", false);
+            binding.search.clearFocus();
         }
     }
 
@@ -554,15 +562,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 when (radioButtonStatus.text) {
                     "Pending" -> {
                         status = "pending"
+                        showIndicator("pending")
                     }
                     "Accepted" -> {
                         status = "accepted"
+                        showIndicator("accepted")
                     }
                     "On Hold" -> {
                         status = "onhold"
+                        showIndicator("onhold")
                     }
                     "Rejected" -> {
                         status = "rejected"
+                        showIndicator("rejected")
                     }
                 }
             } ?: run {
