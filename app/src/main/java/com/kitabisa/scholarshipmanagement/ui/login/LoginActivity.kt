@@ -139,16 +139,25 @@ class LoginActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                renderLoading(true)
-                firebaseAuthWithGoogle(account.idToken!!)
 
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
+
+            if(task.result.email == "jonathancalvin21036@gmail.com") {
+                try {
+                    Toast.makeText(this, task.result.email, Toast.LENGTH_LONG).show()
+                    // Google Sign In was successful, authenticate with Firebase
+                    val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
+                    Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                    renderLoading(true)
+                    firebaseAuthWithGoogle(account.idToken!!)
+
+                } catch (e: ApiException) {
+                    // Google Sign In failed, update UI appropriately
+                    Log.w(TAG, "Google sign in failed", e)
+                    Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+                }
+            }else{
+                googleSignInClient.signOut()
+                Toast.makeText(this, "it is not working", Toast.LENGTH_LONG).show()
             }
         }
     }
