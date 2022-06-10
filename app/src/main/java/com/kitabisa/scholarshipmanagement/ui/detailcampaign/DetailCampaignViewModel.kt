@@ -22,7 +22,6 @@ class DetailCampaignViewModel(private val dataRepository: DataRepository) : View
 
     fun downloadCsv(token: String, id: String) = dataRepository.downloadCsv(token, id)
 
-    fun triggerDataProcess(token: String, id: String, applicantsCount: Int) = dataRepository.triggerDataProcess(token, id, applicantsCount)
+    fun triggerDataProcess(token: String, id: String) = dataRepository.triggerDataProcess(token, id)
 
-    fun triggerPagingData(token: String, id: String) = dataRepository.triggerPagingData(token, id)
 }

@@ -67,7 +67,6 @@ class DetailApplicantActivity : AppCompatActivity() {
                     "Tidak mendapatkan permission.",
                     Toast.LENGTH_SHORT
                 ).show()
-                finish()
             }
         }
     }
@@ -242,28 +241,28 @@ class DetailApplicantActivity : AppCompatActivity() {
 
             btnLainnya.setOnClickListener { renderDialog(data) }
 
-            headerCeritaLatarBelakang.headerText.text = "Cerita Latar Belakang"
+            headerCeritaLatarBelakang.headerText.text = getString(R.string.cerita_latar_belakang)
             headerCeritaLatarBelakang.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             tvCeritaLatarBelakang.text = data.motivationLetter.ceritaLatarBelakang
             headerCeritaLatarBelakang.headerIcon.setOnClickListener {
                 expand(tvCeritaLatarBelakang, headerCeritaLatarBelakang.headerIcon)
             }
 
-            headerCeritaPerjuangan.headerText.text = "Cerita Memperjuangkan Pendidikan"
+            headerCeritaPerjuangan.headerText.text = getString(R.string.cerita_perjuangan_pendidikan)
             headerCeritaPerjuangan.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             tvCeritaPerjuangan.text = data.motivationLetter.ceritaPerjuangan
             headerCeritaPerjuangan.headerIcon.setOnClickListener {
                 expand(tvCeritaPerjuangan, headerCeritaPerjuangan.headerIcon)
             }
 
-            headerCeritaPentingBeasiswa.headerText.text = "Seberapa Penting Beasiswa Ini"
+            headerCeritaPentingBeasiswa.headerText.text = getString(R.string.seberapa_penting_beasiswa)
             headerCeritaPentingBeasiswa.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             tvCeritaBeasiswa.text = data.motivationLetter.ceritaPentingnyaBeasiswa
             headerCeritaPentingBeasiswa.headerIcon.setOnClickListener {
                 expand(tvCeritaBeasiswa, headerCeritaPentingBeasiswa.headerIcon)
             }
 
-            headerRincianBeasiswa.headerText.text = "Rincian Beasiswa"
+            headerRincianBeasiswa.headerText.text = getString(R.string.rincian_beasiswa)
             headerRincianBeasiswa.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             rincianBeasiswa.apply {
                 tvPilihanBantuan.text = data.pengajuanBantuan.kebutuhan
@@ -278,14 +277,14 @@ class DetailApplicantActivity : AppCompatActivity() {
                 expand(rincianBeasiswa.root, headerRincianBeasiswa.headerIcon)
             }
 
-            headerFotoRumah.headerText.text = "Foto Rumah"
+            headerFotoRumah.headerText.text = getString(R.string.foto_rumah)
             headerFotoRumah.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             renderZoomImage(data.pengajuanBantuan.fotoRumah, ivFotoRumah)
             headerFotoRumah.headerIcon.setOnClickListener {
                 expand(ivFotoRumah, headerFotoRumah.headerIcon)
             }
 
-            headerBuktiIpkRapot.headerText.text = "Bukti IPK / Rapot"
+            headerBuktiIpkRapot.headerText.text = getString(R.string.bukti_ipk_rapot)
             headerBuktiIpkRapot.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             renderZoomImage(data.bioPendidikan.fotoIPKAtauRapor, ivBuktiIpk)
             headerBuktiIpkRapot.headerIcon.setOnClickListener {
@@ -298,7 +297,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                 }
             }
 
-            headerKegiatanAktif.headerText.text = "Kegiatan Aktif"
+            headerKegiatanAktif.headerText.text = getString(R.string.kegiatan_aktif)
             headerKegiatanAktif.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             renderZoomImage(data.motivationLetter.fotoBuktiKegiatan, ivFotoKegiatan)
             tvCeritaKegiatan.text = data.motivationLetter.ceritakegiatanYangDigeluti
@@ -314,7 +313,7 @@ class DetailApplicantActivity : AppCompatActivity() {
                 }
             }
 
-            headerDetailScore.headerText.text = "Detail Score"
+            headerDetailScore.headerText.text = getString(R.string.detail_score)
             headerDetailScore.headerIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             detailScore.apply {
                 tvScoreProvinsi.text = data.scoreApplicant.scoreProvinsi.toString()
@@ -360,6 +359,8 @@ class DetailApplicantActivity : AppCompatActivity() {
                 etCatatanReviewer.editText?.text =
                     Editable.Factory.getInstance().newEditable(data.notes)
             }
+
+            if(data.reviewer.isEmpty()) tvReviewer.text = getString(R.string.belum_direview) else tvReviewer.text = data.reviewer
         }
 
         activityDetailApplicantBinding.tvLampiranDokumen.setOnClickListener {

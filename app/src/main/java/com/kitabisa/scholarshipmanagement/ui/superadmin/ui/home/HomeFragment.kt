@@ -66,10 +66,6 @@ class HomeFragment : Fragment() {
                                     setDataAdapter(listCampaign)
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
-                                    Toast.makeText(
-                                        requireActivity(), result.data.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 } else {
                                     renderLoading(false)
                                     binding.tvDataNull.visibility = View.VISIBLE
@@ -157,7 +153,7 @@ class HomeFragment : Fragment() {
                                             requireActivity(), result.data?.message,
                                             Toast.LENGTH_SHORT
                                         ).show()
-                                        triggerPagingFunction(tempToken, data.id)
+//                                        triggerPagingFunction(tempToken, data.id)
                                     }
                                     is Resource.Error -> {
                                         if(result.message.toString().contains("404")) {
@@ -182,8 +178,6 @@ class HomeFragment : Fragment() {
                                 }
                             }
                         }
-
-
                 }
             }
         })
@@ -194,28 +188,33 @@ class HomeFragment : Fragment() {
         return ViewModelProvider(activity, factory).get(AdminCampaignViewModel::class.java)
     }
 
-    private fun triggerPagingFunction(token: String, id: String) {
-        adminViewModel.triggerPagingData(token, id)
-            .observe(viewLifecycleOwner) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            renderLoading(false)
-                        }
-                        is Resource.Error -> {
-                            renderLoading(false)
-                            Toast.makeText(
-                                requireActivity(),
-                                result.message.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            signOut()
-                        }
-                        is Resource.Loading -> {
-                            renderLoading(true)
-                        }
-                    }
-                }
-            }
-    }
+//    private fun triggerPagingFunction(token: String, id: String) {
+//        adminViewModel.triggerPagingData(token, id)
+//            .observe(viewLifecycleOwner) { result ->
+//                if (result != null) {
+//                    when (result) {
+//                        is Resource.Success -> {
+//                            renderLoading(false)
+//                            Toast.makeText(
+//                                requireActivity(),
+//                                result.message.toString(),
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                        is Resource.Error -> {
+//                            renderLoading(false)
+//                            Toast.makeText(
+//                                requireActivity(),
+//                                result.message.toString(),
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            signOut()
+//                        }
+//                        is Resource.Loading -> {
+//                            renderLoading(true)
+//                        }
+//                    }
+//                }
+//            }
+//    }
 }

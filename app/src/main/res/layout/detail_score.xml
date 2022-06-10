@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp">
@@ -9,7 +10,7 @@
         android:id="@+id/score_provinsi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Score Provinsi"
+        android:text="@string/score_provinsi"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Kota/Kabupaten"
+        android:text="@string/score_kota_kabupaten"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score NIK"
+        android:text="@string/score_nik"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Sosial Media"
+        android:text="@string/score_sosial_media"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Cerita Penggunaan Dana"
+        android:text="@string/score_cerita_penggunaan_dana"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Kepemilikan Rumah"
+        android:text="@string/score_kepemilikan_rumah"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Klasifikasi Rumah"
+        android:text="@string/score_klasifikasi_rumah"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Cerita Latar Belakang"
+        android:text="@string/score_cerita_latar_belakang"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Cerita Perjuangan"
+        android:text="@string/score_cerita_perjuangan"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Cerita Beasiswa Ini Penting"
+        android:text="@string/score_cerita_beasiswa_ini_penting"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Score Cerita Kegiatan"
+        android:text="@string/score_cerita_kegiatan"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Total :"
+        android:text="@string/total"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,122 +143,122 @@
         android:id="@+id/tv_score_provinsi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_provinsi" />
+        app:layout_constraintTop_toTopOf="@id/score_provinsi"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_kota_kabupaten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_kota_kabupaten" />
+        app:layout_constraintTop_toTopOf="@id/score_kota_kabupaten"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_nik"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_nik" />
+        app:layout_constraintTop_toTopOf="@id/score_nik"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_sosmed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_sosmed" />
+        app:layout_constraintTop_toTopOf="@id/score_sosmed"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_cerita_dana"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_cerita_dana" />
+        app:layout_constraintTop_toTopOf="@id/score_cerita_dana"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_kepemilikan_rumah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_kepemilikan_rumah" />
+        app:layout_constraintTop_toTopOf="@id/score_kepemilikan_rumah"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_klasifikasi_rumah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_klasifikasi_rumah" />
+        app:layout_constraintTop_toTopOf="@id/score_klasifikasi_rumah"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_cerita_latar_belakang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_cerita_latar_belakang" />
+        app:layout_constraintTop_toTopOf="@id/score_cerita_latar_belakang"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_cerita_perjuangan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_cerita_perjuangan" />
+        app:layout_constraintTop_toTopOf="@id/score_cerita_perjuangan"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_cerita_beasiswa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_cerita_beasiswa" />
+        app:layout_constraintTop_toTopOf="@id/score_cerita_beasiswa"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_kegiatan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_cerita_kegiatan" />
+        app:layout_constraintTop_toTopOf="@id/score_cerita_kegiatan"
+        tools:text="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_score_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="100"
         android:textColor="@color/blue_main"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/score_total"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_total" />
+        app:layout_constraintTop_toTopOf="@id/score_total"
+        tools:text="10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

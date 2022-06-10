@@ -17,7 +17,7 @@
             android:id="@+id/campaign_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buat Campaign"
+            android:text="@string/buat_campaign"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Nama Campaign"
+            android:text="@string/nama_campaign"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logo" />
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Nama Penggalang"
+            android:text="@string/nama_penggalang"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameCampaignInput" />
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="SnK"
+            android:text="@string/snk"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/namePenggalangInput" />
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Upload Documents"
+            android:text="@string/upload_documents"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="ID GSheet"
+            android:text="@string/id_gsheet"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/Upload_text" />
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Select Picture"
+                    android:text="@string/select_picture"
                     android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -217,7 +217,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="72dp"
             android:padding="14dp"
-            android:text="Create"
+            android:text="@string/create"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
