@@ -173,7 +173,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         super.onBackPressed()
     }
 
-    private fun setDetailCampaignData(){
+    private fun setDetailCampaignData() {
         binding.apply {
             campaignName.text = campaignDetail.name
             applicantCount.text =
@@ -267,7 +267,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         }
     }
 
-    private fun isDataProcessed(){
+    private fun isDataProcessed() {
         if (campaignDetail.processData == "0") {
             binding.apply {
                 emptyIcon.visibility = View.VISIBLE
@@ -308,7 +308,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                if (query == ""){
+                if (query == "") {
                     nama = ""
                     getApplicantData()
                 }
@@ -422,13 +422,12 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 if (result != null) {
                     when (result) {
                         is Resource.Success -> {
-                            renderLoading(false)
                             Toast.makeText(
                                 this, result.data?.message,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Log.d("PAGING", "MASUK SINI 1")
-                            triggerPagingFunction(token, idCampaign)
+                            renderLoading(false)
+                            triggerDetailCampaign(token, idCampaign)
                         }
                         is Resource.Error -> {
                             if (result.message.toString().contains("404")) {
@@ -462,17 +461,11 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                 when (result) {
                     is Resource.Success -> {
                         campaignDetail = result.data?.Data!!
-
+                        getApplicantData()
+                        setSearchAndFilter()
+                        setDetailCampaignData()
                         renderLoading(false)
                         binding.root.visibility = View.VISIBLE
-
-                        setDetailCampaignData()
-
-                        Toast.makeText(
-                            this,
-                            result.data.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                     is Resource.Error -> {
                         finish()
@@ -484,46 +477,45 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     }
                     is Resource.Loading -> {
                         renderLoading(true)
-                        binding.root.visibility = View.GONE
                     }
                 }
             }
         }
     }
 
-    private fun triggerPagingFunction(token: String, id: String) {
-        detailCampaignViewModel.triggerPagingData(token, id)
-            .observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            getApplicantData()
-                            renderLoading(false)
-                            binding.root.visibility = View.VISIBLE
-                            setSearchAndFilter()
-                            Log.d("PAGING", "MASUK SINI 2")
-                            triggerDetailCampaign(token, id)
-                        }
-                        is Resource.Error -> {
-                            renderLoading(false)
-                            // delete / hapus tar
-                            getApplicantData()
-                            setSearchAndFilter()
-                            //sampe sini
-                            binding.root.visibility = View.VISIBLE
-                            Toast.makeText(
-                                this,
-                                result.message.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        is Resource.Loading -> {
-                            renderLoading(true)
-                        }
-                    }
-                }
-            }
-    }
+//    private fun triggerPagingFunction(token: String, id: String) {
+//        detailCampaignViewModel.triggerPagingData(token, id)
+//            .observe(this) { result ->
+//                if (result != null) {
+//                    when (result) {
+//                        is Resource.Success -> {
+//                            getApplicantData()
+//                            renderLoading(false)
+//                            binding.root.visibility = View.VISIBLE
+//                            setSearchAndFilter()
+//                            Log.d("PAGING", "MASUK SINI 2")
+//                            triggerDetailCampaign(token, id)
+//                        }
+//                        is Resource.Error -> {
+//                            renderLoading(false)
+//                            // delete / hapus tar
+//                            getApplicantData()
+//                            setSearchAndFilter()
+//                            //sampe sini
+//                            binding.root.visibility = View.VISIBLE
+//                            Toast.makeText(
+//                                this,
+//                                result.message.toString(),
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                        is Resource.Loading -> {
+//                            renderLoading(true)
+//                        }
+//                    }
+//                }
+//            }
+//    }
 
     private fun showFilter() {
         @SuppressLint("InflateParams")
