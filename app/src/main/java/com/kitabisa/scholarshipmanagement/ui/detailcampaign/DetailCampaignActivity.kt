@@ -542,6 +542,15 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         val radioGroupBerkas: RadioGroup = dialogView.findViewById(R.id.status_berkas_group)
         val province: TextInputEditText = dialogView.findViewById(R.id.province)
 
+        val clearButton: Button = dialogView.findViewById(R.id.btn_clear_filter)
+        clearButton.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            setApplicantDataFilterEmpty()
+            status = "pending"
+            showIndicator("pending")
+            getApplicantData()
+        }
+
         val applyButton: Button = dialogView.findViewById(R.id.btn_apply)
         applyButton.setOnClickListener {
             bottomSheetDialog.dismiss()
@@ -615,14 +624,19 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             onholdIndicator.visibility = View.INVISIBLE
             rejectedIndicator.visibility = View.INVISIBLE
         }
-        if (status == "pending"){
-            binding.remainingIndicator.visibility = View.VISIBLE
-        }else if (status == "accepted"){
-            binding.acceptedIndicator.visibility = View.VISIBLE
-        }else if (status == "onhold"){
-            binding.onholdIndicator.visibility = View.VISIBLE
-        }else if (status == "rejected"){
-            binding.rejectedIndicator.visibility = View.VISIBLE
+        when (status) {
+            "pending" -> {
+                binding.remainingIndicator.visibility = View.VISIBLE
+            }
+            "accepted" -> {
+                binding.acceptedIndicator.visibility = View.VISIBLE
+            }
+            "onhold" -> {
+                binding.onholdIndicator.visibility = View.VISIBLE
+            }
+            "rejected" -> {
+                binding.rejectedIndicator.visibility = View.VISIBLE
+            }
         }
     }
 
