@@ -542,6 +542,33 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
         val radioGroupBerkas: RadioGroup = dialogView.findViewById(R.id.status_berkas_group)
         val province: TextInputEditText = dialogView.findViewById(R.id.province)
 
+        when (status) {
+            "pending" -> {
+                radioGroupStatus.check(R.id.pending)
+            }
+            "accepted" -> {
+                radioGroupStatus.check(R.id.accepted)
+            }
+            "onhold" -> {
+                radioGroupStatus.check(R.id.onhold)
+            }
+            "rejected" -> {
+                radioGroupStatus.check(R.id.rejected)
+            }
+        }
+
+        if (statusData == "valid" && statusRumah == "valid"){
+            radioGroupBerkas.check(R.id.data_dan_rumah_valid)
+        }else if(statusRumah == "valid"){
+            radioGroupBerkas.check(R.id.rumah_calid)
+        }else if(statusData == "valid"){
+            radioGroupBerkas.check(R.id.data_valid)
+        }
+
+        if (provinsi != ""){
+            province.setText(provinsi)
+        }
+
         val clearButton: Button = dialogView.findViewById(R.id.btn_clear_filter)
         clearButton.setOnClickListener {
             bottomSheetDialog.dismiss()
