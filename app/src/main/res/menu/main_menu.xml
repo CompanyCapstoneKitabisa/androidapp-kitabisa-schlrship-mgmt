@@ -3,7 +3,7 @@
 	<item
 			android:id="@+id/action_logout"
 			android:icon="@drawable/ic_baseline_logout_24"
-			android:title="Logout"
+			android:title="@string/logout"
 			app:showAsAction="always"
 			/>
 
