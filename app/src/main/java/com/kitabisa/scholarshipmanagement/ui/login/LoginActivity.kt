@@ -2,12 +2,9 @@ package com.kitabisa.scholarshipmanagement.ui.login
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         binding.errorMessage.visibility = View.GONE
         setContentView(binding.root)
         customLoadingDialog = CustomLoadingDialog(this)
-        setupView()
+        supportActionBar?.hide()
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions
@@ -108,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
         } else {
             val splitted = emailInput?.text?.split("@")
             if (splitted?.get(1).toString().lowercase() != "kitabisa.com") {
-                binding.emailInput.error = "only email issued by kitabisa can be used"
+                binding.emailInput.error = "Only email issued by kitabisa can be used"
                 noError = false
             } else {
                 email = emailInput?.text.toString()
@@ -140,8 +137,7 @@ class LoginActivity : AppCompatActivity() {
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(result.data)
 
-
-            if(task.result.email == "jonathancalvin21036@gmail.com") {
+            if(task.result.email?.contains("@bangkit.academy")!!) {
                 try {
                     Toast.makeText(this, task.result.email, Toast.LENGTH_LONG).show()
                     // Google Sign In was successful, authenticate with Firebase
@@ -157,7 +153,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }else{
                 googleSignInClient.signOut()
-                Toast.makeText(this, "it is not working", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Who are you ?", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -167,12 +163,13 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
+                    renderLoading(false)
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
+                    renderLoading(false)
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     updateUI(null)
@@ -193,18 +190,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-        supportActionBar?.hide()
-    }
 
     override fun onStart() {
         super.onStart()
