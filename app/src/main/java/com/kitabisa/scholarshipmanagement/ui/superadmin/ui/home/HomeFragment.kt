@@ -66,10 +66,6 @@ class HomeFragment : Fragment() {
                                     setDataAdapter(listCampaign)
                                     renderLoading(false)
                                     binding.root.visibility = View.VISIBLE
-                                    Toast.makeText(
-                                        requireActivity(), result.data.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 } else {
                                     renderLoading(false)
                                     binding.tvDataNull.visibility = View.VISIBLE

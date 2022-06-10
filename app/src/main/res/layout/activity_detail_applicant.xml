@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Lainnya"
+            android:text="@string/other"
             android:textSize="12sp"
             app:cornerRadius="4dp"
             app:layout_constraintStart_toStartOf="@id/tv_nama"
@@ -399,7 +399,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Unduh Lampiran Dokumen"
+            android:text="@string/unduh_lampiran_dokumen"
             android:textColor="@color/blue_main"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -414,7 +414,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:text="Tentukan Pilihan :"
+            android:text="@string/tentukan_pilihan"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/pilihan_menu"
@@ -427,7 +427,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:hint="Pilihan"
+            android:hint="@string/pilihan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tentukan_pilihan">
@@ -435,7 +435,7 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Pilihan"
+                android:hint="@string/pilihan"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -446,7 +446,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Catatan Reviewer :"
+            android:text="@string/catatan_reviewer"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -460,7 +460,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Berikan Alasan Atas Pilihan Tersebut"
+            android:hint="@string/alasan_pilihan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/catatan_reviewer">
@@ -471,17 +471,39 @@
                 android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/last_reviewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/reviewer_terakhir"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_catatan_reviewer" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_reviewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/last_reviewer"
+            app:layout_constraintEnd_toEndOf="@id/et_catatan_reviewer"
+            app:layout_constraintTop_toTopOf="@id/last_reviewer"
+            tools:text="jonathancalvin21036@gmail.com" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_submit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_marginTop="16dp"
-            android:text="Submit"
+            android:text="@string/submit"
             app:cornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_catatan_reviewer" />
+            app:layout_constraintTop_toBottomOf="@id/tv_reviewer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

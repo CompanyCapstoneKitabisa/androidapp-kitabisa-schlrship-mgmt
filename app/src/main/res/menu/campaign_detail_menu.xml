@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/download_data"
-        android:title="Download Results CSV" />
+        android:title="@string/download_results_csv" />
     <item
         android:id="@+id/show_filter"
-        android:title="Show Filter" />
+        android:title="@string/show_filter" />
 </menu>

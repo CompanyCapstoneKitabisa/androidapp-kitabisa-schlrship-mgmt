@@ -129,22 +129,6 @@ class DataRepository private constructor(private val apiService: ApiService) {
             }
         }
 
-    fun triggerPagingData(token: String, id: String): LiveData<Resource<TriggerProcessResponse>> =
-        liveData {
-            emit(Resource.Loading())
-            try {
-                val response = apiService.triggerPagingData(token, id)
-                if (response.isSuccessful) {
-                    emit(Resource.Success(response.body()))
-                } else {
-                    emit(Resource.Error("Response Code : ${response.code()}"))
-                }
-            } catch (e: Exception) {
-                Log.d("DataRepository", "data: ${e.message.toString()} ")
-                emit(Resource.Error(e.message.toString()))
-            }
-        }
-
     fun downloadCsv(token: String, id: String): LiveData<Resource<DownloadFileResponse>> =
         liveData {
             emit(Resource.Loading())

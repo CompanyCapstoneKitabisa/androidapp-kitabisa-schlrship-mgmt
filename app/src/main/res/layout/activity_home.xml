@@ -20,9 +20,9 @@
             android:id="@+id/iv_profile"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:contentDescription="@string/profile_image"
             android:src="@drawable/kitabisa_logo"
-            tools:src="@drawable/kitabisa_logo"
-            android:contentDescription="@string/profile_image" />
+            tools:src="@drawable/kitabisa_logo" />
     </com.google.android.material.card.MaterialCardView>
 
     <ImageView
@@ -30,11 +30,11 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/logout_icon"
         android:src="@drawable/logout"
         app:layout_constraintBottom_toBottomOf="@id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/profile_image"
-        android:contentDescription="@string/logout_icon" />
+        app:layout_constraintTop_toTopOf="@id/profile_image" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/our_campaign"

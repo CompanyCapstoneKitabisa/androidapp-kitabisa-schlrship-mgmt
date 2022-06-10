@@ -24,5 +24,4 @@ class DetailCampaignViewModel(private val dataRepository: DataRepository) : View
 
     fun triggerDataProcess(token: String, id: String) = dataRepository.triggerDataProcess(token, id)
 
-    fun triggerPagingData(token: String, id: String) = dataRepository.triggerPagingData(token, id)
 }
