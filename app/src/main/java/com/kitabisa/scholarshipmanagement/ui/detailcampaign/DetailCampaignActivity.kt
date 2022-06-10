@@ -373,24 +373,28 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             setApplicantDataFilterEmpty()
             status = "accepted"
             getApplicantData()
+            showIndicator("accepted")
         }
 
         binding.rejectedCount.setOnClickListener {
             setApplicantDataFilterEmpty()
             status = "rejected"
             getApplicantData()
+            showIndicator("rejected")
         }
 
         binding.onholdCount.setOnClickListener {
             setApplicantDataFilterEmpty()
             status = "onhold"
             getApplicantData()
+            showIndicator("onhold")
         }
 
         binding.applicantCount.setOnClickListener {
             setApplicantDataFilterEmpty()
             status = "pending"
             getApplicantData()
+            showIndicator("pending")
         }
     }
 
@@ -509,6 +513,7 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                             // delete / hapus tar
                             getApplicantData()
                             setSearchAndFilter()
+                            triggerDetailCampaign(token, id)
                             //sampe sini
                             binding.root.visibility = View.VISIBLE
                             Toast.makeText(
@@ -600,6 +605,24 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             }
 
             getApplicantData()
+        }
+    }
+
+    private fun showIndicator(status: String){
+        binding.apply {
+            remainingIndicator.visibility = View.INVISIBLE
+            acceptedIndicator.visibility = View.INVISIBLE
+            onholdIndicator.visibility = View.INVISIBLE
+            rejectedIndicator.visibility = View.INVISIBLE
+        }
+        if (status == "pending"){
+            binding.remainingIndicator.visibility = View.VISIBLE
+        }else if (status == "accepted"){
+            binding.acceptedIndicator.visibility = View.VISIBLE
+        }else if (status == "onhold"){
+            binding.onholdIndicator.visibility = View.VISIBLE
+        }else if (status == "rejected"){
+            binding.rejectedIndicator.visibility = View.VISIBLE
         }
     }
 

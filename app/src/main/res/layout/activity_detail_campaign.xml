@@ -52,13 +52,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/remaining_indicator"
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                app:srcCompat="@drawable/indicator_blue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/applicant_count"
+                app:layout_constraintStart_toStartOf="@+id/applicant_count"
+
+                />
+
+            <ImageView
+                android:id="@+id/accepted_indicator"
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                app:srcCompat="@drawable/indicator_green"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/accepted_count"
+                app:layout_constraintStart_toStartOf="@+id/accepted_count"
+                android:visibility="invisible"
+                />
+
+            <ImageView
+                android:id="@+id/onhold_indicator"
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                app:srcCompat="@drawable/indicator_orange"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/onhold_count"
+                app:layout_constraintStart_toStartOf="@+id/onhold_count"
+                android:visibility="invisible"
+                />
+
+            <ImageView
+                android:id="@+id/rejected_indicator"
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                app:srcCompat="@drawable/indicator_red"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/rejected_count"
+                app:layout_constraintStart_toStartOf="@+id/rejected_count"
+                android:visibility="invisible"
+                />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/applicant_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/blue_main"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -72,9 +118,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="30dp"
                 android:textColor="@color/green"
                 android:textSize="22sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/onhold_count"
                 app:layout_constraintStart_toEndOf="@+id/applicant_count"
@@ -86,9 +134,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="30dp"
                 android:textColor="@color/orange"
                 android:textSize="22sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/rejected_count"
                 app:layout_constraintStart_toEndOf="@+id/accepted_count"
@@ -104,6 +154,8 @@
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/red"
                 android:textSize="22sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/onhold_count"
@@ -266,5 +318,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/empty_desc" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
