@@ -3,6 +3,7 @@ package com.kitabisa.scholarshipmanagement.ui.superadmin.ui.home
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -143,6 +144,7 @@ class HomeFragment : Fragment() {
 
             override fun onProccessClicked(data: Campaign) {
                 if (tempToken.isNotEmpty()) {
+                    Log.d("BABI", tempToken)
                     adminViewModel.triggerDataProcess(tempToken, data.id)
                         .observe(viewLifecycleOwner) { result ->
                             if (result != null) {
@@ -153,7 +155,6 @@ class HomeFragment : Fragment() {
                                             requireActivity(), result.data?.message,
                                             Toast.LENGTH_SHORT
                                         ).show()
-//                                        triggerPagingFunction(tempToken, data.id)
                                     }
                                     is Resource.Error -> {
                                         if(result.message.toString().contains("404")) {
@@ -164,6 +165,7 @@ class HomeFragment : Fragment() {
                                             ).show()
                                             renderLoading(false)
                                         } else {
+                                            renderLoading(false)
                                             Toast.makeText(
                                                 requireActivity(),
                                                 result.message.toString(),
@@ -187,34 +189,4 @@ class HomeFragment : Fragment() {
         val factory = DataViewModelFactory.getInstance()
         return ViewModelProvider(activity, factory).get(AdminCampaignViewModel::class.java)
     }
-
-//    private fun triggerPagingFunction(token: String, id: String) {
-//        adminViewModel.triggerPagingData(token, id)
-//            .observe(viewLifecycleOwner) { result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Resource.Success -> {
-//                            renderLoading(false)
-//                            Toast.makeText(
-//                                requireActivity(),
-//                                result.message.toString(),
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
-//                        is Resource.Error -> {
-//                            renderLoading(false)
-//                            Toast.makeText(
-//                                requireActivity(),
-//                                result.message.toString(),
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                            signOut()
-//                        }
-//                        is Resource.Loading -> {
-//                            renderLoading(true)
-//                        }
-//                    }
-//                }
-//            }
-//    }
 }

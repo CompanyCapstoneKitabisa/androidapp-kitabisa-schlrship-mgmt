@@ -137,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(result.data)
 
-            if(task.result.email?.contains("@bangkit.academy")!!) {
+            if(task.result.email?.contains("@kitabisa.com")!!) {
                 try {
                     Toast.makeText(this, task.result.email, Toast.LENGTH_LONG).show()
                     // Google Sign In was successful, authenticate with Firebase

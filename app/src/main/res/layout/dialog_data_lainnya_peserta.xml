@@ -25,10 +25,10 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tempat_kuliah"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/npsn"
+            android:text="@string/univ_or_sekolah"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_nama" />
@@ -41,7 +41,7 @@
             android:text="@string/jurusan_kelas"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_npsn" />
+            app:layout_constraintTop_toBottomOf="@id/tempat_kuliah" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/nim"
@@ -112,7 +112,7 @@
             tools:text="Jonathan Calvin" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_npsn"
+            android:id="@+id/tv_univ_sekolah"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -173,23 +173,6 @@
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="@id/alamat"
             tools:text="Jln Warnasari GG Kembang No 4, Kesambi, Kesambi, Cirebon, Jawa Barat" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toBottomOf="@id/tv_alamat"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_nama">
-
-            <ImageView
-                android:id="@+id/iv_profile"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                tools:src="@tools:sample/avatars" />
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_ok"

@@ -235,7 +235,7 @@ class DetailApplicantActivity : AppCompatActivity() {
 
             tvNama.text = data.bioDiri.nama
             tvUniversitas.text =
-                data.bioPendidikan.tingkatPendidikan.plus(" - ${data.bioPendidikan.NPSN}")
+                data.bioPendidikan.tingkatPendidikan.plus(" - ${data.bioPendidikan.universitasAtauSekolah}")
             tvJurusanKelas.text = data.bioPendidikan.jurusan
             tvNim.text = data.bioPendidikan.NIM
 
@@ -422,7 +422,7 @@ class DetailApplicantActivity : AppCompatActivity() {
         moreDataDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogDataLainnyaPesertaBinding.apply {
             tvNama.text = data.bioDiri.nama
-            tvNpsn.text = data.bioPendidikan.NPSN
+            tvUnivSekolah.text = data.bioPendidikan.universitasAtauSekolah
             tvJurusanKelas.text = data.bioPendidikan.jurusan
             tvNim.text = data.bioPendidikan.NIM
             tvNik.text = data.bioDiri.NIK
@@ -430,11 +430,6 @@ class DetailApplicantActivity : AppCompatActivity() {
             tvSosialMedia.text = data.bioDiri.sosmedAcc
             tvAlamat.text =
                 data.bioDiri.alamat.plus(", ${data.bioDiri.kotaKabupaten}, ${data.bioDiri.provinsi}")
-
-            Glide.with(this@DetailApplicantActivity)
-                .load(data.bioDiri.fotoDiri)
-                .placeholder(R.drawable.profile_icon)
-                .into(ivProfile)
 
             btnOk.setOnClickListener { moreDataDialog.dismiss() }
         }

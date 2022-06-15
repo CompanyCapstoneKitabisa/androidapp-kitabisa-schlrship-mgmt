@@ -31,7 +31,7 @@ interface ApiService {
     suspend fun getDetailApplicant(
         @Header("authToken") token: String,
         @Query("id") id: String
-    ): Response<DetailApplicantResponse>
+    ): Response<ApplicantDetailResponse>
 
     @POST("/applicants/{id}/update")
     suspend fun setApplicantStatus(

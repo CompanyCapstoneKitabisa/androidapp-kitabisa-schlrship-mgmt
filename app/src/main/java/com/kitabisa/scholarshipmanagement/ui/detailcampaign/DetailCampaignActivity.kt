@@ -74,6 +74,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
+            } else {
+                renderLoading(false)
             }
         }
     }
@@ -367,8 +369,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "accepted"
             getApplicantData()
             showIndicator("accepted")
-            binding.search.setQuery("", false);
-            binding.search.clearFocus();
+            binding.search.setQuery("", false)
+            binding.search.clearFocus()
         }
 
         binding.rejectedCount.setOnClickListener {
@@ -376,8 +378,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "rejected"
             getApplicantData()
             showIndicator("rejected")
-            binding.search.setQuery("", false);
-            binding.search.clearFocus();
+            binding.search.setQuery("", false)
+            binding.search.clearFocus()
         }
 
         binding.onholdCount.setOnClickListener {
@@ -385,8 +387,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "onhold"
             getApplicantData()
             showIndicator("onhold")
-            binding.search.setQuery("", false);
-            binding.search.clearFocus();
+            binding.search.setQuery("", false)
+            binding.search.clearFocus()
         }
 
         binding.applicantCount.setOnClickListener {
@@ -394,8 +396,8 @@ class DetailCampaignActivity : AppCompatActivity(), ApplicantAdapter.ApplicantCa
             status = "pending"
             getApplicantData()
             showIndicator("pending")
-            binding.search.setQuery("", false);
-            binding.search.clearFocus();
+            binding.search.setQuery("", false)
+            binding.search.clearFocus()
         }
     }
 

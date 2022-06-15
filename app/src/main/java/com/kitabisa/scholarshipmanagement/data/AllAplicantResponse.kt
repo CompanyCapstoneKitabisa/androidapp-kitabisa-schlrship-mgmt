@@ -34,8 +34,8 @@ data class ListApplicantsItem(
     @field:SerializedName("statusRumah")
     val statusRumah: String,
 
-    @field:SerializedName("university")
-    val university: String,
+    @field:SerializedName("universitasAtauSekolah")
+    val universitasAtauSekolah: String,
 
     @field:SerializedName("statusApplicant")
     val statusApplicant: String,

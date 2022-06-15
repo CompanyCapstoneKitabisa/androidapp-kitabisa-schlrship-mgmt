@@ -13,7 +13,7 @@ class DataRepository private constructor(private val apiService: ApiService) {
     fun getDetailApplicant(
         token: String,
         id: String
-    ): LiveData<Resource<DetailApplicantResponse>> = liveData {
+    ): LiveData<Resource<ApplicantDetailResponse>> = liveData {
         emit(Resource.Loading())
         try {
             val response = apiService.getDetailApplicant(token, id)

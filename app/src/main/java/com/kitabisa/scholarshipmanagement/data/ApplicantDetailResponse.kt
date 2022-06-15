@@ -2,7 +2,7 @@ package com.kitabisa.scholarshipmanagement.data
 
 import com.google.gson.annotations.SerializedName
 
-data class DetailApplicantResponse(
+data class ApplicantDetailResponse(
 
     @field:SerializedName("fetchedData")
     val fetchedData: FetchedData,
@@ -40,8 +40,8 @@ data class BioPendidikan(
     @field:SerializedName("NIM")
     val NIM: String,
 
-    @field:SerializedName("NPSN")
-    val NPSN: String,
+    @field:SerializedName("universitasAtauSekolah")
+    val universitasAtauSekolah: String,
 
     @field:SerializedName("jurusan")
     val jurusan: String,
