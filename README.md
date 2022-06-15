@@ -6,11 +6,21 @@ Internal application for KitaBisa to filter scholarship applicant. There will be
 ## Features
 
 - ### Login
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/1.jpg" width="24%"></img>
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/2.jpg" width="24%"></img>
 - ### Home - Super Admin
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/3.jpg" width="24%"></img>
 - ### Add Campaign
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/4.jpg" width="24%"></img>
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/5.jpg" width="24%"></img>
 - ### Home - Admin
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/6.jpg" width="24%"></img>
 - ### Campaign Detail
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/7.jpg" width="24%"></img>
 - ### Applicant Detail
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/8.jpg" width="24%"></img>
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/9.jpg" width="24%"></img>
+<img src="https://raw.githubusercontent.com/CompanyCapstoneKitabisa/.github/main/ui/10.jpg" width="24%"></img>
 
 ## Tech Stack
 
